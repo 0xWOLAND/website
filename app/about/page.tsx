@@ -4,8 +4,8 @@ export default function AboutPage() {
       <h1 className="font-bold text-3xl font-serif">About Me</h1>
       <div className="prose prose-neutral dark:prose-invert text-neutral-800 dark:text-neutral-200">
         <p className="my-5 text-neutral-800 dark:text-neutral-200">
-          I'm currently a <strong> developer at Ethereum Foundation </strong>,
-          where I am working on the UniRep protocol and several other Web3
+          I'm currently a developer at the <strong> Ethereum Foundation</strong>
+          , where I am working on the UniRep protocol and several other Web3
           projects.{" "}
         </p>
         <hr></hr>
@@ -32,7 +32,7 @@ export default function AboutPage() {
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href="https://drive.google.com/file/d/1bQYhj6sFKvzaIv69EUvmfqvl_GjoKLoz/view?usp=sharing"
+            href="https://drive.google.com/file/d/1GNfm-TDSluk8LbnDkUwyEIdGRa-fkwtb/view?usp=sharing"
             className="flex w-full border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 no-underline items-center text-neutral-800 dark:text-neutral-200 hover:dark:bg-neutral-900 hover:bg-neutral-100 transition-all justify-between"
           >
             <div className="flex items-center">
@@ -103,16 +103,14 @@ export default function AboutPage() {
       <div className="prose prose-neutral dark:prose-invert text-neutral-800 dark:text-neutral-200">
         <h1 className="font-bold text-3xl font-serif">Publications</h1>
         <p className="my-5 text-neutral-800 dark:text-neutral-200">
-          Annem, Bhargav, and Sergey Khoperskov.{" "}
-          <i>
-            Impact of Orbiting Satellites on Star Formation Rate Evolution and
-            Metallicity Variations in Milky Way-like Discs.
-          </i>{" "}
-          arXiv, 31 Oct. 2022. <i>arXiv.org</i>,{" "}
-          <a href="https://doi.org/10.48550/arXiv.2210.17054">
-            https://doi.org/10.48550/arXiv.2210.17054
+          Bhargav Annem, Sergey Khoperskov, Impact of orbiting satellites on
+          star formation rate evolution and metallicity variations in Milky
+          Way-like discs,
+          <i> Monthly Notices of the Royal Astronomical Society</i>, 2023;,
+          stad3244,{" "}
+          <a href="https://doi.org/10.1093/mnras/stad3244">
+            https://doi.org/10.1093/mnras/stad3244
           </a>
-          .
         </p>
         <p className="my-5 text-neutral-800 dark:text-neutral-200">
           Hopefully more to come...
