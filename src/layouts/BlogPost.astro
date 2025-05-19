@@ -1,0 +1,243 @@
+---
+import { getCollection } from 'astro:content';
+import 'katex/dist/katex.min.css';
+import GitHubLink from '../components/GitHubLink.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  tags?: string[];
+}
+
+const { title, description, date, tags } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <script is:inline>
+      // Immediately set theme to prevent flash
+      (function() {
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        })();
+        
+        if (theme === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <article>
+      <header>
+        <div class="header-content">
+          <div>
+            <h1>{title}</h1>
+            {description && <p class="subtitle">{description}</p>}
+          </div>
+          <div class="header-actions">
+            <GitHubLink />
+            <ThemeToggle />
+          </div>
+        </div>
+        <time datetime={date.toISOString()}>
+          {date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        {tags && (
+          <div class="tags">
+            {tags.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+      <slot />
+    </article>
+    <style is:global>
+      :root {
+        color-scheme: light dark;
+        --bg: #000000;
+        --text: #ffffff;
+        --text-secondary: #888888;
+        --border: #222222;
+        --tag-bg: #111111;
+      }
+      :root.light {
+        --bg: #ffffff;
+        --text: #000000;
+        --text-secondary: #666666;
+        --border: #dddddd;
+        --tag-bg: #f5f5f5;
+      }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.7;
+        max-width: 65ch;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: var(--bg);
+        color: var(--text);
+        font-size: 1.1rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+      a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      header {
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        margin: 0.5rem 0 0;
+        color: var(--text-secondary);
+      }
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        margin-top: 2.5rem;
+      }
+      time {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        display: block;
+        margin-top: 0.5rem;
+      }
+      .tags {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .tag {
+        background: var(--tag-bg);
+        color: var(--text-secondary);
+        padding: 0.2rem 0.6rem;
+        border-radius: 2px;
+        font-size: 0.8rem;
+        text-transform: lowercase;
+      }
+      /* Style markdown content */
+      :global(h1), :global(h2), :global(h3), :global(h4), :global(h5), :global(h6) {
+        color: var(--text);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      :global(p) {
+        margin: 1.5rem 0;
+      }
+      :global(ul), :global(ol) {
+        margin: 1.5rem 0;
+        padding-left: 1.5rem;
+      }
+      :global(li) {
+        margin: 0.5rem 0;
+      }
+      :global(blockquote) {
+        border-left: 2px solid var(--border);
+        margin: 1.5rem 0;
+        padding-left: 1rem;
+        color: var(--text-secondary);
+      }
+      :global(code) {
+        background: var(--tag-bg);
+        padding: 0.2rem 0.4rem;
+        border-radius: 2px;
+        font-size: 0.9em;
+        font-family: ui-monospace, monospace;
+      }
+      :global(pre) {
+        background: var(--tag-bg);
+        padding: 1rem;
+        border-radius: 2px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+      }
+      :global(pre code) {
+        background: none;
+        padding: 0;
+      }
+      /* Math styling */
+      :global(.math-display) {
+        margin: 2rem 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+      :global(.katex-display) {
+        margin: 1.5rem 0;
+      }
+      :global(.katex) {
+        font-size: 1.1em;
+      }
+      :global(.katex-display > .katex) {
+        font-size: 1.2em;
+      }
+      /* Dark theme overrides for KaTeX */
+      :global(.katex-html) {
+        color: var(--text);
+      }
+      :global(.katex-html > .base) {
+        margin: 0.25em 0;
+      }
+      :global(.katex-html .strut) {
+        display: inline-block;
+        min-height: 1em;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+          font-size: 1rem;
+        }
+        h1 {
+          font-size: 1.75rem;
+        }
+        h2 {
+          font-size: 1.35rem;
+        }
+      }
+    </style>
+  </body>
+</html> 
