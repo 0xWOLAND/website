@@ -1,0 +1,156 @@
+---
+import HomeLink from './HomeLink.astro';
+import GitHubLink from './GitHubLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<div class="mobile-menu">
+  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span class="hamburger"></span>
+  </button>
+  <nav class="menu" aria-hidden="true">
+    <div class="menu-items">
+      <HomeLink />
+      
+      <GitHubLink />
+      <ThemeToggle />
+    </div>
+  </nav>
+</div>
+
+<style>
+  .mobile-menu {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-menu {
+      display: block;
+    }
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: var(--text);
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .menu-toggle:hover {
+      opacity: 1;
+    }
+
+    .hamburger {
+      display: block;
+      position: relative;
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+      transition: background 0.2s ease;
+    }
+
+    .hamburger::before,
+    .hamburger::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+      transition: transform 0.3s ease, top 0.3s ease;
+    }
+
+    .hamburger::before {
+      top: -8px;
+    }
+
+    .hamburger::after {
+      top: 8px;
+    }
+
+    /* Menu open state */
+    .menu-toggle[aria-expanded="true"] .hamburger {
+      background: transparent;
+    }
+
+    .menu-toggle[aria-expanded="true"] .hamburger::before {
+      transform: rotate(45deg);
+      top: 0;
+    }
+
+    .menu-toggle[aria-expanded="true"] .hamburger::after {
+      transform: rotate(-45deg);
+      top: 0;
+    }
+
+    .menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100vh;
+      background: var(--bg);
+      padding: 5rem 2rem 2rem;
+      transition: right 0.3s ease;
+      z-index: 100;
+    }
+
+    .menu[aria-hidden="false"] {
+      right: 0;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .menu-items :global(a),
+    .menu-items :global(button) {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .menu-items :global(a:hover),
+    .menu-items :global(button:hover) {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.menu');
+  
+  if (menuToggle && menu) {
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      menu.setAttribute('aria-hidden', isExpanded);
+      
+      // Prevent scrolling when menu is open
+      document.body.style.overflow = isExpanded ? '' : 'hidden';
+    });
+
+    // Close menu when clicking outside
+    menu.addEventListener('click', (e) => {
+      if (e.target === menu) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+</script> 
