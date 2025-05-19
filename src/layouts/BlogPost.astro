@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import 'katex/dist/katex.min.css';
 import GitHubLink from '../components/GitHubLink.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import HomeLink from '../components/HomeLink.astro';
 
 interface Props {
   title: string;
@@ -50,6 +51,7 @@ const { title, description, date, tags } = Astro.props;
             {description && <p class="subtitle">{description}</p>}
           </div>
           <div class="header-actions">
+            <HomeLink />
             <GitHubLink />
             <ThemeToggle />
           </div>

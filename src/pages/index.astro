@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import GitHubLink from '../components/GitHubLink.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import HomeLink from '../components/HomeLink.astro';
 
 const posts = await getCollection('blog', ({ data }) => {
 	return !data.draft;
@@ -43,6 +44,7 @@ const posts = await getCollection('blog', ({ data }) => {
 						<p class="subtitle">Thoughts, ideas, and notes</p>
 					</div>
 					<div class="header-actions">
+						<HomeLink />
 						<GitHubLink />
 						<ThemeToggle />
 					</div>
