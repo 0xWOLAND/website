@@ -40,7 +40,7 @@ const posts = await getCollection('blog', ({ data }) => {
 			<header>
 				<div class="header-content">
 					<div>
-						<h1>My Blog</h1>
+						<h1>bhargav</h1>
 						<p class="subtitle">Thoughts, ideas, and notes</p>
 					</div>
 					<div class="header-actions">
@@ -50,6 +50,9 @@ const posts = await getCollection('blog', ({ data }) => {
 					</div>
 				</div>
 			</header>
+			<nav class="main-nav">
+				<a href="/projects" class="nav-link">Projects</a>
+			</nav>
 			<section class="posts">
 				{posts.map(post => (
 					<article class="post">
@@ -197,6 +200,21 @@ const posts = await getCollection('blog', ({ data }) => {
 				.post h2 {
 					font-size: 1.2rem;
 				}
+			}
+			.main-nav {
+				display: flex;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.nav-link {
+				color: var(--text);
+				text-decoration: none;
+				font-weight: 500;
+				padding: 0.5rem 0;
+				border-bottom: 2px solid transparent;
+			}
+			.nav-link:hover {
+				border-bottom-color: var(--text);
 			}
 		</style>
 	</body>
