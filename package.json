@@ -14,6 +14,7 @@
     "bibtex-parse-js": "^0.0.24",
     "katex": "^0.16.22",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "sharp": "^0.34.1"
   }
 }
