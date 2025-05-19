@@ -1,0 +1,365 @@
+---
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import bibtexParse from 'bibtex-parse-js';
+import GitHubLink from '../components/GitHubLink.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import HomeLink from '../components/HomeLink.astro';
+
+// Read and parse the BibTeX file
+const bibtexPath = join(process.cwd(), 'public', 'publications.bib');
+let publications: bibtexParse.BibTeXEntry[] = [];
+try {
+    const bibtexContent = readFileSync(bibtexPath, 'utf-8');
+    publications = bibtexParse.toJSON(bibtexContent);
+} catch (error) {
+    console.error('Error reading BibTeX file:', error);
+}
+
+// Sort publications by year (most recent first)
+publications.sort((a, b) => {
+    const yearA = parseInt(a.entryTags.year || '0');
+    const yearB = parseInt(b.entryTags.year || '0');
+    return yearB - yearA;
+});
+
+// Helper function to format authors
+function formatAuthors(authors: string): string {
+    return authors
+        .split(' and ')
+        .map(author => {
+            const parts = author.split(', ');
+            if (parts.length > 1) {
+                return `${parts[1]} ${parts[0]}`;
+            }
+            return author;
+        })
+        .join(', ');
+}
+
+// Helper function to get publication venue
+function getVenue(pub: bibtexParse.BibTeXEntry): string {
+    if (pub.entryType === 'misc') {
+        if (pub.entryTags.note?.includes('arXiv')) {
+            return 'arXiv preprint';
+        }
+        return '';
+    }
+    return pub.entryTags.journal || pub.entryTags.booktitle || '';
+}
+
+// Helper function to get publication link
+function getLink(pub: bibtexParse.BibTeXEntry): string | undefined {
+    if (pub.entryTags.url) {
+        return pub.entryTags.url;
+    }
+    if (pub.entryTags.doi) {
+        return `https://doi.org/${pub.entryTags.doi}`;
+    }
+    return undefined;
+}
+
+// Helper function to format volume and number
+function formatVolumeNumber(pub: bibtexParse.BibTeXEntry): string {
+    if (!pub.entryTags.volume) return '';
+    const parts = [pub.entryTags.volume];
+    if (pub.entryTags.number) {
+        parts.push(`(${pub.entryTags.number})`);
+    }
+    return parts.join('');
+}
+
+// Helper function to get arXiv ID
+function getArxivId(pub: bibtexParse.BibTeXEntry): string | undefined {
+    if (pub.entryTags.note?.includes('arXiv:')) {
+        return pub.entryTags.note.split('arXiv:')[1];
+    }
+    return undefined;
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Publications - bhargav</title>
+        <script is:inline>
+            // Immediately set theme to prevent flash
+            (function() {
+                const theme = (() => {
+                    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                        return localStorage.getItem('theme');
+                    }
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        return 'dark';
+                    }
+                    return 'light';
+                })();
+                
+                if (theme === 'light') {
+                    document.documentElement.classList.add('light');
+                }
+            })();
+        </script>
+    </head>
+    <body>
+        <main>
+            <header>
+                <div class="header-content">
+                    <div class="header-left">
+                        <h1>bhargav</h1>
+                        <nav class="main-nav">
+                            <a href="/projects" class="nav-link">Projects</a>
+                            <a href="/publications" class="nav-link">Publications</a>
+                        </nav>
+                    </div>
+                    <div class="header-actions">
+                        <HomeLink />
+                        <GitHubLink />
+                        <ThemeToggle />
+                    </div>
+                </div>
+            </header>
+
+            <section class="publications">
+                <h2>Publications</h2>
+                {publications.length === 0 ? (
+                    <p>No publications found.</p>
+                ) : (
+                    <div class="publication-list">
+                        {publications.map((pub) => (
+                            <article class="publication">
+                                <div class="publication-content">
+                                    <div class="publication-main">
+                                        <h3>
+                                            {pub.entryTags.title && (
+                                                <a 
+                                                    href={getLink(pub)}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="title-link"
+                                                >
+                                                    {pub.entryTags.title}
+                                                </a>
+                                            )}
+                                        </h3>
+                                        <div class="publication-meta">
+                                            <span class="authors">
+                                                {pub.entryTags.author && formatAuthors(pub.entryTags.author)}
+                                            </span>
+                                            <span class="venue">
+                                                {getVenue(pub)}
+                                                {pub.entryTags.year && ` (${pub.entryTags.year})`}
+                                                {formatVolumeNumber(pub) && `, ${formatVolumeNumber(pub)}`}
+                                                {pub.entryTags.pages && `, ${pub.entryTags.pages}`}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="publication-links">
+                                        {getArxivId(pub) && (
+                                            <>
+                                                <a 
+                                                    href={`https://arxiv.org/abs/${getArxivId(pub)}`}
+                                                    class="text-link"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    arXiv:{getArxivId(pub)}
+                                                </a>
+                                                {pub.entryTags.doi && (
+                                                    <a 
+                                                        href={`https://doi.org/${pub.entryTags.doi}`}
+                                                        class="text-link"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        DOI: {pub.entryTags.doi}
+                                                    </a>
+                                                )}
+                                            </>
+                                        )}
+                                        {!getArxivId(pub) && pub.entryTags.doi && (
+                                            <a 
+                                                href={`https://doi.org/${pub.entryTags.doi}`}
+                                                class="text-link"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                DOI: {pub.entryTags.doi}
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                )}
+            </section>
+        </main>
+
+        <style is:global>
+            :root {
+                color-scheme: light dark;
+                --bg: #000000;
+                --text: #ffffff;
+                --text-secondary: #888888;
+                --border: #222222;
+                --tag-bg: #111111;
+                --link-color: #0066cc;
+            }
+            :root.light {
+                --bg: #ffffff;
+                --text: #000000;
+                --text-secondary: #666666;
+                --border: #dddddd;
+                --tag-bg: #f5f5f5;
+                --link-color: #0066cc;
+            }
+            body {
+                font-family: system-ui, -apple-system, sans-serif;
+                line-height: 1.7;
+                max-width: 65ch;
+                margin: 0 auto;
+                padding: 2rem;
+                background-color: var(--bg);
+                color: var(--text);
+                font-size: 1.1rem;
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
+            header {
+                margin-bottom: 3rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+            }
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+            .header-actions {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+            }
+            h1 {
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 500;
+                letter-spacing: -0.02em;
+            }
+            .main-nav {
+                display: flex;
+                gap: 1.5rem;
+                margin: 0;
+            }
+            .nav-link {
+                color: var(--text);
+                text-decoration: none;
+                font-weight: 500;
+                padding: 0.5rem 0;
+                border-bottom: 2px solid transparent;
+            }
+            .nav-link:hover {
+                border-bottom-color: var(--text);
+            }
+            .publications {
+                margin-top: 1.5rem;
+            }
+            .publication-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .publication {
+                padding-bottom: 1.5rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .publication:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .publication-content {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            .publication-main {
+                flex: 1;
+                min-width: 0; /* Prevents flex item from overflowing */
+            }
+            .publication h3 {
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: 500;
+                line-height: 1.4;
+            }
+            .publication-meta {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+                margin-top: 0.25rem;
+                font-size: 0.9rem;
+            }
+            .authors {
+                color: var(--text-secondary);
+            }
+            .venue {
+                font-style: italic;
+                color: var(--text-secondary);
+            }
+            .publication-links {
+                display: flex;
+                gap: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.25rem;
+                font-size: 0.85rem;
+            }
+            .text-link {
+                color: var(--text-secondary);
+                text-decoration: none;
+            }
+            .text-link:hover {
+                text-decoration: underline;
+                text-underline-offset: 0.2em;
+            }
+            .title-link {
+                color: var(--text);
+                text-decoration: none;
+            }
+            .title-link:hover {
+                text-decoration: underline;
+                text-underline-offset: 0.2em;
+            }
+            @media (max-width: 768px) {
+                .publication-content {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+                .publication-links {
+                    margin-top: 0.5rem;
+                }
+                .publication h3 {
+                    font-size: 1rem;
+                }
+                .publication-meta {
+                    font-size: 0.85rem;
+                }
+            }
+            /* Remove the old button styles */
+            .link-badge,
+            .link-badge.arxiv,
+            .link-badge.doi {
+                display: none;
+            }
+        </style>
+    </body>
+</html> 

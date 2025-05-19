@@ -39,9 +39,12 @@ const posts = await getCollection('blog', ({ data }) => {
 		<main>
 			<header>
 				<div class="header-content">
-					<div>
+					<div class="header-left">
 						<h1>bhargav</h1>
-						<p class="subtitle">Thoughts, ideas, and notes</p>
+						<nav class="main-nav">
+							<a href="/projects" class="nav-link">Projects</a>
+							<a href="/publications" class="nav-link">Publications</a>
+						</nav>
 					</div>
 					<div class="header-actions">
 						<HomeLink />
@@ -50,9 +53,6 @@ const posts = await getCollection('blog', ({ data }) => {
 					</div>
 				</div>
 			</header>
-			<nav class="main-nav">
-				<a href="/projects" class="nav-link">Projects</a>
-			</nav>
 			<section class="posts">
 				{posts.map(post => (
 					<article class="post">
@@ -115,8 +115,13 @@ const posts = await getCollection('blog', ({ data }) => {
 			.header-content {
 				display: flex;
 				justify-content: space-between;
-				align-items: flex-start;
+				align-items: center;
 				gap: 1rem;
+			}
+			.header-left {
+				display: flex;
+				align-items: center;
+				gap: 2rem;
 			}
 			.header-actions {
 				display: flex;
@@ -136,10 +141,10 @@ const posts = await getCollection('blog', ({ data }) => {
 			.posts {
 				display: flex;
 				flex-direction: column;
-				gap: 2rem;
+				gap: 1rem;
 			}
 			.post {
-				padding: 0;
+				padding-bottom: 1rem;
 				border-bottom: 1px solid var(--border);
 				border-radius: 0;
 				background: none;
@@ -204,7 +209,7 @@ const posts = await getCollection('blog', ({ data }) => {
 			.main-nav {
 				display: flex;
 				gap: 1.5rem;
-				margin-bottom: 2rem;
+				margin: 0;
 			}
 			.nav-link {
 				color: var(--text);
