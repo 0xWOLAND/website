@@ -39,7 +39,7 @@ Modern Monero has strengthened its defenses against intersection attacks, though
 ![Monero attack resistance matrix](../images/zcash/monero.png)
 
 
-*Figure: Monero's resistance to various analysis techniques, adapted from Goodell, B. (2024). *History and state of Monero security analysis*. Unpublished manuscript. ✓ indicates practical safety, ◗ indicates potential vulnerability in practice, and ✗ indicates known vulnerability. As the table shows, Monero remains vulnerable.*
+*Figure: Monero's resistance to various analysis techniques, adapted from Goodell, B. (2024). *History and state of Monero security analysis*. As the table shows, Monero remains vulnerable.*
 
 
 
@@ -56,3 +56,4 @@ Unlike Monero, Zcash doesn't rely on probabilistic arguments with decoys. Instea
 
 In Project Tachyon, Bowe rethinks how wallets sync and interact with blockchain state in a secure manner. Tachyon introduces a model where wallets maintain a proof of their own synchronization (via [proof-carrying data](https://dspace.mit.edu/handle/1721.1/61151)), allowing validators to prune almost all historic data. By shifting secret distribution off-chain and removing reliance on encrypted note payloads in the ledger, it enables lean, stateless wallets and small, efficient blocks. This paves the way for Zcash to be able to scale massively without compromising privacy. For the full technical breakdown, check out Sean's blog on [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). In the next blog, we will walk through a toy implementation of the accumulator from Project Tachyon!
 
+In Project Tachyon, Bowe rethinks how wallets sync and interact with blockchain state in a secure manner. Tachyon introduces a model where wallets maintain a proof of their own synchronization (via [proof-carrying data](https://dspace.mit.edu/handle/1721.1/61151)), allowing validators to prune almost all historic data. By shifting secret distribution off-chain and removing reliance on encrypted note payloads in the ledger, it enables lean, stateless wallets and small, efficient blocks. This paves the way for Zcash to scale without compromising privacy. At scale, Monero and Zcash move in opposite directions: Monero's design struggles with growth—suffering from chain bloat and decoy reuse—while Tachyon strengthens Zcash, making it more efficient and private as usage increases. For the full technical breakdown, check out Sean's blog on [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). In the next blog, we'll walk through a toy implementation of the accumulator from Project Tachyon!
