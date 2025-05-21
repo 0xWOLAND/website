@@ -38,19 +38,21 @@ Modern Monero has strengthened its defenses against intersection attacks, though
 
 ![Monero attack resistance matrix](../images/zcash/monero.png)
 
+
 *Figure: Monero's resistance to various analysis techniques, adapted from Goodell, B. (2024). *History and state of Monero security analysis*. Unpublished manuscript. ✓ indicates practical safety, ◗ indicates potential vulnerability in practice, and ✗ indicates known vulnerability. As the table shows, Monero remains vulnerable or potentially*
+
 
 
 ## Zcash's Mathematical Guarantees
 
 Unlike Monero, Zcash doesn't relay on probabilistic arguments with decoys. Instead, it achieves **ledger indistinguishability** using zero-knowledge proofs. Every shielded transaction in Zcash is cryptographically indistinguishable from random noise. And now, it is being accelerated in Zcash Engineer Sean Bowe's [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). Succinctly, here is how Tachyon addresses the limitations of Monero:
 
-| Problem                  | How Monero Suffers                                                                 | How Tachyon Fixes It                                                                                      |
-|--------------------------|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| Node Resource Use        | Every decoy must be tracked; ring signatures and Bulletproofs increase block size | Zcash blocks with aggregated zk-SNARKs remain small and fast to verify                                     |
-| Decoy Analysis           | Set intersection and timing leaks remain partially effective                       | No decoys exist in Zcash; every transaction is indistinguishable                                           |
-| User Privacy Trade-offs  | Remote nodes or light wallets may see which outputs you scan                       | Oblivious syncing services can advance wallet state without learning anything about your notes            |
-| Transaction Throughput   | Monero hits practical limits during spam (e.g. March 2024)                         | PCD allows scaling to high throughput with small block size and low validator burden                      |
+| Problem | How Monero Suffers | How Tachyon Fixes It |
+|:--------|:-------------------|:---------------------|
+| Node Resource Use | Every decoy must be tracked; ring signatures and Bulletproofs increase block size | Zcash blocks with aggregated zk-SNARKs remain small and fast to verify |
+| Decoy Analysis | Set intersection and timing leaks remain partially effective | No decoys exist in Zcash; every transaction is indistinguishable |
+| User Privacy Trade-offs | Remote nodes or light wallets may see which outputs you scan | Oblivious syncing services can advance wallet state without learning anything about your notes |
+| Transaction Throughput | Monero hits practical limits during spam (e.g. March 2024) | PCD allows scaling to high throughput with small block size and low validator burden |
 
 In Project Tachyon, Bowe rethinks how wallets sync and interact with blockchain state in a secure manner. Tachyon introduces a model where wallets maintain a proof of their own synchronization (via [proof-carrying data](https://dspace.mit.edu/handle/1721.1/61151)), allwoign validators to prune almost all historic data. By shifting secret distribution off-chain and removing reliance on encrypted note payloads in the ledger, it enables lean, stateless wallets and small, efficient blocks. This paves the way for Zcash's to be able scale massively without compromising privacy. For the full technical breakdown, check out Sean's blog on [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). In the next blog, we will walk through a toy implementation of the accumulator from Projet Tachyon!
 
