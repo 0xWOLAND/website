@@ -39,7 +39,7 @@ Modern Monero has strengthened its defenses against intersection attacks, though
 ![Monero attack resistance matrix](../images/zcash/monero.png)
 
 
-*Figure: Monero's resistance to various analysis techniques, adapted from Goodell, B. (2024). *History and state of Monero security analysis*. Unpublished manuscript. ✓ indicates practical safety, ◗ indicates potential vulnerability in practice, and ✗ indicates known vulnerability. As the table shows, Monero remains vulnerable or potentially*
+*Figure: Monero's resistance to various analysis techniques, adapted from Goodell, B. (2024). *History and state of Monero security analysis*. Unpublished manuscript. ✓ indicates practical safety, ◗ indicates potential vulnerability in practice, and ✗ indicates known vulnerability. As the table shows, Monero remains vulnerable.*
 
 
 
