@@ -34,7 +34,7 @@ What's more troubling is that a powerful attacker could add their own known deco
 
 <!-- Insert Diagram Here -->
 
-Modern Monero has strengthened its defenses against intersection attacks, though primarily through patches rather than rigorous cryptographic guarantees. Techniques like enforcing minimum ring sizes and refining decoy selection help mitigate "closed set" intersection attacks, where outputs only appear with each other and can thus be linked. While these measures have made analysis more difficult than in Monero's early years—when researchers were able to deanonymize up to 90% of transactions for as little as [~$1,000](https://eprint.iacr.org/2019/455.pdf)-resourced adversary with sufficient data can still carry out large-scale intersection attacks.
+Modern Monero has strengthened its defenses against intersection attacks, though primarily through patches rather than rigorous cryptographic guarantees. Techniques like enforcing minimum ring sizes and refining decoy selection help mitigate "closed set" intersection attacks, where outputs only appear with each other and can thus be linked. Although these measures have made analysis harder than in Monero's early days—when researchers could deanonymize up to 90% of transactions for just [~\$1,000](https://eprint.iacr.org/2019/455.pdf)—a well-resourced adversary with enough data can *still* perform large-scale intersection attacks.
 
 ![Monero attack resistance matrix](../images/zcash/monero.png)
 
