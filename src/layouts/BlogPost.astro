@@ -72,6 +72,24 @@ const { title, description, date, tags } = Astro.props;
         )}
       </header>
       <slot />
+      <style>
+        table {
+          border-collapse: collapse !important;
+          width: 100% !important;
+          margin: 1.5rem 0 !important;
+          border: 1px solid var(--border) !important;
+        }
+        table th,
+        table td {
+          border: 1px solid var(--border) !important;
+          padding: 0.75rem !important;
+          text-align: left !important;
+        }
+        table th {
+          background-color: var(--tag-bg) !important;
+          font-weight: 500 !important;
+        }
+      </style>
     </article>
     <style is:global>
       :root {
@@ -216,6 +234,23 @@ const { title, description, date, tags } = Astro.props;
       }
       :global(.katex-display > .katex) {
         font-size: 1.2em;
+      }
+      /* Table styling */
+      article table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1.5rem 0;
+        border: 1px solid var(--border);
+      }
+      article table th,
+      article table td {
+        border: 1px solid var(--border);
+        padding: 0.75rem;
+        text-align: left;
+      }
+      article table th {
+        background-color: var(--tag-bg);
+        font-weight: 500;
       }
       /* Dark theme overrides for KaTeX */
       :global(.katex-html) {
