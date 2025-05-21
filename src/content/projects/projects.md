@@ -5,7 +5,7 @@ projects:
     technologies: ["Rust", "Solana", "Zero Knowledge Proofs", "Groth16"]
     link: "https://github.com/succinctlabs/sp1-solana"
 
-  - title: "KZG-RS"
+  - title: "kzg-rs"
     description: "Rust implementation of KZG point evaluation for zero-knowledge proof systems."
     technologies: ["Rust", "Cryptography", "Zero Knowledge Proofs"]
     link: "https://github.com/succinctlabs/kzg-rs"
