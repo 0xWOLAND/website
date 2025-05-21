@@ -118,6 +118,9 @@ const { title, description, date, tags } = Astro.props;
         font-size: 1.1rem;
         transition: background-color 0.2s ease, color 0.2s ease;
       }
+      article {
+        width: 100%;
+      }
       a {
         color: var(--text);
         text-decoration: underline;
@@ -241,16 +244,44 @@ const { title, description, date, tags } = Astro.props;
         width: 100%;
         margin: 1.5rem 0;
         border: 1px solid var(--border);
+        max-width: 100%;
+        overflow-x: auto;
+        display: block;
       }
       article table th,
       article table td {
         border: 1px solid var(--border);
         padding: 0.75rem;
         text-align: left;
+        white-space: normal;
+        word-wrap: break-word;
       }
       article table th {
         background-color: var(--tag-bg);
         font-weight: 500;
+      }
+      /* Image styling */
+      article :global(img) {
+        display: block;
+        margin: 1.5rem auto;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+      }
+      /* Override inline width/height attributes */
+      article :global(img[width]),
+      article :global(img[height]) {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+      }
+      /* Ensure markdown content doesn't override image styles */
+      article :global(.markdown) img,
+      article :global(.prose) img,
+      article :global(.content) img {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
       }
       /* Dark theme overrides for KaTeX */
       :global(.katex-html) {
@@ -267,6 +298,11 @@ const { title, description, date, tags } = Astro.props;
         body {
           padding: 1rem;
           font-size: 1rem;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        article {
+          width: 100%;
         }
         h1 {
           font-size: 1.75rem;
@@ -274,6 +310,14 @@ const { title, description, date, tags } = Astro.props;
         h2 {
           font-size: 1.35rem;
         }
+      }
+      /* Image styling */
+      article :global(img.responsive-image) {
+        display: block;
+        margin: 1.5rem auto;
+        max-width: 100%;
+        width: auto;
+        height: auto;
       }
     </style>
   </body>
