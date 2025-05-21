@@ -11,4 +11,10 @@ export default defineConfig({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
   },
+  vite: {
+    publicDir: 'public',
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
 });
