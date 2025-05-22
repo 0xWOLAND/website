@@ -97,7 +97,7 @@ In short: hiding protects privacy; binding ensures integrity.
 
 ## The Pedersen Commitment
 
-Let $G$ be a cyclic group of prime order $q$, with generators $g$ and $h$ such that no one knows the discrete logarithm between them. To commit to a value $m \in \mathbb{Z}_q$, choose a random blinding factor $r \in \mathbb{Z}_q$ and compute:
+Let $G$ be a cyclic group of prime order $q$, with generators $g$ and $h$ such that no one knows the discrete logarithm between them. To commit to a value $m \in \mathbb{Z} / q \mathbb{Z}$, choose a random blinding factor $r \in \mathbb{Z} / q \mathbb{Z}$ and compute:
 
 $$
 \text{Com}(m, r) = g^m h^r
