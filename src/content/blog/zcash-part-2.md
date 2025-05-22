@@ -7,6 +7,8 @@ tags: ["crypto", "pcs"]
 
 **⚠️ Warning:** Mathematics. This is a fairly technical post! I assume a solid understanding of high-school math and a willingness to bear with me :)
 
+This blog reviews the prerequisite mathematics for understanding the set-noninclusion accumulator in **Project Tachyon** — if you're already familiar with basic abstract algebra, feel free to skip to the next post.
+
 
 # Some Mathematics Prerequisites
 

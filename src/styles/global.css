@@ -8,16 +8,6 @@
   --border: #222222;
   --tag-bg: #111111;
   --link-color: #0066cc;
-  --code-bg: #1a1a1a;
-  --code-text: #e6e6e6;
-  --code-border: #333333;
-  --code-keyword: #ff79c6;
-  --code-string: #f1fa8c;
-  --code-comment: #6272a4;
-  --code-function: #8be9fd;
-  --code-number: #bd93f9;
-  --code-operator: #ff79c6;
-  --code-variable: #f8f8f2;
 
   /* Typography */
   --font-family: system-ui, -apple-system, sans-serif;
@@ -67,6 +57,13 @@ body {
   color: var(--text);
   font-size: var(--font-size-base);
   transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Handle wide content */
+pre, table, img {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
 }
 
 /* Typography */
@@ -162,13 +159,6 @@ header {
   text-transform: lowercase;
 }
 
-/* Code Blocks */
-pre, code {
-  background-color: var(--code-bg);
-  color: var(--code-text);
-  border-color: var(--code-border);
-}
-
 pre {
   padding: var(--spacing-md);
   border-radius: var(--radius-sm);
@@ -178,20 +168,6 @@ pre {
   font-family: var(--font-family-mono);
   font-size: var(--font-size-code);
   line-height: var(--line-height-code);
-}
-
-code {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-code);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--code-border);
-}
-
-pre code {
-  background: none;
-  padding: 0;
-  border: none;
 }
 
 /* Syntax Highlighting */
@@ -248,14 +224,37 @@ pre code {
   color: var(--code-operator);
 }
 
-/* Inline Code */
-:global(p) code,
-:global(li) code {
-  font-size: 0.9em;
-  padding: 0.2em 0.4em;
-  background-color: var(--code-bg);
-  color: var(--code-text);
-  border: 1px solid var(--code-border);
+/* Table Styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid var(--border);
+  margin: var(--spacing-lg) 0;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+
+th {
+  background-color: var(--tag-bg);
+  font-weight: 500;
+}
+
+thead tr {
+  border-bottom: 2px solid var(--border);
+}
+
+tbody tr:hover {
+  background-color: var(--tag-bg);
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  margin: var(--spacing-lg) 0;
 }
 
 /* Responsive Design */

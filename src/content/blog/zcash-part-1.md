@@ -13,7 +13,7 @@ One of the most fascinating developments in cryptocurrency has been the class of
 
 Monero's ring signature system provides each transaction input with a ring of decoy outputs plus their real one. In theory, an observer shouldn't tell which output in the ring was actually spent. But in practice, **set intersection attacks** and other heuristics have exposed limitations in their privacy model. 
 
-In a set intersection attack, an adversary analyzes multiple transactions whose rings share common outputs in order to distinguish real spends by intersecting these sets. For example, suppose that Alice owns an old Monero output `A`. She spends it in a transaction on the main Monero chain forming a ring 
+In a set intersection attack, an adversary analyzes multiple transactions whose rings share common outputs in order to distinguish real spends by intersecting these sets. For example, suppose that Alice owns an old Monero output $A$. She spends it in a transaction on the main Monero chain forming a ring 
 
 $$
     \text{Tx1} = \{A, B, C, D, E\}
@@ -25,7 +25,7 @@ $$
     \text{Tx1'} = \{F, G, A, H, I\}
 $$
 
-Each ring has 5 outputs, but `A` is the only one common in both, which isn't good. In Monero, a user's true spend should be computationally hidden among many decoys, but the *re-use* of the same output across multiple rings breaks this illusion. According to a recent review by Cypher Stack, this remains a practical [attack vector](https://moneroresearch.info/index.php?action=resource_RESOURCEVIEW_CORE&id=235#).
+Each ring has 5 outputs, but $A$ is the only one common in both, which isn't good. In Monero, a user's true spend should be computationally hidden among many decoys, but the *re-use* of the same output across multiple rings breaks this illusion. According to a recent review by Cypher Stack, this remains a practical [attack vector](https://moneroresearch.info/index.php?action=resource_RESOURCEVIEW_CORE&id=235#).
 
 
 Reusing decoys in Monero has some serious ripple effects. If the real spend for a single output is ever revealed—through an exchange, user mistake, or clever analysis—it doesn't just affect that one transaction. It lets anyone rule out that output as a decoy in any other ring it appeared in. That, in turn, helps narrow down the real spends in those rings, and the process can repeat across the network. In Monero's early days, this was especially bad—over 65% of inputs didn't even use decoys, so they were trivially exposed. And even after mixins were added, researchers found that another ~22% of inputs could still be traced just by overlapping the right rings and [eliminating possibilities](https://eprint.iacr.org/2017/338.pdf#:~:text=%1Brst%20heuristic%20,any%20ground%20truth%20on%20RingCTs).
