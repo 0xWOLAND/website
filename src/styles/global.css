@@ -85,7 +85,7 @@ h2 {
 
 /* Links */
 a {
-  color: var(--text);
+  color: var(--link-color);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -93,6 +93,7 @@ a {
 a:hover {
   text-decoration: underline;
   text-underline-offset: 0.2em;
+  opacity: 0.8;
 }
 
 /* Layout */
