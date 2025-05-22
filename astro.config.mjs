@@ -10,6 +10,12 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
+    shikiConfig: {
+      themes: {
+        light: 'catppuccin-latte',
+        dark: 'catppuccin-macchiato'
+      },
+    },
   },
   vite: {
     publicDir: 'public',
