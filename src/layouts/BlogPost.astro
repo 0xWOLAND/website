@@ -57,10 +57,11 @@ const { title, description, date, tags } = Astro.props;
           </div>
         </div>
         <time datetime={date.toISOString()}>
-          {date.toLocaleDateString('en-US', {
+          {new Date(date.getTime() + date.getTimezoneOffset() * 60000).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
-            day: 'numeric'
+            day: 'numeric',
+            timeZone: 'UTC'
           })}
         </time>
         {tags && (

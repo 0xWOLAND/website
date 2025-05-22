@@ -1,7 +1,7 @@
 ---
 title: "Private Money: Part 2"
 description: "Investigating Project Tachyon: Preliminaries"
-date: 2024-05-20
+date: 2024-05-21T00:00:00Z
 tags: ["crypto", "pcs"]
 ---
 
@@ -46,7 +46,7 @@ These patterns aren't just beautiful — there's clearly something deeper going 
 
 ## From Loops to Logic
 
-You notice that music "moves" from one key to another in a structured way. To describe these moves precisely, we need a language for how actions combine. That’s where group theory comes in.
+You notice that music "moves" from one key to another in a structured way. To describe these moves precisely, we need a language for how actions combine. That's where group theory comes in.
 
 A **group** is a set equipped with a rule for combining elements — an operation — that behaves predictably: there's a way to combine any two elements (closure), the way elements are grouped doesn't matter (associativity), there's an identity element that does nothing (identity), and every element has an inverse that undoes it (inverses).
 
@@ -87,11 +87,11 @@ Finally, we have the language to talk about tools that rely on group structure t
 
 ## Hiding and Binding
 
-Before going further, it’s worth pausing to explain what we mean by *hiding* and *binding*.
+Before going further, it's worth pausing to explain what we mean by *hiding* and *binding*.
 
-* **Hiding** means the commitment doesn’t reveal any information about the underlying message. Even if someone sees the commitment, they can’t figure out what value was committed — because it's masked using randomness.
+* **Hiding** means the commitment doesn't reveal any information about the underlying message. Even if someone sees the commitment, they can't figure out what value was committed — because it's masked using randomness.
 
-* **Binding** means that once you’ve committed to a value, you can’t later change your mind. That is, you can’t open the same commitment to a different value. This ensures the commitment is fixed and can't be altered after the fact.
+* **Binding** means that once you've committed to a value, you can't later change your mind. That is, you can't open the same commitment to a different value. This ensures the commitment is fixed and can't be altered after the fact.
 
 In short: hiding protects privacy; binding ensures integrity.
 
@@ -106,7 +106,7 @@ $$
 This is a commitment to $m$ that is:
 
 * **Perfectly hiding**: because $r$ is chosen at random, the output reveals nothing about $m$
-* **Computationally binding**: under the discrete log assumption, it’s infeasible to find two different pairs $(m, r)$ and $(m', r')$ that yield the same commitment
+* **Computationally binding**: under the discrete log assumption, it's infeasible to find two different pairs $(m, r)$ and $(m', r')$ that yield the same commitment
 
 Additionally, Pedersen commitments are **homomorphic**:
 
@@ -151,6 +151,6 @@ What makes Pedersen (vector) commitments especially powerful is their algebraic 
 
 * **Inner-product compatibility**: Because exponentiation distributes over sums, Pedersen commitments can be used inside inner-product arguments (like in Bulletproofs or IPA schemes), where both prover and verifier can manipulate commitments algebraically without knowing the underlying messages.
 
-* **Non-interactive opening proofs**: Given $\mathbf{m}$ and $r$, it’s trivial to open the commitment and prove correctness. Zero-knowledge variants can be layered on top if needed.
+* **Non-interactive opening proofs**: Given $\mathbf{m}$ and $r$, it's trivial to open the commitment and prove correctness. Zero-knowledge variants can be layered on top if needed.
 
 These algebraic properties make Pedersen commitments a favorite building block in privacy-preserving protocols, SNARK-friendly constructions, and succinct proofs of integrity over large datasets.
