@@ -63,4 +63,4 @@ In Project Tachyon, Bowe rethinks how wallets sync and interact with blockchain 
 
 Where Monero's privacy degrades as the network grows—due to increasing chain bloat, repeated decoy reuse, and compounding intersection attacks—Tachyon pushes Zcash in the opposite direction: greater usage yields greater efficiency/security. In effect, Monero's scale is a liability, while Zcash's scale becomes a strength. Tachyon turns what is traditionally a privacy trade-off into a privacy advantage.
 
-For the full technical breakdown, check out Sean's blog on [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). In the next blogs, we'll walk through a toy implementation of the accumulator from Project Tachyon from zero!
+For the full technical breakdown, check out Sean's blog on [Project Tachyon](https://seanbowe.com/blog/tachyon-scaling-zcash-oblivious-synchronization/). In the next couple of blogs, we'll walk through a toy implementation of the accumulator from Project Tachyon from zero!
