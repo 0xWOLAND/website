@@ -79,11 +79,11 @@ This gives all elements of the group if $g$ is a generator.
 The **discrete logarithm problem** asks:
 Given $g$ and $h = g^x$, find $x$.
 
-For small numbers, this is easy to solve by trial. But in large cyclic groups — especially those built from primes with hundreds of digits — the problem becomes extremely hard. For small numbers, this is easy to solve by trial. But in large cyclic groups (like those used in Ethereum's BLS signatures, where the modulus is a 381-bit prime) the problem becomes practically impossible to reverse, and that's exactly what makes it secure against [classical computers](https://www.cs.umd.edu/~amchilds/teaching/w08/l02.pdf).
+For small numbers, this is easy to solve by trial. But in large cyclic groups (especially those built from primes with hundreds of digits) the problem becomes extremely hard. For small numbers, this is easy to solve by trial. But in large cyclic groups (like those used in Ethereum's BLS signatures, where the modulus is a 381-bit prime) the problem becomes practically impossible to reverse, and that's exactly what makes it secure against [classical computers](https://www.cs.umd.edu/~amchilds/teaching/w08/l02.pdf).
 
 # Pedersen Vector Commitment Scheme
 
-Finally, we have the language to talk about tools that rely on group structure to ensure both **hiding** and **binding** — the two essential properties of a cryptographic commitment. One of the simplest and most elegant examples is the **Pedersen commitment**.
+Finally, we have the language to talk about tools that rely on group structure to ensure both **hiding** and **binding**: the two essential properties of a cryptographic commitment. One of the simplest and most elegant examples is the **Pedersen commitment**.
 
 ## Hiding and Binding
 
@@ -114,7 +114,7 @@ $$
 \text{Com}(m_1, r_1) \cdot \text{Com}(m_2, r_2) = \text{Com}(m_1 + m_2, r_1 + r_2)
 $$
 
-This means commitments can be added without opening them — a property useful in many protocols.
+This means commitments can be added without opening them, a property useful in many protocols.
 
 ## From Commitments to Vector Commitments
 
@@ -129,7 +129,7 @@ This compactly binds the entire vector $\mathbf{m}$ into a single group element.
 * **Hiding**, because the random $r$ masks the entire vector
 * **Binding**, assuming the generators $g_1, \dots, g_n$ are independent and the discrete log relationships between them are unknown
 
-With additional structure, such commitments can also support **position-wise openings**, allowing you to reveal just one component $m_i$ and prove that it was committed to — without revealing the rest.
+With additional structure, such commitments can also support **position-wise openings**, allowing you to reveal just one component $m_i$ and prove that it was committed to without revealing the rest.
 
 ## Algebraic Properties
 
