@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",
+    "@vercel/analytics": "^1.5.0",
     "astro": "^5.7.13",
     "bibtex-parse-js": "^0.0.24",
     "katex": "^0.16.22",
