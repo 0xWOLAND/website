@@ -5,7 +5,7 @@ date: 2024-05-21T00:00:00Z
 tags: ["crypto", "pcs"]
 ---
 
-**⚠️ Warning:** Mathematics ahead. I assume a solid understanding of high-school math and a willingness to bear with me :)
+**⚠️ Warning:** Mathematics. This is a fairly technical post! I assume a solid understanding of high-school math and a willingness to bear with me :)
 
 
 # Some Mathematics Prerequisites
@@ -116,6 +116,14 @@ $$
 
 This means commitments can be added without opening them, a property useful in many protocols.
 
+Now here's how we implement this in Rust:
+
+```rust
+pub fn commit(m: Scalar, r: Scalar, g: GroupAffine, h: GroupAffine) -> GroupAffine {
+    (g * m + h * r).into_affine()
+}
+```
+
 ## From Commitments to Vector Commitments
 
 To commit to a whole vector $\mathbf{m} = (m_1, m_2, \dots, m_n)$, we extend the idea by using $n$ independent generators $g_1, g_2, \dots, g_n \in G$, and a single blinding base $h$. The commitment is:
@@ -124,12 +132,34 @@ $$
 \text{Com}(\mathbf{m}, r) = g_1^{m_1} \cdot g_2^{m_2} \cdots g_n^{m_n} \cdot h^r
 $$
 
+The vector commitment version in Rust takes an array of generators:
+```rust
+pub fn open(v: &[Scalar], r: Scalar, j: usize) -> Result<(Scalar, Scalar, GroupAffine)> {
+    if j >= v.len() {
+        return Err(anyhow!("Index out of bounds"));
+    }
+
+    let blind = POINTS[0] * r;
+    let witness = POINTS[1..].iter().enumerate()
+        .filter(|(i, _)| *i != j)
+        .map(|(i, p)| *p * v[i])
+        .sum::<GroupProjective>() + blind;
+    
+    Ok((v[j], r, witness.into_affine()))
+}
+```
+
 This compactly binds the entire vector $\mathbf{m}$ into a single group element. It maintains the same properties:
 
 * **Hiding**, because the random $r$ masks the entire vector
 * **Binding**, assuming the generators $g_1, \dots, g_n$ are independent and the discrete log relationships between them are unknown
 
-With additional structure, such commitments can also support **position-wise openings**, allowing you to reveal just one component $m_i$ and prove that it was committed to without revealing the rest.
+And here’s how to verify the commitment:
+```rust
+pub fn check(c: GroupAffine, v_j: Scalar, witness: GroupAffine, h_j: GroupAffine) -> bool {
+    c == witness + h_j * v_j
+}
+```
 
 ## Algebraic Properties
 

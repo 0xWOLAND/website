@@ -18,11 +18,13 @@ const { class: className } = Astro.props;
     align-items: center;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-fast);
   }
+
   .github-link:hover {
     color: var(--text);
   }
+
   .github-link svg {
     width: 1.5rem;
     height: 1.5rem;

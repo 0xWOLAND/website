@@ -17,26 +17,36 @@
 
 <style>
   .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
-    padding: 0;
+    padding: var(--spacing-xs);
     cursor: pointer;
     color: var(--text-secondary);
-    transition: color 0.2s ease;
+    transition: color var(--transition-fast);
+    border-radius: var(--radius-sm);
   }
+
   .theme-toggle:hover {
     color: var(--text);
+    background: none;
   }
+
   .theme-toggle svg {
     width: 1.5rem;
     height: 1.5rem;
   }
+
   .moon-icon {
     display: none;
   }
+
   :global(.light) .sun-icon {
     display: none;
   }
+
   :global(.light) .moon-icon {
     display: block;
   }

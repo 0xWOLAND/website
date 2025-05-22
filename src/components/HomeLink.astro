@@ -7,14 +7,20 @@
 
 <style>
   .home-link {
+    display: inline-flex;
+    align-items: center;
     color: var(--text);
     opacity: 0.8;
-    transition: opacity 0.2s ease;
-    display: flex;
-    align-items: center;
     text-decoration: none;
+    transition: opacity var(--transition-fast);
   }
+
   .home-link:hover {
     opacity: 1;
+  }
+
+  .home-link svg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 </style> 

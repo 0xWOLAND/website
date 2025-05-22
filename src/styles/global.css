@@ -1,0 +1,314 @@
+/* Global CSS Variables */
+:root {
+  /* Color Scheme */
+  color-scheme: light dark;
+  --bg: #000000;
+  --text: #ffffff;
+  --text-secondary: #888888;
+  --border: #222222;
+  --tag-bg: #111111;
+  --link-color: #0066cc;
+  --code-bg: #1a1a1a;
+  --code-text: #e6e6e6;
+  --code-border: #333333;
+  --code-keyword: #ff79c6;
+  --code-string: #f1fa8c;
+  --code-comment: #6272a4;
+  --code-function: #8be9fd;
+  --code-number: #bd93f9;
+  --code-operator: #ff79c6;
+  --code-variable: #f8f8f2;
+
+  /* Typography */
+  --font-family: system-ui, -apple-system, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-base: 1.1rem;
+  --font-size-small: 0.9rem;
+  --font-size-smaller: 0.8rem;
+  --font-size-code: 0.9em;
+  --line-height: 1.7;
+  --line-height-code: 1.6;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: -0.01em;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+}
+
+/* Light Theme Overrides */
+:root.light {
+  --bg: #ffffff;
+  --text: #000000;
+  --text-secondary: #666666;
+  --border: #dddddd;
+  --tag-bg: #f5f5f5;
+  --code-bg: #f8f8f8;
+  --code-text: #383a42;
+  --code-border: #e0e0e0;
+  --code-keyword: #a626a4;
+  --code-string: #50a14f;
+  --code-comment: #a0a1a7;
+  --code-function: #4078f2;
+  --code-number: #986801;
+  --code-operator: #a626a4;
+  --code-variable: #383a42;
+}
+
+/* Base Styles */
+body {
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: var(--font-size-base);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* Links */
+a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Layout */
+header {
+  margin-bottom: var(--spacing-xxl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* Navigation */
+.main-nav {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin: 0;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-link:hover {
+  border-bottom-color: var(--text);
+  background: none;
+}
+
+/* Tags */
+.tags {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.tag {
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-smaller);
+  text-transform: lowercase;
+}
+
+/* Code Blocks */
+pre, code {
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  border-color: var(--code-border);
+}
+
+pre {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--code-border);
+  overflow-x: auto;
+  margin: var(--spacing-lg) 0;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-code);
+  line-height: var(--line-height-code);
+}
+
+code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-code);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--code-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* Syntax Highlighting */
+:global(.token.comment),
+:global(.token.prolog),
+:global(.token.doctype),
+:global(.token.cdata) {
+  color: var(--code-comment);
+}
+
+:global(.token.punctuation) {
+  color: var(--code-text);
+}
+
+:global(.token.property),
+:global(.token.tag),
+:global(.token.boolean),
+:global(.token.number),
+:global(.token.constant),
+:global(.token.symbol) {
+  color: var(--code-number);
+}
+
+:global(.token.selector),
+:global(.token.attr-name),
+:global(.token.string),
+:global(.token.char),
+:global(.token.builtin) {
+  color: var(--code-string);
+}
+
+:global(.token.operator),
+:global(.token.entity),
+:global(.token.url),
+:global(.language-css .token.string),
+:global(.style .token.string),
+:global(.token.variable) {
+  color: var(--code-variable);
+}
+
+:global(.token.atrule),
+:global(.token.attr-value),
+:global(.token.keyword) {
+  color: var(--code-keyword);
+}
+
+:global(.token.function),
+:global(.token.class-name) {
+  color: var(--code-function);
+}
+
+:global(.token.regex),
+:global(.token.important) {
+  color: var(--code-operator);
+}
+
+/* Inline Code */
+:global(p) code,
+:global(li) code {
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--code-border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Utility Classes */
+.subtitle {
+  margin: var(--spacing-sm) 0 0;
+  color: var(--text-secondary);
+}
+
+.time {
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+  display: block;
+  margin-top: var(--spacing-sm);
+}
+
+.description {
+  color: var(--text-secondary);
+  margin: var(--spacing-sm) 0;
+} 
