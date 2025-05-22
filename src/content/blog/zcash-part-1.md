@@ -32,6 +32,12 @@ Reusing decoys in Monero has some serious ripple effects. If the real spend for 
 
 What's more troubling is that a powerful attacker could add their own known decoys to the ring. By flooding the network with transactions that reuse known or controlled outputs as decoys, they can "poison" the anonymity set. Once a few real spends are known, these poisoned rings make it much easier to strip away decoys and trace other transactions. It creates a chain reaction where even users who took care to protect their privacy can end up exposed if their transactions enter rings with adversaries. 
 
+This set-intersection effect accurately explains why **churning**—the practice of sending funds back to yourself to "clean" them—is especially dangerous in Monero, and why any privacy leak (such as using a KYC exchange or revealing a single address) can compromise not just a single transaction but the entire anonymity set. When a user spends funds that were previously used in a public or traceable context, it contaminates any ring that output appears in. Even indirect interactions with centralized services, or careless use of wallets that expose scanning patterns, can cascade into de-anonymizing dozens or hundreds of other users.
+
+What's especially troubling is that normal users—people just trying to move their money or use an exchange—can unknowingly weaken the privacy of the entire network. Every time someone reveals a spend, even unintentionally, it shrinks the effective anonymity set for everyone else. Over time, these small leaks accumulate, and the network becomes easier to analyze. In Monero, privacy erosion isn't always caused by attackers—it can emerge organically from the way the system works.
+
+
+
 <!-- Insert Diagram Here -->
 
 Modern Monero has strengthened its defenses against intersection attacks, though primarily through patches rather than rigorous cryptographic guarantees. Techniques like enforcing minimum ring sizes and refining decoy selection help mitigate "closed set" intersection attacks, where outputs only appear with each other and can thus be linked. Although these measures have made analysis harder than in Monero's early days—when researchers could deanonymize up to 90% of transactions for just [~\$1,000](https://eprint.iacr.org/2019/455.pdf)—a well-resourced adversary with enough data can *still* perform large-scale intersection attacks.
