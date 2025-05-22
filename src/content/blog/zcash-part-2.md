@@ -5,7 +5,7 @@ date: 2024-05-21T00:00:00Z
 tags: ["crypto", "pcs"]
 ---
 
-**⚠️ Warning:** Mathematics ahead. I assume a solid understanding of high-school math and willingness to bear with me :)
+**⚠️ Warning:** Mathematics ahead. I assume a solid understanding of high-school math and a willingness to bear with me :)
 
 
 # Some Mathematics Prerequisites
