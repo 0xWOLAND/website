@@ -153,4 +153,4 @@ What makes Pedersen (vector) commitments especially powerful is their algebraic 
 
 * **Non-interactive opening proofs**: Given $\mathbf{m}$ and $r$, it's trivial to open the commitment and prove correctness. Zero-knowledge variants can be layered on top if needed.
 
-These algebraic properties make Pedersen commitments a favorite building block in privacy-preserving protocols, SNARK-friendly constructions, and succinct proofs of integrity over large datasets.
+These algebraic properties make Pedersen commitments a favorite building block in privacy-preserving protocols, SNARK-friendly constructions, and succinct proofs of integrity over large datasets. We will see how we can build a Sean Bowe's [set-noninclusion accumulator](https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x) from this in next blog post.
