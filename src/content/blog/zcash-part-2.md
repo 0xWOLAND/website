@@ -1,6 +1,6 @@
 ---
 title: "Private Money: Part 2"
-description: "Investigating Project Tachyon"
+description: "Investigating Project Tachyon: Preliminaries"
 date: 2024-05-20
 tags: ["crypto", "pcs"]
 ---
@@ -80,3 +80,77 @@ The **discrete logarithm problem** asks:
 Given $g$ and $h = g^x$, find $x$.
 
 For small numbers, this is easy to solve by trial. But in large cyclic groups — especially those built from primes with hundreds of digits — the problem becomes extremely hard. For small numbers, this is easy to solve by trial. But in large cyclic groups (like those used in Ethereum's BLS signatures, where the modulus is a 381-bit prime) the problem becomes practically impossible to reverse, and that's exactly what makes it secure against [classical computers](https://www.cs.umd.edu/~amchilds/teaching/w08/l02.pdf).
+
+# Pedersen Vector Commitment Scheme
+
+Finally, we have the language to talk about tools that rely on group structure to ensure both **hiding** and **binding** — the two essential properties of a cryptographic commitment. One of the simplest and most elegant examples is the **Pedersen commitment**.
+
+## Hiding and Binding
+
+Before going further, it’s worth pausing to explain what we mean by *hiding* and *binding*.
+
+* **Hiding** means the commitment doesn’t reveal any information about the underlying message. Even if someone sees the commitment, they can’t figure out what value was committed — because it's masked using randomness.
+
+* **Binding** means that once you’ve committed to a value, you can’t later change your mind. That is, you can’t open the same commitment to a different value. This ensures the commitment is fixed and can't be altered after the fact.
+
+In short: hiding protects privacy; binding ensures integrity.
+
+## The Pedersen Commitment
+
+Let $G$ be a cyclic group of prime order $q$, with generators $g$ and $h$ such that no one knows the discrete logarithm between them. To commit to a value $m \in \mathbb{Z}_q$, choose a random blinding factor $r \in \mathbb{Z}_q$ and compute:
+
+$$
+\text{Com}(m, r) = g^m h^r
+$$
+
+This is a commitment to $m$ that is:
+
+* **Perfectly hiding**: because $r$ is chosen at random, the output reveals nothing about $m$
+* **Computationally binding**: under the discrete log assumption, it’s infeasible to find two different pairs $(m, r)$ and $(m', r')$ that yield the same commitment
+
+Additionally, Pedersen commitments are **homomorphic**:
+
+$$
+\text{Com}(m_1, r_1) \cdot \text{Com}(m_2, r_2) = \text{Com}(m_1 + m_2, r_1 + r_2)
+$$
+
+This means commitments can be added without opening them — a property useful in many protocols.
+
+## From Commitments to Vector Commitments
+
+To commit to a whole vector $\mathbf{m} = (m_1, m_2, \dots, m_n)$, we extend the idea by using $n$ independent generators $g_1, g_2, \dots, g_n \in G$, and a single blinding base $h$. The commitment is:
+
+$$
+\text{Com}(\mathbf{m}, r) = g_1^{m_1} \cdot g_2^{m_2} \cdots g_n^{m_n} \cdot h^r
+$$
+
+This compactly binds the entire vector $\mathbf{m}$ into a single group element. It maintains the same properties:
+
+* **Hiding**, because the random $r$ masks the entire vector
+* **Binding**, assuming the generators $g_1, \dots, g_n$ are independent and the discrete log relationships between them are unknown
+
+With additional structure, such commitments can also support **position-wise openings**, allowing you to reveal just one component $m_i$ and prove that it was committed to — without revealing the rest.
+
+## Algebraic Properties
+
+What makes Pedersen (vector) commitments especially powerful is their algebraic structure:
+
+* **Linearity**: Commitments respect linear combinations:
+
+  $$
+  \text{Com}(\mathbf{m}, r) \cdot \text{Com}(\mathbf{m}', r') = \text{Com}(\mathbf{m} + \mathbf{m}', r + r')
+  $$
+
+  where vector addition is component-wise.
+
+* **Scalability**: You can aggregate commitments across multiple vectors:
+
+  $$
+  \prod_{i=1}^k \text{Com}(\mathbf{m}^{(i)}, r_i) = \text{Com}\left(\sum_{i=1}^k \mathbf{m}^{(i)}, \sum_{i=1}^k r_i\right)
+  $$
+
+* **Inner-product compatibility**: Because exponentiation distributes over sums, Pedersen commitments can be used inside inner-product arguments (like in Bulletproofs or IPA schemes), where both prover and verifier can manipulate commitments algebraically without knowing the underlying messages.
+
+* **Non-interactive opening proofs**: Given $\mathbf{m}$ and $r$, it’s trivial to open the commitment and prove correctness. Zero-knowledge variants can be layered on top if needed.
+
+These algebraic properties make Pedersen commitments a favorite building block in privacy-preserving protocols, SNARK-friendly constructions, and succinct proofs of integrity over large datasets.
