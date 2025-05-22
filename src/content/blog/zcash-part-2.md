@@ -48,8 +48,6 @@ These patterns aren't just beautiful — there's clearly something deeper going 
 
 ## From Loops to Logic
 
-Notice that music "moves" from one key to another in a structured way. To describe these moves precisely, we need a language for how actions combine. That's where group theory comes in.
-
 A **group** is a set equipped with a rule for combining elements — an operation — that behaves predictably: there's a way to combine any two elements (closure), the way elements are grouped doesn't matter (associativity), there's an identity element that does nothing (identity), and every element has an inverse that undoes it (inverses).
 
 A simple example of a group is a finite cyclic group $\mathbb{Z} / n \mathbb{Z}$, the integers modulo $n$ which consists of the set
