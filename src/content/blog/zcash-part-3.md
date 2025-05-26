@@ -164,7 +164,6 @@ pub fn insert(roots: &[Fr], a_prev: G1Affine, r: Fr) -> Result<State> {
 
 *Key point:* no matter how many vectors we add, `Accumulator` stays a *single* point.
 
----
 
 ### 2 Proving that a fresh value $v$ was **not** among today's roots
 
