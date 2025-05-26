@@ -136,7 +136,6 @@ $\mathbf a_i = (a_{i,1},\dots,a_{i,k}) \subset \mathbb F$.
 After many updates we want to show, for *every* step in a chosen range $[j,\,m)$, that the inserted vector **never contained** some element $v$.
 Instead of storing all past vectors, we fold them into a **single curve-point accumulator** whose size never grows.
 
----
 
 ### 1. Insertion: folding one vector of roots
 
