@@ -114,6 +114,14 @@ A **set non-inclusion accumulator** breaks the scaling wall imposed by Merkle tr
 
 Instead of embedding every commitment into a massive hash tree, all notes are folded into a **constant-size accumulator value** $A_t$. Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
 
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="/images/zcash/asymptotic.png" alt="Asymptotic improvement of Accumulator" style="width: 50%; height: auto;" />
+  </div>
+</div>
+
+*Merkle trees require $O(\log n)$ verification time and linear storage growth. The accumulator achieves $O(1)$ constant time and space by folding all notes into a single polynomial commitment $A_t$, with IVC providing correctness guarantees.*
+
 The magic lies in the accumulator's recursive structure: each update witnesses that a *vector* of notes was inserted without including a particular element $x$. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked $x$ as a root—meaning $x$ was not present. This transforms the problem into one of recursive algebra, not storage.
 
 At the end, proving **non-inclusion** ("this nullifier was never inserted up to $A_t$") requires only checking that a single polynomial (the one folded into the accumulator) **does** have $x$ as a root. This final step is **constant-time** and easily SNARK-friendly.
