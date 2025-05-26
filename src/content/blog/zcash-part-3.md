@@ -7,8 +7,10 @@ tags: ["crypto", "pcs"]
 
 # Background
 
-<div style="display: flex; justify-content: center;">
-  <img src="/images/zcash/double_spending.png" alt="Double Spending" style="width: 50%; height: auto;" />
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="/images/zcash/double_spending.png" alt="Double Spending" style="width: 50%; height: auto;" />
+  </div>
 </div>
 
 **Double-spending** is when someone tries to use the same funds more than once. It's a fundamental problem in finance that appears in various guises. In traditional banking, this looks like **check kiting**—manipulating the float time between accounts to cover overdrafts. A notorious example is [Najeeb Khan's $180M fraud](https://apnews.com/article/bank-fraud-classic-cars-keybank-elkhart-d0c9a4a2a66fb88a832a613a8560c49c), where he exploited bank timing windows to fund a lavish lifestyle at the expense of clients.
@@ -17,17 +19,19 @@ In crypto, Ethereum Classic suffered [multiple 51% attacks in 2020](https://www.
 
 Zcash presents a more complex challenge: its shielded transactions reveal nothing about sender, receiver, or value. To prevent double-spending while preserving privacy, Zcash enforces two cryptographic constraints:
 1. **Private inclusion proof**: The note must be in the note-commitment Merkle tree.
-2. **Public non-inclusion proof**: The note’s **nullifier** must not be in the nullifier set.
+2. **Public non-inclusion proof**: The note's **nullifier** must not be in the nullifier set.
 
 ## Why Zcash uses a public non-inclusion check
 
-<div style="display: flex; justify-content: center;">
-  <img src="/images/zcash/trees.png" alt="Image of Note-Commitment Tree and Noninclusion Set" style="width: 50%; height: auto;" />
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="/images/zcash/trees.png" alt="Image of Note-Commitment Tree and Noninclusion Set" style="width: 50%; height: auto;" />
+  </div>
 </div>
 
-When a new shielded note is created, only its **commitment** is revealed. This is appended to the global note-commitment Merkle tree, while the note’s actual value and recipient stay private. Because the tree is append-only and doesn’t track spending, a second tag—the **nullifier**—ensures each note is spent at most once.
+When a new shielded note is created, only its **commitment** is revealed. This is appended to the global note-commitment Merkle tree, while the note's actual value and recipient stay private. Because the tree is append-only and doesn't track spending, a second tag—the **nullifier**—ensures each note is spent at most once.
 
-A **nullifier** is a deterministic, unlinkable fingerprint of a note. It’s computed using a [pseudorandom function](https://crypto.stanford.edu/pbc/notes/crypto/prf.html) (PRF) keyed by the note’s secret. Only the owner can derive the nullifier, and each note has exactly one[^1].
+A **nullifier** is a deterministic, unlinkable fingerprint of a note. It's computed using a [pseudorandom function](https://crypto.stanford.edu/pbc/notes/crypto/prf.html) (PRF) keyed by the note's secret. Only the owner can derive the nullifier, and each note has exactly one[^1].
 
 [^1]: [In Orchard](https://zcash.github.io/orchard/design/nullifiers.html?highlight=nullifier#nullifiers), the nullifier is computed as a PRF fo the note's two randomizers $\rho, \phi$, the owner's nullifier-deriving key $nk$, and the commitment $cm$. 
 
@@ -37,7 +41,7 @@ The nullifier is publicly revealed and checked against the nullifier set, which 
 
 ## Private membership proof
 
-Zcash uses [zk-SNARKs](https://z.cash/learn/what-are-zk-snarks/) to enforce both constraints—commitment inclusion and nullifier consistency—without revealing which note is spent. Each proof is ~1–2 kB, verifiable in milliseconds, and works even for light clients[^2].
+Zcash uses [zk-SNARKs](https://z.cash/learn/what-are-zk-snarks/) to enforce both constraints—commitment inclusion and nullifier consistency—without revealing which note is spent. Each proof is ~1–2 kB, verifiable in milliseconds, and works even for light clients[^2].
 
 ### 1. The private link created inside the zk-SNARK
 
@@ -85,16 +89,16 @@ The inclusion proof and the non-inclusion check are **mathematically fixed** thr
 
 # Limitations of Merkle Trees
 
-Incremental Merkle trees[^4] are the classic way Zcash records shielded notes[^5]. They have a fixed depth $d$, so the ledger can accept at most $2^d$ commitments before a migration is needed. Every new note becomes a fresh leaf, and the tree’s collision-resistant hashing lets a prover later show inclusion with a $d$-hash path. That path is constant-size and efficient, but the tree’s *state grows forever*, and wallets must track every new leaf to keep their stored paths current.
+Incremental Merkle trees[^4] are the classic way Zcash records shielded notes[^5]. They have a fixed depth $d$, so the ledger can accept at most $2^d$ commitments before a migration is needed. Every new note becomes a fresh leaf, and the tree's collision-resistant hashing lets a prover later show inclusion with a $d$-hash path. That path is constant-size and efficient, but the tree's *state grows forever*, and wallets must track every new leaf to keep their stored paths current.
 
 [^4]: An incremental Merkle tree is a binary tree that supports efficient, append-only updates: each new element is added as the next available leaf, and only the hashes along its path to the root are recomputed. This allows the Merkle root to evolve over time without rebuilding the whole tree, enabling short inclusion proofs that stay constant in size.
 
 [^5]: Zcash uses incremental Merkle trees to maintain a commitment tree of all shielded notes. As each note is created, its commitment is appended to the next empty leaf. Internal nodes are updated on-the-fly, and the Merkle root evolves incrementally. Inclusion proofs are short (one hash per level), and the current root is used as a public anchor in each transaction. This enables privacy-preserving spending proofs without revealing which note is spent.
 
 
-### Sharding helps, but doesn’t solve the problem
+### Sharding helps, but doesn't solve the problem
 
-A natural next step is to **shard** the Merkle tree. Instead of one monolith, the ledger maintains many sub-trees (e.g., $2^{32}$-leaf trees). When a shard fills, a new one is opened, and a small **root-of-roots tree** tracks the current shard roots. A note’s inclusion path now includes:
+A natural next step is to **shard** the Merkle tree. Instead of one monolith, the ledger maintains many sub-trees (e.g., $2^{32}$-leaf trees). When a shard fills, a new one is opened, and a small **root-of-roots tree** tracks the current shard roots. A note's inclusion path now includes:
 - A short *intra-shard* Merkle path
 - One additional hash to reach the root-of-roots
 
@@ -110,18 +114,18 @@ A **set non-inclusion accumulator** breaks the scaling wall imposed by Merkle tr
 
 Instead of embedding every commitment into a massive hash tree, all notes are folded into a **constant-size accumulator value** $A_t$. Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
 
-The magic lies in the accumulator’s recursive structure: each update witnesses that a *vector* of notes was inserted without including a particular element $x$. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked $x$ as a root—meaning $x$ was not present. This transforms the problem into one of recursive algebra, not storage.
+The magic lies in the accumulator's recursive structure: each update witnesses that a *vector* of notes was inserted without including a particular element $x$. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked $x$ as a root—meaning $x$ was not present. This transforms the problem into one of recursive algebra, not storage.
 
 At the end, proving **non-inclusion** ("this nullifier was never inserted up to $A_t$") requires only checking that a single polynomial (the one folded into the accumulator) **does** have $x$ as a root. This final step is **constant-time** and easily SNARK-friendly.
 
 * The accumulator's size **never grows**, no matter how many notes are inserted
 * Wallet witnesses **never need refreshing**—history is abstracted away
-* There’s **no depth cap** or leaf index to exhaust
+* There's **no depth cap** or leaf index to exhaust
 * The ledger stays **light and syncs fast**—forever
 * Each IVC step is just a few hashes and group ops—efficient even onchain
-* You don’t need to track historical state prior to the last $k$ epochs—as long as all proofs spanning that range have been generated, the earlier accumulator data can be safely discarded
+* You don't need to track historical state prior to the last $k$ epochs—as long as all proofs spanning that range have been generated, the earlier accumulator data can be safely discarded
 
-In short: **shielded anonymity can grow indefinitely**, with no migrations, no proof bloat, and no path rewrites. This is the foundation for **Project Tachyon’s accumulator design**—a system where privacy doesn’t get more expensive as it scales.
+In short: **shielded anonymity can grow indefinitely**, with no migrations, no proof bloat, and no path rewrites. This is the foundation for **Project Tachyon's accumulator design**—a system where privacy doesn't get more expensive as it scales.
 
 --- 
 
@@ -163,9 +167,9 @@ pub fn insert(roots: &[Fr], a_prev: G1Affine, r: Fr) -> Result<State> {
 
 ---
 
-### 2 Proving that a fresh value $v$ was **not** among today’s roots
+### 2 Proving that a fresh value $v$ was **not** among today's roots
 
-The verifier will accept only if the polynomial we committed **doesn’t vanish** at $v$.
+The verifier will accept only if the polynomial we committed **doesn't vanish** at $v$.
 
 1. Evaluate once: $\alpha = a_i(v)$.
    If $\alpha=0$ the proof must abort (v was a root).
@@ -194,7 +198,7 @@ Because $a_i(v)\neq0$, the *shifted* commitment now hides a polynomial whose **o
 
 ### 3. Non-membership across a **range** with IVC
 
-The HackMD text says: *“Create a recursive (IVC) proof whose base case is $(A_j,S_j)$… and repeat the above step for every $i \ge j$.”*
+The HackMD text says: *"Create a recursive (IVC) proof whose base case is $(A_j,S_j)$... and repeat the above step for every $i \ge j$."*
 
 * In the circuit we start from snapshot $(A_j,S_j)$.
 * At each iteration we witness $(P_i, \alpha_i)$ and apply the `check_non_membership` hop.
@@ -211,7 +215,7 @@ If `S_m` opens *to zero at $v$*, then—by induction—every intermediate polyno
 * **Cheap per block:** each hop is a couple of hashes and group operations
 * **Scalable non-membership:** perfect for showing a nullifier *never* appeared, without keeping the nullifier set on-chain.
 
-In practice, replacing Zcash’s append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is uniquexactly the promise of Project Tachyon’s non-inclusion accumulator.
+In practice, replacing Zcash's append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is uniquexactly the promise of Project Tachyon's non-inclusion accumulator.
 
 
 ---
@@ -227,7 +231,7 @@ Real-world deployment still has open questions—metadata privacy, lightweight w
 | PCS-only      | accumulator + polynomial commitment                     | [https://github.com/0xWOLAND/set-noninclusion](https://github.com/0xWOLAND/set-noninclusion)                                                               |
 | Folded proofs | same accumulator, block-by-block recursion with the zkVM SP1| [https://github.com/0xWOLAND/sp1-noninclusion](https://github.com/0xWOLAND/sp1-noninclusion) built with [SP1](https://www.succinct.xyz/) |
 
-For the full design sketch and code prototypes, see [Sean Bowe’s HackMD](https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x).
+For the full design sketch and code prototypes, see [Sean Bowe's HackMD](https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x).
 
 
 # Appendix 
@@ -236,7 +240,7 @@ The vector-commitment accumulator guarantees **existence** (the value really was
 
 #### Existence in the IVC non-membership chain
 
-For non-inclusion, each IVC step asserts $p_t(z)\neq0$.  Because the polynomial $p_t$ encodes *exactly* the vector inserted at step $t$, the statement “$z$ was not in ${\bf v}_t$” is true **iff** the evaluation is non-zero.  The final recursive proof therefore certifies that *for every step in the range*, $z$ was not a coordinate of any inserted vector.  That is an *existential* statement about the entire history, achieved with only $O(1)$ verifier work.
+For non-inclusion, each IVC step asserts $p_t(z)\neq0$.  Because the polynomial $p_t$ encodes *exactly* the vector inserted at step $t$, the statement "$z$ was not in ${\bf v}_t$" is true **iff** the evaluation is non-zero.  The final recursive proof therefore certifies that *for every step in the range*, $z$ was not a coordinate of any inserted vector.  That is an *existential* statement about the entire history, achieved with only $O(1)$ verifier work.
 
 #### Uniqueness of a nullifier-style opening
 
