@@ -204,7 +204,7 @@ Because $a_i(v)\neq0$, the *shifted* commitment now hides a polynomial whose **o
 
 ### 3. Non-membership across a **range** with IVC
 
-We can create a recursive (IVC) proof whose base case is $(A_j,S_j)$... and repeat the above step for every $i \ge j$.
+We can create a recursive (IVC) proof with base case is $(A_j,S_j)$ and repeat the above step for every $i \ge j$ to make a ranged claim. 
 
 * In the circuit we start from snapshot $(A_j,S_j)$.
 * At each iteration we witness $(P_i, \alpha_i)$ and apply the `check_non_membership` hop.
