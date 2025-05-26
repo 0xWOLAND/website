@@ -180,7 +180,7 @@ pub fn check_non_membership(
 {
     let poly   = poly_from_roots(roots);
     let alpha  = evaluate_poly(&poly.coeffs, v);     // α = a_i(v)
-    ensure!(!alpha.is_zero());                       // must be non-root
+    assert!(!alpha.is_zero());                       // must be non-root
 
     let p_i    = commit(&poly.coeffs, r)?;           // P_i
     let p_ip   = p_i - POINTS[0] * alpha;            // P'_i
