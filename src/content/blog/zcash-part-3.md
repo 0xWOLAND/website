@@ -221,7 +221,7 @@ If `S_m` opens *to zero at $v$*, then—by induction—every intermediate polyno
 * **Cheap per block:** each hop is a couple of hashes and group operations
 * **Scalable non-membership:** perfect for showing a nullifier *never* appeared, without keeping the nullifier set on-chain.
 
-In practice, replacing Zcash's append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is uniquexactly the promise of Project Tachyon's non-inclusion accumulator.
+In practice, replacing Zcash's append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is unique.
 
 
 ---
