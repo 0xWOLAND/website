@@ -313,3 +313,8 @@ tbody tr:hover {
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
+
+span.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
