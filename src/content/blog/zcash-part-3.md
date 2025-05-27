@@ -18,8 +18,10 @@ tags: ["crypto", "pcs"]
 In crypto, Ethereum Classic suffered [multiple 51% attacks in 2020](https://www.coinbase.com/blog/coinbases-perspective-on-the-recent-ethereum-classic-etc-double-spend) where attackers rewrote transaction history and double-spent over $9M. This showed that public blockchains without secure consensus can be vulnerable too.
 
 Zcash presents a more complex challenge: its shielded transactions reveal nothing about sender, receiver, or value. To prevent double-spending while preserving privacy, Zcash enforces two cryptographic constraints:
-1. **Private inclusion proof**: The note must be in the note-commitment Merkle tree.
+1. **Private inclusion proof**: The note[^0] must be in the note-commitment Merkle tree.
 2. **Public non-inclusion proof**: The note's **nullifier** must not be in the nullifier set.
+
+[^0]: A note $n$ is a cryptographic representation of a value $v$ that can be spent by the holder of the corresponding shielded spending key
 
 ## Why Zcash uses a public non-inclusion check
 
@@ -46,11 +48,13 @@ Zcash uses [zk-SNARKs](https://z.cash/learn/what-are-zk-snarks/) to enforce both
 ### 1. The private link created inside the zk-SNARK
 
 **Merkle inclusion**:  
-The prover supplies the note commitment $cm$ and a Merkle authentication path $\pi$ as private witness data. The circuit enforces:
+The prover supplies the note commitment $cm$[^8] and a Merkle authentication path $\pi$ as private witness data. The circuit enforces:
 $$
 \text{MerkleRoot}(cm, \pi) = \rho_t
 $$
 where $\rho_t$ is the **anchor**, a public input representing the Merkle root at block height $t$ [^3]. This confirms that $cm$ appears somewhere in the historical note-commitment tree.
+
+[^8]: Because $cm$ is a [**binding Sinsemilla commitment**](https://zcash.github.io/halo2/design/gadgets/sinsemilla.html), two different openings $(\text{note},r)$ and $(\text{note}',r')$ cannot map to the same curve point without either (i) finding a collision in the hash-to-curve function or (ii) solving a discrete-log problem—both assumed infeasible.  If you tweak *any* field of the note or choose a new blinding scalar $r'$, you inevitably get a *different* point and hence a different $cm$.  Since the Merkle‐path inside the zk-SNARK ties the spend to the exact $cm$ that already sits in the tree, you can't "swap in" an alternative commitment; you would first have to mint that new $cm$ in a separate transaction.  And because the nullifier is a PRF that explicitly includes $cm$, changing the commitment would also change the nullifier, so the on-chain double-spend check still holds.
 
 **Nullifier computation**:  
 In the same circuit, the prover recomputes the nullifier using:
@@ -144,6 +148,7 @@ $\mathbf a_i = (a_{i,1},\dots,a_{i,k}) \subset \mathbb F$.
 After many updates we want to show, for *every* step in a chosen range $[j,\,m)$, that the inserted vector **never contained** some element $v$.
 Instead of storing all past vectors, we fold them into a **single curve-point accumulator** whose size never grows.
 
+The magic is that while we track more and more nullifiers internally—building a bigger polynomial each time—we only store a **single point** on-chain. This point acts as a cryptographic summary of all nullifiers we've seen, like a Merkle root but without the tree. This means the blockchain state stays tiny, even as we process millions of transactions.
 
 ### 1. Insertion: folding one vector of roots
 
