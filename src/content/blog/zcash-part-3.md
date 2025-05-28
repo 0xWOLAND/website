@@ -229,8 +229,6 @@ If `S_m` opens *to zero at $v$*, then—by induction—every intermediate polyno
 In practice, replacing Zcash's append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is unique.
 
 
----
-
 # Conclusion
 
 A vector-commitment accumulator gives Zcash the one feature Merkle trees cannot: **constant-size state and proofs**, no matter how many shielded notes exist. That single property is *critical* for long-term scalability, eliminating depth caps, tree migrations, and anchor-leakage trade-offs.
@@ -242,7 +240,9 @@ Real-world deployment still has open questions—metadata privacy, lightweight w
 | PCS-only      | accumulator + polynomial commitment                     | [https://github.com/0xWOLAND/set-noninclusion](https://github.com/0xWOLAND/set-noninclusion)                                                               |
 | Folded proofs | same accumulator, block-by-block recursion with the zkVM SP1| [https://github.com/0xWOLAND/sp1-noninclusion](https://github.com/0xWOLAND/sp1-noninclusion) built with [SP1](https://www.succinct.xyz/) |
 
-For the full design sketch and code prototypes, see [Sean Bowe's HackMD](https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x).
+For the full design sketch, see [Sean Bowe's HackMD](https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x).
+
+---
 
 
 # Appendix 
