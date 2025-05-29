@@ -115,11 +115,11 @@ But even this is a **temporary fix**. The root-of-roots is itself incremental an
 
 ### Why a set non-inclusion accumulator changes everything
 
-A **set non-inclusion accumulator** offers a simpler, unified approach to tracking spent notes.
+A **set non-inclusion accumulator** offers a simpler approach to tracking spent notes.
 
-While incremental Merkle trees work perfectly well for inclusion proofs, they cannot efficiently support non-inclusion proofs. The accumulator solves this by folding all notes into a **constant-size accumulator value** $A_t$ that can handle both types of proofs. Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
+While incremental Merkle trees work perfectly well for inclusion proofs, they cannot efficiently support non-inclusion proofs. The accumulator solves this by folding all notes into a **constant-size accumulator value** $A_t$ that can handle non-inclusion proofs (and can be easily extended to support inclusion proofs as well). Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
 
-The key advantage is unification: while Merkle trees require separate handling for commitments and nullifiers, the accumulator provides a single cryptographic primitive that handles both inclusion and non-inclusion proofs. This means we can use the same system for both the note-commitment tree and the nullifier set.
+The key advantage is simplicity: while Merkle trees require separate handling for commitments and nullifiers, the accumulator provides a single cryptographic primitive that handles non-inclusion proofs. This means we can use the same system for the nullifier set, and extend it to handle note commitments if needed.
 
 The magic lies in the accumulator's recursive structure: each update witnesses that a *vector* of notes was inserted without including a particular element $x$. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked $x$ as a root—meaning $x$ was not present. This transforms the problem into one of recursive algebra, not storage.
 
@@ -130,7 +130,7 @@ At the end, proving **non-inclusion** ("this nullifier was never inserted up to 
 * Each IVC step is just a few hashes and group ops—efficient even onchain
 * You don't need to track historical state prior to the last $k$ epochs—as long as all proofs spanning that range have been generated, the earlier accumulator data can be safely discarded
 
-In short: **shielded anonymity can grow indefinitely**, with no migrations or tree maintenance. This is the foundation for **Project Tachyon's accumulator design**—a simpler system that unifies both inclusion and non-inclusion proofs.
+In short: **shielded anonymity can grow indefinitely**, with no migrations or tree maintenance. This is the foundation for **Project Tachyon's accumulator design**—a simpler system that handles non-inclusion proofs efficiently.
 
 ---
 
@@ -224,7 +224,7 @@ In practice, replacing Zcash's append-only Merkle trees with this accumulator wo
 
 # Conclusion
 
-A vector-commitment accumulator gives Zcash a simpler approach to tracking spent notes: **constant-size state** that unifies both inclusion and non-inclusion proofs. This eliminates depth caps and tree migrations, while still providing the same security properties as Merkle trees.
+A vector-commitment accumulator gives Zcash a simpler approach to tracking spent notes: **constant-size state** that efficiently handles non-inclusion proofs (and can be extended to support inclusion proofs). This eliminates depth caps and tree migrations, while still providing the same security properties as Merkle trees.
 
 Real-world deployment still has open questions—metadata privacy, lightweight witness updates, etc. Check out my implementations of this accumulator below. 
 
