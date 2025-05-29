@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import GitHubLink from '../components/GitHubLink.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import HomeLink from '../components/HomeLink.astro';
+import ThemeInit from '../components/ThemeInit.astro';
 
 const projectsData = await getCollection('projects');
 const { projects } = projectsData[0].data;
@@ -15,24 +16,7 @@ const { projects } = projectsData[0].data;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Projects</title>
-    <script is:inline>
-      // Immediately set theme to prevent flash
-      (function() {
-        const theme = (() => {
-          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
-          }
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-          }
-          return 'light';
-        })();
-        
-        if (theme === 'light') {
-          document.documentElement.classList.add('light');
-        }
-      })();
-    </script>
+    <ThemeInit />
   </head>
   <body>
     <main>
