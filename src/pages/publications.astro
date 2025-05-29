@@ -5,6 +5,7 @@ import bibtexParse from 'bibtex-parse-js';
 import GitHubLink from '../components/GitHubLink.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import HomeLink from '../components/HomeLink.astro';
+import ThemeInit from '../components/ThemeInit.astro';
 
 // Read and parse the BibTeX file
 const bibtexPath = join(process.cwd(), 'public', 'publications.bib');
@@ -85,24 +86,7 @@ function getArxivId(pub: bibtexParse.BibTeXEntry): string | undefined {
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>Publications - bhargav</title>
-        <script is:inline>
-            // Immediately set theme to prevent flash
-            (function() {
-                const theme = (() => {
-                    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-                        return localStorage.getItem('theme');
-                    }
-                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        return 'dark';
-                    }
-                    return 'light';
-                })();
-                
-                if (theme === 'light') {
-                    document.documentElement.classList.add('light');
-                }
-            })();
-        </script>
+        <ThemeInit />
     </head>
     <body>
         <main>
