@@ -93,12 +93,13 @@ The inclusion proof and the non-inclusion check are **mathematically fixed** thr
 
 # Limitations of Merkle Trees
 
-Incremental Merkle trees[^4] are the classic way Zcash records shielded notes[^5]. They have a fixed depth $d$, so the ledger can accept at most $2^d$ commitments before a migration is needed. Every new note becomes a fresh leaf, and the tree's collision-resistant hashing lets a prover later show inclusion with a $d$-hash path. That path is constant-size and efficient, but the tree's *state grows forever*, and wallets must track every new leaf to keep their stored paths current.
+Incremental Merkle trees[^4] are the classic way Zcash records shielded notes[^5]. They have a fixed depth $d$, so the ledger can accept at most $2^d$ commitments before a migration is needed. Every new note becomes a fresh leaf, and the tree's collision-resistant hashing lets a prover later show inclusion with a $d$-hash path. That path is constant-size and efficient, but the tree's *state grows forever*[^7].
 
 [^4]: An incremental Merkle tree is a binary tree that supports efficient, append-only updates: each new element is added as the next available leaf, and only the hashes along its path to the root are recomputed. This allows the Merkle root to evolve over time without rebuilding the whole tree, enabling short inclusion proofs that stay constant in size.
 
 [^5]: Zcash uses incremental Merkle trees to maintain a commitment tree of all shielded notes. As each note is created, its commitment is appended to the next empty leaf. Internal nodes are updated on-the-fly, and the Merkle root evolves incrementally. Inclusion proofs are short (one hash per level), and the current root is used as a public anchor in each transaction. This enables privacy-preserving spending proofs without revealing which note is spent.
 
+[^7]: While the tree state grows, wallet witness updates can be made efficient: a trusted third party can provide just $O(\log n)$ advice that lets clients update their witnesses through $n$ insertions without downloading every new leaf. This is exactly how [Zashi](https://github.com/Electric-Coin-Company/zashi) currently handles witness updates by having a server provide compact update hints that let wallets stay in sync with minimal bandwidth.
 
 ### Sharding helps, but doesn't solve the problem
 
@@ -114,32 +115,24 @@ But even this is a **temporary fix**. The root-of-roots is itself incremental an
 
 ### Why a set non-inclusion accumulator changes everything
 
-A **set non-inclusion accumulator** breaks the scaling wall imposed by Merkle trees.
+A **set non-inclusion accumulator** offers a simpler, unified approach to tracking spent notes.
 
-Instead of embedding every commitment into a massive hash tree, all notes are folded into a **constant-size accumulator value** $A_t$. Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
+While incremental Merkle trees work perfectly well for inclusion proofs, they cannot efficiently support non-inclusion proofs. The accumulator solves this by folding all notes into a **constant-size accumulator value** $A_t$ that can handle both types of proofs. Every insertion is a **succinct polynomial-commitment update**, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.
 
-<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-  <div style="display: flex; justify-content: center;">
-    <img src="/images/zcash/asymptotic.png" alt="Asymptotic improvement of Accumulator" style="width: 50%; height: auto;" />
-  </div>
-</div>
-
-*Merkle trees require $O(\log n)$ verification time and linear storage growth. The accumulator achieves $O(1)$ constant time and space by folding all notes into a single polynomial commitment $A_t$, with IVC providing correctness guarantees.*
+The key advantage is unification: while Merkle trees require separate handling for commitments and nullifiers, the accumulator provides a single cryptographic primitive that handles both inclusion and non-inclusion proofs. This means we can use the same system for both the note-commitment tree and the nullifier set.
 
 The magic lies in the accumulator's recursive structure: each update witnesses that a *vector* of notes was inserted without including a particular element $x$. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked $x$ as a root—meaning $x$ was not present. This transforms the problem into one of recursive algebra, not storage.
 
-At the end, proving **non-inclusion** ("this nullifier was never inserted up to $A_t$") requires only checking that a single polynomial (the one folded into the accumulator) **does** have $x$ as a root. This final step is **constant-time** and easily SNARK-friendly.
+At the end, proving **non-inclusion** ("this nullifier was never inserted up to $A_t$") requires only checking that a single polynomial (the one folded into the accumulator) **does** have $x$ as a root.
 
 * The accumulator's size **never grows**, no matter how many notes are inserted
-* Wallet witnesses **never need refreshing**—history is abstracted away
 * There's **no depth cap** or leaf index to exhaust
-* The ledger stays **light and syncs fast**—forever
 * Each IVC step is just a few hashes and group ops—efficient even onchain
 * You don't need to track historical state prior to the last $k$ epochs—as long as all proofs spanning that range have been generated, the earlier accumulator data can be safely discarded
 
-In short: **shielded anonymity can grow indefinitely**, with no migrations, no proof bloat, and no path rewrites. This is the foundation for **Project Tachyon's accumulator design**—a system where privacy doesn't get more expensive as it scales.
+In short: **shielded anonymity can grow indefinitely**, with no migrations or tree maintenance. This is the foundation for **Project Tachyon's accumulator design**—a simpler system that unifies both inclusion and non-inclusion proofs.
 
---- 
+---
 
 # Implementation 
 
@@ -231,7 +224,7 @@ In practice, replacing Zcash's append-only Merkle trees with this accumulator wo
 
 # Conclusion
 
-A vector-commitment accumulator gives Zcash the one feature Merkle trees cannot: **constant-size state and proofs**, no matter how many shielded notes exist. That single property is *critical* for long-term scalability, eliminating depth caps, tree migrations, and anchor-leakage trade-offs.
+A vector-commitment accumulator gives Zcash a simpler approach to tracking spent notes: **constant-size state** that unifies both inclusion and non-inclusion proofs. This eliminates depth caps and tree migrations, while still providing the same security properties as Merkle trees.
 
 Real-world deployment still has open questions—metadata privacy, lightweight witness updates, etc. Check out my implementations of this accumulator below. 
 
