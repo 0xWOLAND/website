@@ -172,6 +172,14 @@ img {
   color: var(--bg);
 }
 
+:root.dark .astro-code {
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+:root.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
 @media (max-width: 600px) {
   body {
     font-size: 14px;

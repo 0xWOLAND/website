@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import '../styles/global.css';
+
 const posts = await getCollection('blog', ({ data }) => !data.draft)
   .then(posts => posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()));
 
@@ -11,7 +13,6 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>bhargav's blog</title>
-  <link rel="stylesheet" href="/src/styles/global.css" />
   <script>
     // Theme init
     const theme = localStorage.getItem('theme') || 'light';
