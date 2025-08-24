@@ -1,10 +1,6 @@
 ---
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
-import GitHubLink from '../components/GitHubLink.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import HomeLink from '../components/HomeLink.astro';
-import ThemeInit from '../components/ThemeInit.astro';
 
 interface Props {
   title: string;
@@ -15,113 +11,41 @@ interface Props {
 
 const { title, description, date, tags } = Astro.props;
 ---
-
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-    <ThemeInit />
-  </head>
-  <body>
-    <article>
-      <header>
-        <div class="header-content">
-          <div>
-            <h1>{title}</h1>
-            {description && <p class="subtitle">{description}</p>}
-          </div>
-          <div class="header-actions">
-            <HomeLink />
-            <GitHubLink />
-            <ThemeToggle />
-          </div>
-        </div>
-        <time datetime={date.toISOString()}>
-          {new Date(date.getTime() + date.getTimezoneOffset() * 60000).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            timeZone: 'UTC'
-          })}
-        </time>
-        {tags && (
-          <div class="tags">
-            {tags.map(tag => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        )}
-      </header>
-      <slot />
-    </article>
-    <style is:global>
-      /* Blog-specific styles that aren't in global.css */
-      article {
-        width: 100%;
-      }
-
-      /* Math styling */
-      :global(.math-display) {
-        margin: 2rem 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-
-      :global(.katex-display) {
-        margin: 1.5rem 0;
-      }
-
-      :global(.katex) {
-        font-size: 1.1em;
-      }
-
-      :global(.katex-display > .katex) {
-        font-size: 1.2em;
-      }
-
-      /* Dark theme overrides for KaTeX */
-      :global(.katex-html) {
-        color: var(--text);
-      }
-
-      :global(.katex-html > .base) {
-        margin: 0.25em 0;
-      }
-
-      :global(.katex-html .strut) {
-        display: inline-block;
-        min-height: 1em;
-      }
-
-      /* Image styling */
-      article :global(img) {
-        display: block;
-        margin: 1.5rem auto;
-        max-width: 100%;
-        width: auto;
-        height: auto;
-      }
-
-      /* Override inline width/height attributes */
-      article :global(img[width]),
-      article :global(img[height]) {
-        width: 100% !important;
-        height: auto !important;
-        max-width: 100% !important;
-      }
-
-      /* Ensure markdown content doesn't override image styles */
-      article :global(.markdown) img,
-      article :global(.prose) img,
-      article :global(.content) img {
-        max-width: 100% !important;
-        width: 100% !important;
-        height: auto !important;
-      }
-    </style>
-  </body>
-</html> 
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  <script>
+    // Theme init
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.className = theme;
+  </script>
+</head>
+<body>
+  <button class="theme-toggle">☾/☀</button>
+  <article>
+    <h1>{title}</h1>
+    <p class="post-meta">
+      {new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      })}
+      {tags && ' • ' + tags.map(tag => `#${tag}`).join(' ')}
+    </p>
+    <hr />
+    <slot />
+    <hr />
+    <p><a href="/">← Back to posts</a></p>
+  </article>
+  <script>
+    // Theme toggle
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+      const current = document.documentElement.className;
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.className = next;
+      localStorage.setItem('theme', next);
+    });
+  </script>
+</body>
+</html>
