@@ -1,211 +1,85 @@
 ---
 import { getCollection } from 'astro:content';
-import GitHubLink from '../components/GitHubLink.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import HomeLink from '../components/HomeLink.astro';
-import ThemeInit from '../components/ThemeInit.astro';
+const posts = await getCollection('blog', ({ data }) => !data.draft)
+  .then(posts => posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()));
 
-const posts = await getCollection('blog', ({ data }) => {
-	return !data.draft;
-}).then(posts => posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()));
+// Get all unique tags
+const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
 ---
-
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>My Blog</title>
-		<ThemeInit />
-	</head>
-	<body>
-		<main>
-			<header>
-				<div class="header-content">
-					<div class="header-left">
-						<h1>bhargav</h1>
-						<nav class="main-nav">
-							<a href="/projects" class="nav-link">Projects</a>
-							<a href="/publications" class="nav-link">Publications</a>
-						</nav>
-					</div>
-					<div class="header-actions">
-						<HomeLink />
-						<GitHubLink />
-						<ThemeToggle />
-					</div>
-				</div>
-			</header>
-			<section class="posts">
-				{posts.map(post => (
-					<article class="post">
-						<h2>
-							<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-						</h2>
-						{post.data.description && (
-							<p class="description">{post.data.description}</p>
-						)}
-						<time datetime={post.data.date.toISOString()}>
-							{new Date(post.data.date.getTime() + post.data.date.getTimezoneOffset() * 60000).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-								timeZone: 'UTC'
-							})}
-						</time>
-						{post.data.tags && (
-							<div class="tags">
-								{post.data.tags.map(tag => (
-									<span class="tag">{tag}</span>
-								))}
-							</div>
-						)}
-					</article>
-				))}
-			</section>
-		</main>
-		<style is:global>
-			:root {
-				color-scheme: light dark;
-				--bg: #000000;
-				--text: #ffffff;
-				--text-secondary: #888888;
-				--border: #222222;
-				--tag-bg: #111111;
-			}
-			:root.light {
-				--bg: #ffffff;
-				--text: #000000;
-				--text-secondary: #666666;
-				--border: #dddddd;
-				--tag-bg: #f5f5f5;
-			}
-			body {
-				font-family: system-ui, -apple-system, sans-serif;
-				line-height: 1.7;
-				max-width: 65ch;
-				margin: 0 auto;
-				padding: 2rem;
-				background-color: var(--bg);
-				color: var(--text);
-				font-size: 1.1rem;
-				transition: background-color 0.2s ease, color 0.2s ease;
-			}
-			header {
-				margin-bottom: 3rem;
-				padding-bottom: 1rem;
-				border-bottom: 1px solid var(--border);
-			}
-			.header-content {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				gap: 1rem;
-			}
-			.header-left {
-				display: flex;
-				align-items: center;
-				gap: 2rem;
-			}
-			.header-actions {
-				display: flex;
-				gap: 1rem;
-				align-items: center;
-			}
-			h1 {
-				margin: 0;
-				font-size: 2rem;
-				font-weight: 500;
-				letter-spacing: -0.02em;
-			}
-			.subtitle {
-				margin: 0.5rem 0 0;
-				color: var(--text-secondary);
-			}
-			.posts {
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-			}
-			.post {
-				padding-bottom: 1rem;
-				border-bottom: 1px solid var(--border);
-				border-radius: 0;
-				background: none;
-				transition: none;
-			}
-			.post:last-child {
-				border-bottom: none;
-			}
-			.post:hover {
-				transform: none;
-			}
-			.post h2 {
-				margin: 0;
-				font-size: 1.35rem;
-				font-weight: 500;
-				letter-spacing: -0.01em;
-			}
-			.post h2 a {
-				color: var(--text);
-				text-decoration: none;
-			}
-			.post h2 a:hover {
-				text-decoration: underline;
-				text-underline-offset: 0.2em;
-			}
-			.description {
-				color: var(--text-secondary);
-				margin: 0.5rem 0;
-			}
-			time {
-				color: var(--text-secondary);
-				font-size: 0.9rem;
-				display: block;
-				margin-top: 0.5rem;
-			}
-			.tags {
-				margin-top: 1rem;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-			}
-			.tag {
-				background: var(--tag-bg);
-				color: var(--text-secondary);
-				padding: 0.2rem 0.6rem;
-				border-radius: 2px;
-				font-size: 0.8rem;
-				text-transform: lowercase;
-			}
-			@media (max-width: 768px) {
-				body {
-					padding: 1rem;
-					font-size: 1rem;
-				}
-				h1 {
-					font-size: 1.75rem;
-				}
-				.post h2 {
-					font-size: 1.2rem;
-				}
-			}
-			.main-nav {
-				display: flex;
-				gap: 1.5rem;
-				margin: 0;
-			}
-			.nav-link {
-				color: var(--text);
-				text-decoration: none;
-				font-weight: 500;
-				padding: 0.5rem 0;
-				border-bottom: 2px solid transparent;
-			}
-			.nav-link:hover {
-				border-bottom-color: var(--text);
-			}
-		</style>
-	</body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>bhargav's blog</title>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <script>
+    // Theme init
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.className = theme;
+  </script>
+</head>
+<body>
+  <button class="theme-toggle">☾/☀</button>
+  <h1>bhargav's blog</h1>
+  
+  {allTags.length > 0 && (
+    <p>
+      Filter: 
+      <span class="tag-filter active" data-tag="all">all</span>
+      {allTags.map(tag => (
+        <span class="tag-filter" data-tag={tag}>#{tag}</span>
+      ))}
+    </p>
+  )}
+  
+  <hr />
+  
+  <div id="posts">
+    {posts.map(post => (
+      <article data-tags={JSON.stringify(post.data.tags || [])}>
+        <h2><a href={`/blog/${post.slug}/`}>{post.data.title}</a></h2>
+        <p class="post-meta">
+          {new Date(post.data.date).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          })}
+          {post.data.tags && ' • ' + post.data.tags.map(tag => `#${tag}`).join(' ')}
+        </p>
+        {post.data.description && <p>{post.data.description}</p>}
+      </article>
+    ))}
+  </div>
+
+  <script>
+    // Theme toggle
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+      const current = document.documentElement.className;
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.className = next;
+      localStorage.setItem('theme', next);
+    });
+
+    // Tag filtering
+    const filters = document.querySelectorAll('.tag-filter');
+    const posts = document.querySelectorAll('#posts article');
+    
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        // Update active state
+        filters.forEach(f => f.classList.remove('active'));
+        filter.classList.add('active');
+        
+        const tag = filter.dataset.tag;
+        
+        posts.forEach(post => {
+          if (tag === 'all') {
+            post.style.display = 'block';
+          } else {
+            const postTags = JSON.parse(post.dataset.tags);
+            post.style.display = postTags.includes(tag) ? 'block' : 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
 </html>
