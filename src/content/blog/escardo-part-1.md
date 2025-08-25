@@ -21,7 +21,7 @@ The simple types are $\sigma, \tau := o | \tau | \sigma \times \tau | \rightarro
     - $\iota \rightarrow o$ = predicates on the naturals
     - $o \rightarrow o$ = boolean functions $\neg, \land, \lor$, etc.
 
-In my code, I represent this type as 
+This type can be written as
 ```haskell
 Oracle a = Int -> a   
 ```
@@ -40,7 +40,6 @@ Level 1:
 - $\iota \rightarrow \iota$ = arithmetic functions, `{successor, λn.2*n, λn.n²}`
 
 
-In my code, I use 
 
 ```haskell
 type Oracle a = Int -> a        -- ι → a (where a could be o, ι, etc.)
@@ -82,7 +81,7 @@ escardo p = fmap extend (go IM.empty) where
 
 We maintain a finite assignment `asg` that fixes the values of a few coordinates so far. `evalP` determines whether this cylinder already forces the truth value of `p`. If `evalP p asg` returns `Right True`, then $p$ is already true for every infinite bitstream extending `asg`. Then we can just stop and produce a total oracle by calling `extend`, which fills every unspecified bit (at this current point) with a default value (`False`). 
 
-***But what does this mean?*** Think of the Catnro space as the set of all infinite binary sequences
+***But what does this mean?*** Think of the Cantor space as the set of all infinite binary sequences
 
 $$
     000000000... \\
