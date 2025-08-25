@@ -21,10 +21,6 @@ The simple types are $\sigma, \tau := o | \iota | \sigma \times \tau | \rightarr
     - $\iota \rightarrow o$ = predicates on the naturals
     - $o \rightarrow o$ = boolean functions $\neg, \land, \lor$, etc.
 
-This type can be written as
-```haskell
-Oracle a = Int -> a   
-```
 
 Using these primitives, we can construct increasingly more complex types as: 
 
