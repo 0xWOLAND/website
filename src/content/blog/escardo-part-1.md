@@ -97,7 +97,6 @@ $$
 \bigcap_{i = 1}^n p_{Y_i}^{-1} ((A_i) = \{(x) \in X | p_{Y_1} \in A_1, \cdots, p_{Y_n} (x) \in A_n \})
 $$
 
-**[INSERT ILLUSTRATION HERE]**
 
 So for the Cantor space, a cylinder $[\alpha]$ consists of the set fo all infinite strings that start with a fintie prefix $\alpha$. For example,
 - `[01]` = all strings that start with "01":
@@ -114,9 +113,15 @@ $$
 10111111... \\
 $$
 
-We can illustrate this as a tree
+We can illustrate this as a tree:
 
-**[DRAW THE TREE HERE]**
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="/images/escardo/cylinder_set.png" alt="Cylinder Set" style="width: 50%; height: auto;" />
+  </div>
+</div>
+
+*The cylinder set corresponds to the subtree circled in red in the case of the Cantor space.*
 
 So then, the search process starts at the root and recursively tries to decide $p$ on the current space (starting with the entire Cantor space). If we need bit $i$, then split the current cylinder into two subcylinders. If a cylinder returns `Right False`, we abandon the subtree and if a cylinder returns `Right True`, we short-circuit and accept. 
 
