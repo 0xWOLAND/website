@@ -135,7 +135,7 @@ hasPattern oracle = any (\i -> oracle i && oracle (i+1) && not (oracle (i+2))) [
 converges :: Pred Double
 converges oracle = abs (oracle 100 - oracle 99) < 0.001
 ```
-and these aren't easily expressible using a finite alphabet. The key constraint is *continuity*, not logical structure. 
+and these aren't easily expressible using an SAT-style alphabet. The key constraint is *continuity*, not logical structure. 
 
 # for the sake of mathematical rigor
 Recall that formally, the predicate is defined as $p: \mathbb{B}^\mathbb{N} \rightarrow \mathbb{B}$ a continuous map on the Cantor space, which itself is a countable product space. The basic open sets in this space are the aforementioned cylinders $[\alpha]$, which are infinite bitstreams that extend a finite assignment $\alpha : S \rightarrow \mathbb{B}$. By the (Kleene-Kreisel) continuity of $p$, there exists some cylinder $[\alpha] \ni x$ for each $x$ on which $p$ is already constant and hence a finite amount of information about the input fixes the output. Because the Cantor space is compact and totally disconnected, the preimages $p^{-1} (1)$ and $p^{-1} (0)$ are *clopen*, so each can be written as a finite union of cylinders (this is a pretty standard trick). Refining these finitely many cylinders to a common depth yields a uniform modulus[^2] (via Heine-Cantor) $N$ such that for each $x$, $p(x)$ is determined by some finite set of at most $N$ bits. 
