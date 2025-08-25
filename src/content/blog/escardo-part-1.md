@@ -13,7 +13,7 @@ I've recently read [this](https://math.andrej.com/2007/09/28/seemingly-impossibl
 Any finite set is immediately exhaustible[^1], but the interesting thing is that certain infinite sequences with specific properties can also be exhaustible. 
 
 ## Notation
-The simple types are $\sigma, \tau := o | \tau | \sigma \times \tau | \rightarrow \tau$. Let's dig into this a bit more.
+The simple types are $\sigma, \tau := o | \iota | \sigma \times \tau | \rightarrow \tau$. Let's dig into this a bit more.
 - $o$ the Booleans which in Haskell are `Bool = True | False` 
 - $\iota$ (natural numbers), written as `Int`. 
 - Product type $\sigma \times \tau$ is the Cartesian product, which is `IntMap a` $: \tau \times$ `(Maybe a)`
@@ -44,7 +44,7 @@ Level 1:
 ```haskell
 type Oracle a = Int -> a        -- ι → a (where a could be o, ι, etc.)
 type Pred a = Oracle a -> Bool  -- (ι → a) → o  
-type Prefix = IntMap Bool        -- finite partial assigments  
+type Prefix = IntMap Bool        -- finite partial assignments  
 ```
 - The domain is a Cantor space $\mathbb{B}^\mathbb{N}$ (all boolean streams)
 - A predicate `p` is a higher-type functional $p: (\mathbb{B}^\mathbb{N}) \rightarrow \mathbb{B}$
@@ -91,13 +91,13 @@ $$
 $$
 
 From Wikipedia, 
-> Given a collection $S$ of sets, consider the Cartesian product $X = \Pi_{Y \in S} Y$ of all sets in the collection. The **canonical projection** corresponding to some $Y \in S$ is the function $p_Y : X \rightarrow Y$ tha tmaps every element of the product to its $Y$ component. **A cylinder set is a preimage of a canonical projection** or finite intersection of such preimages. Explicitly, we can write it as: 
+> Given a collection $S$ of sets, consider the Cartesian product $X = \Pi_{Y \in S} Y$ of all sets in the collection. The **canonical projection** corresponding to some $Y \in S$ is the function $p_Y : X \rightarrow Y$ that maps every element of the product to its $Y$ component. **A cylinder set is a preimage of a canonical projection** or finite intersection of such preimages. Explicitly, we can write it as: 
 $$
 \bigcap_{i = 1}^n p_{Y_i}^{-1} ((A_i) = \{(x) \in X | p_{Y_1} \in A_1, \cdots, p_{Y_n} (x) \in A_n \})
 $$
 
 
-So for the Cantor space, a cylinder $[\alpha]$ consists of the set fo all infinite strings that start with a fintie prefix $\alpha$. For example,
+So for the Cantor space, a cylinder $[\alpha]$ consists of the set of all infinite strings that start with a finite prefix $\alpha$. For example,
 - `[01]` = all strings that start with "01":
 $$
 01000000... \\
@@ -124,7 +124,7 @@ We can illustrate this as a tree:
 
 So then, the search process starts at the root and recursively tries to decide $p$ on the current space (starting with the entire Cantor space). If we need bit $i$, then split the current cylinder into two subcylinders. If a cylinder returns `Right False`, we abandon the subtree and if a cylinder returns `Right True`, we short-circuit and accept. 
 
-The incredibile thing is that predicate $p$ in this case can be incredibly general. The simplest form to imagine are SAT-style boolean compbinations, but they can be **any continuous function decidable with finite information**. For instance, all of the following are compatible with this framework and are decidable efficiently: 
+The incredible thing is that predicate $p$ in this case can be incredibly general. The simplest form to imagine are SAT-style boolean combinations, but they can be **any continuous function decidable with finite information**. For instance, all of the following are compatible with this framework and are decidable efficiently: 
 
 ```haskell
 -- Arithmetic predicate
@@ -135,20 +135,20 @@ sumFirst10 oracle = sum [oracle i | i <- [0..9]] > 50
 hasPattern :: Pred Bool
 hasPattern oracle = any (\i -> oracle i && oracle (i+1) && not (oracle (i+2))) [0..97]
 
-// Convergence predicate  
+-- Convergence predicate  
 converges :: Pred Double
 converges oracle = abs (oracle 100 - oracle 99) < 0.001
 ```
 and these aren't easily expressible using a finite alphabet. The key constraint is *continuity*, not logical structure. 
 
 # for the sake of mathematical rigor
-Recall that formally, the predicate is defined as $p: \mathbb{B}^\mathbb{N} \rightarrow \mathbb{B}$ a continuous map on the Cantor space, which itself is a coutnable product space. The basic open sets in this space are the aforementioned cylinders $[\alpha]$, which are infinite bitsreams that extend a finite assignment $\alpha : S \rightarrow \mathbb{B}$. By the (Kleene-Kreisel) continuity of $p$, there exists some cylinder $[\alpha] \ni x$ for each $x$ on which $p$ is already constant and hence a finite amount of information about the input fixes the output. Because the Cantor space is compact and totally disconnected, the preimages $p^{-1} (1)$ and $p^{-1} (0)$ are *clopen*, so each can be written as a finite union of cylinders (this is a pretty standard trick). Refining these finitely many cylinders to a common depth yields a uniform modulus[^2] (via Heine-Cantor) $N$ such that for each $x$, $p(x)$ is determined by some finite set of at most $N$ bits. 
+Recall that formally, the predicate is defined as $p: \mathbb{B}^\mathbb{N} \rightarrow \mathbb{B}$ a continuous map on the Cantor space, which itself is a countable product space. The basic open sets in this space are the aforementioned cylinders $[\alpha]$, which are infinite bitstreams that extend a finite assignment $\alpha : S \rightarrow \mathbb{B}$. By the (Kleene-Kreisel) continuity of $p$, there exists some cylinder $[\alpha] \ni x$ for each $x$ on which $p$ is already constant and hence a finite amount of information about the input fixes the output. Because the Cantor space is compact and totally disconnected, the preimages $p^{-1} (1)$ and $p^{-1} (0)$ are *clopen*, so each can be written as a finite union of cylinders (this is a pretty standard trick). Refining these finitely many cylinders to a common depth yields a uniform modulus[^2] (via Heine-Cantor) $N$ such that for each $x$, $p(x)$ is determined by some finite set of at most $N$ bits. 
 
 [^2]: From Wikipedia: a modulus of continuity is a function $\omega: [0, \infty] \rightarrow [0, \infty]$ used to measure the uniform continuity of functions. So we can write $|f(x) - f(y)| \leq \omega(|x - y|)$
 
-The `evalP` function implements this. Given a finite assigment $alpha$ (the `IntMap`), we run $p$ against hte partial oracle that answers exactly the bits in $\alpha$ and throws `Need` when an unassigned bit is requested. This is exactly the "dialogue" that Escardó describes in his paper: **continuous higher-type functionals consuming only finite information.**. 
+The `evalP` function implements this. Given a finite assignment $alpha$ (the `IntMap`), we run $p$ against the partial oracle that answers exactly the bits in $\alpha$ and throws `Need` when an unassigned bit is requested. This is exactly the "dialogue" that Escardó describes in his paper: **continuous higher-type functionals consuming only finite information.**. 
 
-So really, this is just an incredibly complex guided depth-first search over the binary decision tree fo finite assignments that branches only when $p$ asks for a new bit with some short-circuiting logic. Termination relies on compactness via the uniform modulus $N$. `Left i` can appear only when `i` is new (once a bit is assigned, accessing it later doesn't throw a `Need`). Thus, no successful branch can be longer than $N$, so after at most $N$ distinct queries continuity forces a `Right` answer. If `p` is everywhere false, the algorithm will explore all finitely many branches pu to depth $N$ and fail and otherwise terminate early. Thus, we constructively determine that the Cantor space is searchable[^3]. Another nice property of this is that the order that we sample branches doesn't affect correctness, only runtime (so there are many engineering optimizations to be done...maybe Gray codes?). 
+So really, this is just an incredibly complex guided depth-first search over the binary decision tree of finite assignments that branches only when $p$ asks for a new bit with some short-circuiting logic. Termination relies on compactness via the uniform modulus $N$. `Left i` can appear only when `i` is new (once a bit is assigned, accessing it later doesn't throw a `Need`). Thus, no successful branch can be longer than $N$, so after at most $N$ distinct queries continuity forces a `Right` answer. If `p` is everywhere false, the algorithm will explore all finitely many branches pu to depth $N$ and fail and otherwise terminate early. Thus, we constructively determine that the Cantor space is searchable[^3]. Another nice property of this is that the order that we sample branches doesn't affect correctness, only runtime (so there are many engineering optimizations to be done...maybe Gray codes?). 
 
 > The TL;DR is that: 
 > - Continuity gives you cylinder-faithfulness
