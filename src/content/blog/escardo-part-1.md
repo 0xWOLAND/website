@@ -7,7 +7,7 @@ tags: ["math", "pltheory"]
 
 # Introduction
 
-I've recently read [this](https://math.andrej.com/2007/09/28/seemingly-impossible-functional-programs/) old blog post by Andrej Bauer about Martin Escardo's [*Infinite sets that admit fast exhaustive search*](https://martinescardo.github.io/papers/exhaustive.pdf). At first, it seems pretty ridiculous! How is it possible to decide a problem that is embedded in an infinite topological space? However, using some nice tricks from functional programming and higher-level computability, we can achieve this and even explore some other unexpected consequences. 
+I've recently read [this](https://math.andrej.com/2007/09/28/seemingly-impossible-functional-programs/) old blog post by Andrej Bauer about Martin Escardó's [*Infinite sets that admit fast exhaustive search*](https://martinescardo.github.io/papers/exhaustive.pdf). At first, it seems pretty ridiculous! How is it possible to decide a problem that is embedded in an infinite topological space? However, using some nice tricks from functional programming and higher-level computability, we can achieve this and even explore some other unexpected consequences. 
 
 
 Any finite set is immediately exhaustible[^1], but the interesting thing is that certain infinite sequences with specific properties can also be exhaustible. 
