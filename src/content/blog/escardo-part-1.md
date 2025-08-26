@@ -151,6 +151,27 @@ So really, this is just an incredibly complex guided depth-first search over the
 > - Compactness gives you a uniform finite modulus
 > - Dialogue gives you an on-demand DFS that decides the predicate over finite information
 
+# why just the cantor space?
+
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="/images/escardo/padic.png" alt="p-adic number" style="width: 50%; height: auto;" />
+  </div>
+</div>
+
+_Good ol' Wikipedia image. Unfortunately took me a few months to fully wrap my head around them._
+
+The $p$-adic integers[^4] $\mathbb{Z}_p$ can similarly be seen as an infinite stream of digits in the base $p$ much like the Cantor space (as shown above).
+
+$$
+    x = a_0 + a_1p + a_2 p^2 + \cdots, a_i \in \{ 0, 1, \cdots, p - 1 \}
+$$
+
+[^4]: Distance is measured as $|x|$ over the normal number line but in the $p$-adic form, $|x|_p = p^(-k)$ and $x = p^k \cdot \frac{a}{b}$. $p$-adics also have cylinder sets (which are now residue classes $\mod p^k$) and form the sasme tree-like structure where depth 1 represents mod 3 classes, depth 2 is mod 9 classes, etc. for $p = 3$. 
+
+Really, the only difference is that now the alphabet size is now $p$ instead of restricted to $2$. The Cantor space is kind of an artificial playground because conceptually it is pretty simple to understand. However, the $p$-adics are widely applicable across number theory ([Hensel's lemma always surprises me](https://en.wikipedia.org/wiki/Hensel%27s_lemma)) and more. We can easily compute the answer for the question "does there exist a $p$-adic number $\geq k$ that satisfies $C$ condition?" and construct a witness for it. At some point, i'll implement a root finding constructive algorithm...maybe pure Haskell WolframAlpha??
+
+There is also an extension of this that introduces [Randomness](https://softwareengineering.stackexchange.com/questions/202908/how-do-functional-languages-handle-random-numbers/202915#202915) and in turn has some interesting measure-theoretic and algorithmic properties..
 
 [^1]: A set $K$ is *exhaustible* if for any decidable predicate $p$, there is a deterministic algorithm to determine whether all elements of $K$ satisfy $p$. Formally, we can write that for a functional type $(C \rightarrow \{0, 1\}) \rightarrow \{0, 1\}$ with $K \subseteq C$. The input is a predicate $p: C \rightarrow \{0, 1\}$ and the output is $p(x)$ holds for all $x \in K$. 
 
