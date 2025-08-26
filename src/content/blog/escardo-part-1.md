@@ -89,7 +89,7 @@ $$
 From Wikipedia, 
 > Given a collection $S$ of sets, consider the Cartesian product $X = \Pi_{Y \in S} Y$ of all sets in the collection. The **canonical projection** corresponding to some $Y \in S$ is the function $p_Y : X \rightarrow Y$ that maps every element of the product to its $Y$ component. **A cylinder set is a preimage of a canonical projection** or finite intersection of such preimages. Explicitly, we can write it as: 
 $$
-\bigcap_{i = 1}^n p_{Y_i}^{-1} ((A_i) = \{(x) \in X | p_{Y_1} \in A_1, \cdots, p_{Y_n} (x) \in A_n \})
+\bigcap_{i = 1}^n p_{Y_i}^{-1} (A_i) = \{(x) \in X | p_{Y_1} \in A_1, \cdots, p_{Y_n} (x) \in A_n \}
 $$
 
 
@@ -144,7 +144,7 @@ Recall that formally, the predicate is defined as $p: \mathbb{B}^\mathbb{N} \rig
 
 The `evalP` function implements this. Given a finite assignment $alpha$ (the `IntMap`), we run $p$ against the partial oracle that answers exactly the bits in $\alpha$ and throws `Need` when an unassigned bit is requested. This is exactly the "dialogue" that Escardó describes in his paper: **continuous higher-type functionals consuming only finite information.**. 
 
-So really, this is just an incredibly complex guided depth-first search over the binary decision tree of finite assignments that branches only when $p$ asks for a new bit with some short-circuiting logic. Termination relies on compactness via the uniform modulus $N$. `Left i` can appear only when `i` is new (once a bit is assigned, accessing it later doesn't throw a `Need`). Thus, no successful branch can be longer than $N$, so after at most $N$ distinct queries continuity forces a `Right` answer. If `p` is everywhere false, the algorithm will explore all finitely many branches pu to depth $N$ and fail and otherwise terminate early. Thus, we constructively determine that the Cantor space is searchable[^3]. Another nice property of this is that the order that we sample branches doesn't affect correctness, only runtime (so there are many engineering optimizations to be done...maybe Gray codes?). 
+So really, this is just an incredibly complex guided depth-first search over the binary decision tree of finite assignments that branches only when $p$ asks for a new bit with some short-circuiting logic. Termination relies on compactness via the uniform modulus $N$. `Left i` can appear only when `i` is new (once a bit is assigned, accessing it later doesn't throw a `Need`). Thus, no successful branch can be longer than $N$, so after at most $N$ distinct queries continuity forces a `Right` answer. If `p` is everywhere false, the algorithm will explore all finitely many branches up to depth $N$ and fail and otherwise terminate early. Thus, we constructively determine that the Cantor space is searchable[^3]. Another nice property of this is that the order that we sample branches doesn't affect correctness, only runtime (so there are many engineering optimizations to be done...maybe Gray codes?). 
 
 > The TL;DR is that: 
 > - Continuity gives you cylinder-faithfulness
