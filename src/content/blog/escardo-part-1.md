@@ -167,7 +167,7 @@ $$
     x = a_0 + a_1p + a_2 p^2 + \cdots, a_i \in \{ 0, 1, \cdots, p - 1 \}
 $$
 
-[^4]: Distance is measured as $|x|$ over the normal number line but in the $p$-adic form, $|x|_p = p^(-k)$ and $x = p^k \cdot \frac{a}{b}$. $p$-adics also have cylinder sets (which are now residue classes $\mod p^k$) and form the sasme tree-like structure where depth 1 represents mod 3 classes, depth 2 is mod 9 classes, etc. for $p = 3$. 
+[^4]: Distance is measured as $|x|$ over the normal number line but in the $p$-adic form, $|x|_p = p^{-k}$ and $x = p^k \cdot \frac{a}{b}$. $p$-adics also have cylinder sets (which are now residue classes $\mod p^k$) and form the sasme tree-like structure where depth 1 represents mod 3 classes, depth 2 is mod 9 classes, etc. for $p = 3$. 
 
 Really, the only difference is that now the alphabet size is now $p$ instead of restricted to $2$. The Cantor space is kind of an artificial playground because conceptually it is pretty simple to understand. However, the $p$-adics are widely applicable across number theory ([Hensel's lemma always surprises me](https://en.wikipedia.org/wiki/Hensel%27s_lemma)) and more. We can easily compute the answer for the question "does there exist a $p$-adic number $\geq k$ that satisfies $C$ condition?" and construct a witness for it. At some point, i'll implement a root finding constructive algorithm...maybe pure Haskell WolframAlpha??
 
