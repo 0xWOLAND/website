@@ -44,7 +44,7 @@ type Prefix = IntMap Bool        -- finite partial assignments
 ```
 - The domain is a Cantor space $\mathbb{B}^\mathbb{N}$ (all boolean streams)
 - A predicate `p` is a higher-type functional $p: (\mathbb{B}^\mathbb{N}) \rightarrow \mathbb{B}$
-- a prefix `asg` is a finite partial map $\alpha : S \rightarrow \{0, 1\}$ which is used to define the [cylinder sets](https://en.wikipedia.org/wiki/Cylinder_set) used to define the product topology on the Cantor space. 
+- a prefix `asg` is a finite partial map $\alpha : S \rightarrow \mathbb{B}$ which is used to define the [cylinder sets](https://en.wikipedia.org/wiki/Cylinder_set) used to define the product topology on the Cantor space. 
 ### Scott Domains
 For each type $\sigma$, there is a **Scott domain** $D_\sigma$ of partial functionals of the that same type $\sigma$ defined by lifting the type $\sigma$ to contain the `undefined` type with all of the properties you would expect (e.g. ordering, etc.). In Haskell, this looks like an `Oracle a` type with potential `Need` exceptions. This lets us capture the behavior of undefined/non-terminating computation, which we use to create *partial* oracles. 
 
@@ -173,6 +173,6 @@ Really, the only difference is that now the alphabet size is now $p$ instead of 
 
 There is also an extension of this that introduces [Randomness](https://softwareengineering.stackexchange.com/questions/202908/how-do-functional-languages-handle-random-numbers/202915#202915) and in turn has some interesting measure-theoretic and algorithmic properties..
 
-[^1]: A set $K$ is *exhaustible* if for any decidable predicate $p$, there is a deterministic algorithm to determine whether all elements of $K$ satisfy $p$. Formally, we can write that for a functional type $(C \rightarrow \{0, 1\}) \rightarrow \{0, 1\}$ with $K \subseteq C$. The input is a predicate $p: C \rightarrow \{0, 1\}$ and the output is $p(x)$ holds for all $x \in K$. 
+[^1]: A set $K$ is *exhaustible* if for any decidable predicate $p$, there is a deterministic algorithm to determine whether all elements of $K$ satisfy $p$. Formally, we can write that for a functional type $(C \rightarrow \mathbb{B}) \rightarrow \mathbb{B}$ with $K \subseteq C$. The input is a predicate $p: C \rightarrow \mathbb{B}$ and the output is $p(x)$ holds for all $x \in K$. 
 
 [^3]: A set $K$ is *searchable* if there is a computable functional $\epsilon_K : (D \rightarrow B) \rightarrow D$ such that for every $p$ defined on $K$, $\epsilon_k (p) \in K$ and $p(x) = $ `True` for some $x \in K$ implies that $p(\epsilon_K (p)) = $ `True`. Thus, searchability $\implies$ exhaustibility 
