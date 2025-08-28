@@ -65,9 +65,9 @@ This checks: "Does the infinite binary sequence x have `True` at any Fibonacci
 position < 30?"
 
 The 7 cylinders represent the minimal decision tree:
-- If x[1] = `True` = predicate is `True` (fib 1)
-- Else if x[2] = `True` = predicate is `True` (fib 2)
-- Else if x[3] = `True` = predicate is `True` (fib 3)
+- If `x[1] = True` = predicate is `True` (fib 1)
+- Else if `x[2] = True` = predicate is `True` (fib 2)
+- Else if `x[3] = True` = predicate is `True` (fib 3)
 ... and so on for positions 5, 8, 13, 21
 
 
