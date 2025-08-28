@@ -1,7 +1,7 @@
 ---
 title: "Private Money: Part 1"
 description: "Investigating the state-of-the-art private money protocols"
-date: 2024-05-20
+date: 2025-05-20
 tags: ["crypto", "defi"]
 ---
 

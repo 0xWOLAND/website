@@ -1,7 +1,7 @@
 ---
 title: "Private Money: Part 2"
 description: "Investigating Project Tachyon: Preliminaries"
-date: 2024-05-21T00:00:00Z
+date: 2025-05-21T00:00:00Z
 tags: ["crypto", "pcs"]
 ---
 
