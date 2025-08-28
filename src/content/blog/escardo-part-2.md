@@ -89,8 +89,8 @@ sequence.
 ```
 
 Again expanding this gives us:
-1. Takes first 10 bits of x, sums the indices where x[i] = True, adds 1
-2. Computes the Collatz orbit of that number (3n+1 conjecture)
+1. Takes first 10 bits of x, sums the indices where `x[i] = True`, adds 1
+2. Computes the Collatz orbit of that number ($3n+1$ conjecture)
 3. Checks if the orbit reaches 1 in < 50 steps
 
 Certain predicates over **infinite sequences can be decided by examining only finite prefixes**, and algorithms like `sme` can discover these finite characterizations. I wonder if there is something interesting in representing this as finite automata. In the next blog, we'll go into some implications of introducing Randomness. 
