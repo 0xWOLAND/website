@@ -5,6 +5,13 @@ date: 2025-09-28
 tags: ["crypto", "zk"]
 ---
 
+**Series Index**  
+- [Part 1](https://bhargav.wtf/blog/zcash-part-1/): State-of-the-art private money protocols  
+- [Part 2](https://bhargav.wtf/blog/zcash-part-2/): Project Tachyon preliminaries  
+- [Part 3](https://bhargav.wtf/blog/zcash-part-3/): Set non-inclusion accumulators  
+
+---
+
 # Introduction
 
 In the [first blog](https://bhargav.wtf/blog/zcash-part-1/) post in this series, I discussed the potential vulnerabilities of the active Monero ring signature protocol and how this sort of heuristic security can lead to _flooding attacks_ and _statistical tracing_. But since then, the Monero community proposed the "FCMPs+SA+L" to defend against such spam attacks. By ensuring that verification cost grows very slowly compared to spam size (using logarithmic-size proofs with recursive composition) and using full-set membership (through the initial FCMP proposal), FCMP++ promises to address the DoS-style spam vectors. 
