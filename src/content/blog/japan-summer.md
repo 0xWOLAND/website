@@ -91,3 +91,12 @@ the new move isn't to abandone competence but to decouple it from identity. it s
 but then my summer got cut and then i ended up in sf working at a crypto startup. prior to that i didn't really know anyone in san francisco or didn't really know how the tech vc world operated. i knew one friend who  -->
 
 # liminal spaces
+
+# community vs. nomading
+A delicate balance that changes over time.
+
+Bhargav A, [12/5/25 3:20 PM]
+i think there is a very delicate balance
+
+Bhargav A, [12/5/25 3:20 PM]
+and the balance changes over time (its probably better to lean towards exploration earlier on but too much is also bad because social networks compound in density over time)
