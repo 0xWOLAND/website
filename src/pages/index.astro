@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
+import ThemeInit from '../components/ThemeInit.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft)
   .then(posts => posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()));
@@ -13,19 +15,16 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>🍫🏛️</title>
-  <script>
-    // Theme init
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.className = theme;
-  </script>
+  <ThemeInit />
 </head>
 <body>
-  <button class="theme-toggle">☾/☀</button>
+  <ThemeToggle />
   <h1>🍫🏛️ (bhar - gav)</h1>
   
   {allTags.length > 0 && (
     <p>
       <a href="https://github.com/0xWOLAND" target="_blank">github</a> • 
+      <a href="/sites/">sites i like</a> • 
       filter: 
       <span class="tag-filter active" data-tag="all">all</span>
       {allTags.map(tag => (
@@ -52,14 +51,6 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
   </div>
 
   <script>
-    // Theme toggle
-    document.querySelector('.theme-toggle').addEventListener('click', () => {
-      const current = document.documentElement.className;
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.className = next;
-      localStorage.setItem('theme', next);
-    });
-
     // Tag filtering
     const filters = document.querySelectorAll('.tag-filter');
     const posts = document.querySelectorAll('#posts article');

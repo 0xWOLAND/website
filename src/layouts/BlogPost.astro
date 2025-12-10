@@ -1,6 +1,8 @@
 ---
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
+import ThemeInit from '../components/ThemeInit.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -17,14 +19,10 @@ const { title, description, date, tags } = Astro.props;
   <meta name="viewport" content="width=device-width" />
   <title>{title}</title>
   {description && <meta name="description" content={description} />}
-  <script>
-    // Theme init
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.className = theme;
-  </script>
+  <ThemeInit />
 </head>
 <body>
-  <button class="theme-toggle">☾/☀</button>
+  <ThemeToggle />
   <article>
     <h1>{title}</h1>
     <p class="post-meta">
@@ -38,14 +36,5 @@ const { title, description, date, tags } = Astro.props;
     <hr />
     <p><a href="/">← Back to posts</a></p>
   </article>
-  <script>
-    // Theme toggle
-    document.querySelector('.theme-toggle').addEventListener('click', () => {
-      const current = document.documentElement.className;
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.className = next;
-      localStorage.setItem('theme', next);
-    });
-  </script>
 </body>
 </html>
