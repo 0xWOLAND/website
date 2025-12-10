@@ -8,4 +8,4 @@ layout: ../layouts/BaseLayout.astro
 
 [← back home](/)
 
--[Bartosz Milewski](https://bartoszmilewski.com/)
+- [Bartosz Milewski](https://bartoszmilewski.com/)
