@@ -9,3 +9,4 @@ layout: ../layouts/BaseLayout.astro
 [← back home](/)
 
 - [Bartosz Milewski](https://bartoszmilewski.com/)
+- [Understanding is a Poor Substitute for Convexity (Antifragility)](https://fooledbyrandomness.com/ConvexityScience.pdf)
