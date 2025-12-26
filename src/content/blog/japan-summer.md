@@ -7,23 +7,52 @@ tags: ["life", "thoughts"]
 
 # some ramblings
 
-i told one of my close friends that i would write a blog post about my summer in tokyo. here i am sitting in the tokyo metropolitan library, and i'm finally getting around to it. on the way here, there were a number of primary schools and playgrounds with kids playing baseball and running around. it was a little jarring because it was so different from what i was used to for basically the entire time i've been here. but at the same time, it was reminiscent of not only my childhood but somewhat of my life prior to the last year. much has changed since then, but the last few months more than ever before. the summer has forced me to grow up a lot both in terms of my work and my personal life, so sitting in a place like this is a little surreal. 
+I told one of my close friends that I would write a blog post about my summer in Tokyo. here I am sitting in the tokyo metropolitan library, and I'm finally getting around to it. on the way here, I passed several primary schools. The gates were open. Children were playing baseball on the field, shouting in Japanese (of which I could pick up traces), running past one another without looking. their game had no clear beginning and no end. 
+
+The library held a disciplined quiet. Nothing was accidental -- the distance between seats, the weight of footsteps, the timing of movement. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
+
+The room replaced the effort of navigating the city with the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
+
+<!-- it was a little jarring because it was so different from what i was used to for basically the entire time i've been here. but at the same time, it was reminiscent of not only my childhood but somewhat of my life prior to the last year. much has changed since then, but the last few months more than ever before. the summer has forced me to grow up a lot both in terms of my work and my personal life, so sitting in a place like this is a little surreal.  -->
 
 <div style="display: flex; justify-content: center;">
     <img src="/images/life/writing.jpeg" alt="writing this irl" style="width: 50%; height: auto;" />
 </div>
 
-_here i am writing this irl. i'm not sure how i feel about it._
+_here i am writing this. i'm not sure how i feel about it._
 
 # the promise
 
+When I told my friends I was going to Tokyo for the summer, they reacted as if I had already returned. They were excited for me, sometimes more than I was. I remember nodding and accepting their enthusiasm like a gift I don't know where to put. 
+
+By then I had learned an unfortunate habit: to feel things late. 
+
+Most people I know come to Japan the way they visit an exhibit or museum -- wide-eyed, temporary, forgiven. There is a kind of freedom in that. You can be ignorant and call it charm. You can misread everything and leave before it has consequences. 
+
+<div style="display: flex; justify-content: center;">
+    <img src="/images/life/airbnb.png" alt="airbnb image" style="width: 50%; height: auto;" />
+</div>
+
+_i was worried i was going to get another visit from the keisatsu_
+
+But I wasn't here for a week. I was here for months. And I came alone, with almost no Japanese, carrying the dread of an inevitable first breakup that I hadn't managed to solve anywhere else. The city did not greet me as a guest. It simply continued, swallowed me into its metropolitan, and I had to keep up. 
+
+The first night I arrived, I couldn't find my Airbnb. I walked the block twice, misread the entrances, slipped into the wrong building. There was a FamilyMart on the corner and a narrow back alley that smelled like damp concrete. I messaged the host. And again until I found the door. 
+
+And in the small room I had rented in a city where I was functionally illiterate, I did the most GenZ thing possible: immediately checking the Wi-Fi. It flicked and failed. I stood hunched near the entrance, where the signal was barely alive, and called my mother over WhatsApp. 
+
+And that was just the beginning. 
+
+Not the internship. Not the sightseeing. Not the friendships I woudl later make. The beginning was simply this: the comforts I usually carried -- language, familiarity, the ability to disappear -- were all gone. And there were no replacements, only instructions at best. 
+
+<!-- 
 when i first mentioned that i was coming to tokyo for the summer, a lot of people were surprised but were excited for me. perhaps more than myself but it could be that i am numb to these kinds of things. i've been here for a little over 3 months now, and i've been to a number of places. i've made a lot of friends, and i've learned a lot about myself. a lot of people that i know travel to japan for vacation, running around being the obnoxious _gaijin_ that they are. but there si something liberating in that -- being just the dumb tourist who doesn't have to bare the consequences after a couple of weeks tops. but i was set to come here for a few months: far longer of a timeframe. and that too, i came alone without speaking the langauge at all. additionally, i had some personal matters to tend to, so this was perhaps the most isolated i've ever been. at least for the first few months, it was challenging to adjust.  
 
 i lived in an aribnb in the middle of roppongi -- eight minutes from the office, close enough to pretend the distance wouldn't matter (i would regularly end up rushing to the office in the mornings after sleeping in accidentally).
 
 finding it the first night was really hard. i circled the block twice, accidentally entering a building that later would be the place i met many great friends. same familymart on the corner, and foul backalley. after a few messages with my host deki on airbnb, i finally found it.  
 
-as someone who is chronically online, the first thing i checked was the wifi. tokyo has public networks everywhere, so i assumed that was the plan. but when i went to my room, i had nothing but a flickering connection. consequently, i awkwardly stood by the entrancehunched in a corner just to whatsapp call my mom, for which i heard an earful lol. 
+as someone who is chronically online, the first thing i checked was the wifi. tokyo has public networks everywhere, so i assumed that was the plan. but when i went to my room, i had nothing but a flickering connection. consequently, i awkwardly stood by the entrancehunched in a corner just to whatsapp call my mom, for which i heard an earful lol.  -->
 
 
 <div style="display: flex; justify-content: center;">
@@ -31,10 +60,14 @@ as someone who is chronically online, the first thing i checked was the wifi. to
 </div>
 
 <div align="center">
-    <i>i still can't believe i brought a crushed belvita all the way from austin. it was multiple years old and unfortunately was my first meal in tokyo. i'm not sure how it survived the flight.</i>
+    <i>i still can't believe i brought a crushed belvita all the way from austin. it was multiple years old and unfortunately was my first meal in tokyo. </i>
 </div>
 
-it beat last summer's SF place (which was a tiny room i was renting for 1k in FiDi) by orders-of-magnitude. but it wasn't much: a yellow air-con that hummed like a vending machine, tatami-soled slippers at teh door, a small light-green fridge, a small TV, a bidet (god bless), and a shallow closet (more on this). 
+It was better than last summer's place in San Francisco's financial district. By a lot. 
+
+But it still wasn't much.
+
+A yellow air conditioner that never stopped working. Slippers waiting at the door. A fridge the color of cheap mint. A TV that I never used. The bidet -- merciful. And a closet so shallow it felt like the room was telling me, early, not to unpack. 
 
 
 <div style="display: flex; justify-content: center; gap: 20px;">
@@ -42,18 +75,16 @@ it beat last summer's SF place (which was a tiny room i was renting for 1k in Fi
     <img src="/images/life/tokyo_banksy.jpeg" alt="tokyo banksy" style="width: 50%; height: auto;" />
 </div>
 
-it's wild how the same banksy plastered on the side of a wall near the bridge in downtown austin is the same one that hangs above the tv in my room. it reminds of this one naval quote that keeps jumping into my head:
+The same girl I'd seen on a wall in Austin, near the bridge sun-faded, half-ignored, part of the outside world. Here she was framed and clean, indoors, made tame. It shoudl have been funny. But it wasn't..
 
->  "history doesn't repeat itself, but it rhymes."
+Because this is how the summer kept going. A similar outline in a different place. Neither history nor fate but a rhyme. 
 
-or something like that.
-
-
+<!-- 
 >  ### a small aside
 >
 > the contour of the black and white used to color the girl reads as something that has been left unwritten (maybe left to be filled out?). it also feels as if carries grief/absence in its solid grading (perhaps the most poignant part of the piece). at each point in my life when this image popped up, it was when i was trying to fill out the blank spaces in my life. at first it was doing something that i _thought_ would be something i would enjoy (and would look good on my college apps) and would learn a lot from. and now it's came up when i am introspecting on my life and human connection -- thematic of reorienting myself. 
 >
-> the red is striking and saturated (and imperfect in the austin piece). it's the only loud thing that immediately jumps out at me. it represents life bursting with color and emotion, but its also slipping away...seems fitting. together, it is a story of life/hope drifting away from the uncolored self, and whether it's worth it to chase after it. 
+> the red is striking and saturated (and imperfect in the austin piece). it's the only loud thing that immediately jumps out at me. it represents life bursting with color and emotion, but its also slipping away...seems fitting. together, it is a story of life/hope drifting away from the uncolored self, and whether it's worth it to chase after it.  -->
 
 
 <div style="display: flex; justify-content: center; gap: 20px;">
@@ -64,31 +95,71 @@ or something like that.
     <i>wow. it's gone now.</i>
 </div>
 
-in high school i optimized for having a unique set of experiences _but_ still clearing the normal competence bar of olympiads/research. but now its not just resume/a list of accomplishments but the full game of life. its the same game engine but rerun with different aims: 
+<!-- in high school i optimized for having a unique set of experiences _but_ still clearing the normal competence bar of olympiads/research. but now its not just resume/a list of accomplishments but the full game of life. its the same game engine but rerun with different aims: 
 - detect the perceived lack
 - make it a game/RL environment
 - optimize with many training epochs 
-- converge
+- converge -->
+
+<!-- -- Andy's story -> trying to build a humanoid startup in japan from scratch
+    -- the learnings
+        -- simplicity, (story of the degrees of freedom in the robot's foot)
+            -- engineering 101 (we were all huddled up), felt like an educational moment
+    -- i don't want to just work on various intellectually interesting but contrived software but build things that matter
+-- japanese craftmanship -> building well-crafted things that matter
+-- removing myself from SF
+-- taking risks -->
+
+Andy was trying to build a humanoid company in Japan from scratch. Not "In Japan" as a vibe but as in suppliers, visas, language, parts that don't arrive, company structure, culture, etc. I've only known SF internet/crypto companies, which are far removed from the real-world. 
+
+One afternoon, we were all in the conference area discussing the number of degrees of freedom in the robot's foot. Masato-san suggested four -- start with a simple toy model and study it before enlarging it. Research-wise, it made a lot of sense. And my experience trying to train policies seemed to corroborate with this direction. 
+
+Andy listened and kindly said "this is engineering management 101". 
+
+Four isn't wrong but slow. It means building the simple version, learning a lot, but still having to build the real version. This meant doing the work twice, solving supply-chain problems twice, fabricating twice, etc. Time is the one contraints that cannot be renegotiated. 
+
+It felt like an educational moment. Not because I learned a new trick but because I saw the shape of a choice I keep making: safety that disguises itself as rigor and complexity that disguises itself as ambition. 
+
+And it made somethign else very simple for me. 
+
+I don't want to spend my life building intellectually interesting things that are fundamentally contrived. Systems that onyl matter inside the room where people already agree they matter. I want to buidl things that bite back. Fail loudly. Force me to be honest. 
+
+<div style="display: flex; justify-content: center;">
+    <img src="/images/life/firefighting.png" alt="my room" style="width: 50%; height: auto;" />
+</div>
+
+_became a firefighter, which became the most memorable part of high school_
+
+<!-- Now I don't want tidy. I want a life that can take hits and still get better from them. 
+
+In [this article](https://fooledbyrandomness.com/ConvexityScience.pdf), Nassim Taleb identifies it as antifragility. I want something tougher, a life that doesn't just survive volatility but embraces it. Where bets have real asymmetry -- a few possible wins big enough to matter in some capacity.  -->
+
+Japan helped with that, too. 
+
+Outside the office, the country keeps whispering the same standard. Craftsmanship as a default. Objects that fit and solutions that don't show off. Not romantic but just correct. It makes you want to build in a way that doesn't require explaining. 
+
 
 <div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="/images/life/tokyo_night.jpeg" alt="tokyo night" style="width: 50%; height: auto;" />
+    <img src="/images/life/gotokuji.png" alt="tokyo night" style="width: 50%; height: auto;" />
 </div>
 
-<div align="center">
-    <i>the night on a walk from my room to ginza (1 hour). there are certain views that i know i will never forget, and this is one of them.</i>
+**EDIT**
+ <div align="center">
+    <i>one of the temple's i visited during the summer, famous for its cat statues but there were certain views that couldn't be forgotten like this</i>
 </div>
 
-tokyo's quiet and restlessness make the defaults loud. but how much of this obsession with nonstandardness was curiosity and how much was cope, and how much was memetic desire. not sure. i wonder if i can keep up the grind but drop the costume of being an austistic engineer, or at least be much more than that. 
+<!-- tokyo's quiet and restlessness make the defaults loud. but how much of this obsession with nonstandardness was curiosity and how much was cope, and how much was memetic desire. not sure. i wonder if i can keep up the grind but drop the costume of being an austistic engineer, or at least be much more than that. 
 
 > same desires but different motivations.  
 
-the new move isn't to abandone competence but to decouple it from identity. it should be yet another tool rather than the mask. i want to use the saem energy at things with no badge: authentic friendship, boredom without panic, attention that isn't performantive. the rhyme remains equipped with a new chorus. 
+the new move isn't to abandone competence but to decouple it from identity. it should be yet another tool rather than the mask. i want to use the saem energy at things with no badge: authentic friendship, boredom without panic, attention that isn't performantive. the rhyme remains equipped with a new chorus.  -->
 
-# on the game 
+**EDIT**
+In San Francisco, it's easy to live inside langauge. It's easy to let identity to be work and work be "the thing you ship". I can be "early" forever, generate fake "ARR" detached from meaningful contributions. Motion can be mistaken for progress, and its quite easy to optimize for being impressive. Just need to get the job at xAI building stuff that I have questions about.
 
-<!-- at first i thought i wanted to be the one dedicated my entire life to solving the biggest problems in math/cs i could think of. P = NP! stuff like this. because it is something that is infinitely rewarding, i alone will be able to hold something that i know wouldn't exist in teh world without me, but also be part of a long tradition of brilliant minds. the historicity of this was enamoring, but also the implications. if, just if, i could make a dent in such huge problems, it would be increidble. and i thought i was working on teh right sort of stuff in theoretical computer science and cryptography, equippred with the mathematical background now to converse in mathematical jargon but also the capability to put that in code
+But Tokyo didn't care. It just kept going.
 
-but then my summer got cut and then i ended up in sf working at a crypto startup. prior to that i didn't really know anyone in san francisco or didn't really know how the tech vc world operated. i knew one friend who  -->
+And once I had been removed from that gravity fro long enough, teh conclusion came quietly: if I wanted a life that matters, I have to take risks that are real, not aesthetic. Ones that can't be explained away. Where the downside is felt and the upside (if it comes) is big enough to change what comes after. Be [Antifragile.](https://fooledbyrandomness.com/ConvexityScience.pdf)
 
 # liminal spaces
 
