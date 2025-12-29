@@ -149,7 +149,7 @@ I want to do things without guarding every edge. The upside isn't polish but the
 </div>
 
  <div align="center">
-    <i> a sketch from my Notes app that i keep as my phone background. the left captures the instability of the present; the right is my reminder to zoom out.</i>
+    <i> a sketch from my notes app that i keep as my phone background. the left captures the instability of the present; the right is my reminder to zoom out.</i>
 </div>
 
 
