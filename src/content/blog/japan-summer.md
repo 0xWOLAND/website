@@ -17,7 +17,10 @@ The room replaced the effort of navigating the city with the discipline of stayi
     <img src="/images/life/writing.jpeg" alt="writing this irl" style="width: 50%; height: auto;" />
 </div>
 
-_here i am writing this. i'm not sure how i feel about it._
+
+<div align="center">
+    <i>here i am writing this. i'm not sure how i feel about it.</i>
+</div>
 
 # the promise
 
@@ -31,7 +34,11 @@ Most people I know come to Japan the way they visit an exhibit or museum -- wide
     <img src="/images/life/airbnb.png" alt="airbnb image" style="width: 50%; height: auto;" />
 </div>
 
-_i was worried i was going to get another visit from the keisatsu_
+<div align="center">
+    <i>
+        i was worried i was going to get another visit from the keisatsu
+    </i>
+</div>
 
 But I wasn't here for a week. I was there for months. I came alone, with almost no Japanese, and with the quiet certainty of a first breakup that arrived a month into the summer. The city did not greet me as a guest. It simply continued, swallowed me whole, and I had to keep up. 
 
@@ -62,7 +69,12 @@ A yellow air conditioner that never stopped working. Slippers waiting at the doo
     <img src="/images/life/tokyo_banksy.jpeg" alt="tokyo banksy" style="width: 50%; height: auto;" />
 </div>
 
-The same girl I'd seen on a wall in Austin, near the bridge sun-faded, half-ignored, part of the outside world. Here she was framed and clean—indoors, made tame. It should have been funny. 
+
+<div align="center">
+    <i>
+        the same girl i'd seen on a wall in austin, near the bridge sun-faded, half-ignored, part of the outside world. here she was framed and clean—indoors, made tame. 
+    </i>
+</div>
 
 And that kept happening this summer—familiar outlines showing up in new places. It wasn’t fate. It was just something repeating, and I kept noticing it.
 
@@ -85,11 +97,11 @@ Andy listened and kindly said "this is engineering management 101".
 Four isn't wrong, but it's slow. I've always liked the "start simple" story because it feels clean, almost academic. Andy's point was more practical: in hardware, "simple first" can turn into doing everything twice. Another round of parts that don't arrive, another vendor loop, another build you still have to ship. 
 
 
-> ### [Genchi genbutsu (現地現物)](https://en.wikipedia.org/wiki/Genchi_Genbutsu)
+> ### [_Genchi genbutsu_ (現地現物)](https://en.wikipedia.org/wiki/Genchi_Genbutsu)
 > "Go to the real place. See the real thing." \
 > A principle of the Toyota Production System: understanding should come from direct contact with the actual object and the conditions in which it operates, not from abstractions or proxies.
 
-I liked the phrase _genchi genbutsu_ because it sounded stricter than how I usually live. Not morally—just practically. Less negotiable. It points at places where being wrong costs something and you don't get to talk your way out of it. 
+I liked the phrase _genchi genbutsu_ because it sounds stricter than how I usually live. Not morally—just practically. Less negotiable. It points at places where being wrong costs something and you don't get to talk your way out of it. 
 
 One of the members who currently works on computer vision told me about his earlier years in manufacturing. He described handling molten metal in the Toyota assembly lines, managing timing and temperature. He didn’t present it as a lesson, but to me it made _genchi genbutsu_ click: learning under conditions where errors show up immediately. Stuff like that changed what I take seriously. It shrinks the range of things you can pretend are fine.
 
