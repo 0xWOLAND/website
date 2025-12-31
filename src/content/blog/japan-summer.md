@@ -1,5 +1,5 @@
 ---
-title: "summer in tokyo"
+title: "in the pool (tokyo summer)"
 description: "the compilation of many long walks"
 date: 2025-08-08
 tags: ["life", "thoughts"]
@@ -7,9 +7,11 @@ tags: ["life", "thoughts"]
 
 # some ramblings
 
-I told one of my close friends that I would write a blog post about my summer in Tokyo. Here I am sitting in the Tokyo Metropolitan Library, and I'm finally getting around to it. On the way here, I passed several primary schools. The gates were open. Children were playing baseball on the field, shouting in Japanese (of which I could pick up traces). Their game had no clear beginning and no end. 
+On the flight over, the ocean looked like ink—flat from that height, heavy with what it was hiding. Airpods drowned out the sound of the flight crew and other passengers. My breathing was the only thing I could measure.
 
-The library held a disciplined quiet. Nothing was accidental -- the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
+Months later, I was sitting in the Tokyo Metropolitan Library, finally writing. On the way there, I passed a primary school. The gates were open. Children were playing baseball on the field. The air was thick enough to hold sound; it made their shouts feel close, even from the sidewalk. Their game had no clear beginning and no end, just like mine.
+
+The library had a disciplined quiet. Outside, it was summer -- damp Uniqlo airisms, sunscreen, and hot asphalt. Nothing was accidental -- the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
 
 The room replaced the effort of navigating the city with the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
 
@@ -40,7 +42,9 @@ Most people I know come to Japan the way they visit an exhibit or museum -- wide
     </i>
 </div>
 
-But I wasn't here for a week. I was there for months. I came alone, with almost no Japanese, and with the quiet certainty of a first breakup that arrived a month into the summer. The city did not greet me as a guest. It simply continued, swallowed me whole, and I had to keep up. 
+But I wasn't here for a week. I was there for months. I came alone, with almost no Japanese, and with the quiet certainty of a first breakup that arrived a month into the summer. The city did not greet me as a guest. It simply continued, pulled me under without drama, and I had to keep up. 
+
+I remember stopping at the mouth of one of Shinjuku's back alleys -- so narrow it felt like the city was folding its shoulder inward. The signs stacked upward in layers, bars and ramen shops tucked behind every corner. [Touts](https://www.reddit.com/r/JapanTravelTips/comments/171g19m/i_know_to_avoid_touts_in_kabukicho_but_what_red/) in gaudy fake chains moved in and out like it was nothing. Inside, the electronic light thinned. I stood there with my dedicated hotspot iPhone 4 that my cousin lent me half-dead in my pocket. If I went in and didn't come out, it wouldn't be a tragedy here in a city of 15 million. It would be a missing person report in a language I could hardly speak, and then silence.
 
 The first night I arrived, I couldn't find my Airbnb. I walked the block twice, misread the entrances, slipped into the wrong building. There was a FamilyMart on the corner and a narrow back alley that smelled like damp concrete. I messaged the host. Again. And again, until I found the door. 
 
@@ -124,9 +128,9 @@ _Genchi genbutsu_ isn’t only about factories. It’s a rule against living thr
 
 In San Francisco—at least in the crypto rooms I was in—a lot of things moved on vibes. I could feel myself tracking the same signals everyone else was tracking: which VCs were circling, who was tweeting, what the narrative sounded like on Hacker News. It felt like momentum, even before anything had really been materially tested. I don’t mean that cynically. That’s just what it feels like when attention moves faster than reality.
 
-Japan isn't just a new aesthetic, but I did learn a stricter definition of real. If I'm serious about creating things that matter, I have to go the place where the thing either functions or it doesn't. 
+Japan isn't just a new aesthetic, but I did learn a stricter definition of real. If I'm serious about creating things that matter, I have to go the place where the thing either functions or it doesn't. [^4]
 
-> Earlier this term, I visited a local [HVAC conference](https://www.ihacitradeshow.com/) and learned about the industry by talking with technicians, engineers, and private-equity investors. From the top down, the language was financial—EBITDA, rollups, multiples. From the bottom up, it was personal: who you trusted, who returned your calls, who you’d let into your house. Entire distributors ran on those relationships. The spreadsheets mattered, but the business held together because people knew each other.
+[^4]: Earlier this term, I visited a local [HVAC conference](https://www.ihacitradeshow.com/) and learned about the industry by talking with technicians, engineers, and private-equity investors. From the top down, the language was financial—EBITDA, rollups, multiples. From the bottom up, it was personal: who you trusted, who returned your calls, who you’d let into your house. Entire distributors ran on those relationships. The spreadsheets mattered, but the business held together because people knew each other.
 
 
 # liminal spaces
@@ -140,15 +144,25 @@ Japan isn't just a new aesthetic, but I did learn a stricter definition of real.
     <i>it just rained, walking back from the imperial gardens</i>
 </div>
 
-This summer has felt like a liminal space in a peculiar way: not between places but between forms of belonging. 
+This summer has felt liminal in an odd way: not between cities but between forms of belonging. 
 
-Nothing broke but things simply stretched and slowly eroded. I found myself talking to people I care about less often, not because the connection mattered less, but because the effort required to maintain it had increased just enough to be felt. I think this is a small glimpse into what post-college friendships will be like. 
+Nothing shattered. Things only thinned—stretched until the effort of holding them became audible. I talked to people I love less often, not because they mattered less, but because each call now required a small negotiation with time zones and fatigue.
 
-At the same time, I made a bunch of new friends in Tokyo! People around my age, many orbiting the city's growing startup ecosystem. Half were internationals and the other half natives. Proximity did the work that distance had been undoing elsewhere (ironically there was a hackerhouse adjoined to the Airbnb I was staying at). 
+<div style="display: flex; justify-content: center; gap: 20px;">
+    <img src="/images/life/friends.png" alt="friends" style="width: 50%; height: auto;" />
+</div>
 
-This liminal stretch has changed how I relate to risk. I'm less concerned with preserving coherence, less careful about protecting the shape of a life that made sense on paper. What matters now is contact -- situations where decisions have (literal) weight, where outcomes aren't rhetorical, where I don't get to explain myself afterward. 
+ <div align="center">
+    <i> friends from the roppongi hacker house next to my airbnb </i>
+</div>
 
-Distance has already done a quiet sorting. One thread with a close friend slowed to monthly-ish check-ins. New ones formed without effort [^1]. Along the way, a lot of ideas I'd been carrying about identity, success, and ambition have lost their hold. Not dramatically but they just stopped feeling necessary. 
+Meanwhile, Tokyo supplied companionship at arm’s length. Proximity did the work that distance was undoing elsewhere -- buoyancy without intimacy. I started marking time by small things: the Takeshita side streets that stayed cool, which vending machines took my card, the same Taco Rico bags collecting by the door [^3].  
+
+[^3]: I'm surprised that PayPay still hasn't integrated crypto payments, but there is [some promising news](https://www.binance.com/en/square/post/30795034681738); I used to have to Venmo one of the members at the startup to pay for my lunches. 
+
+I stopped narrating updates to people who wouldn’t be present for the next chapter; without an audience nearby, the urge to sound coherent receded.
+
+In time I noticed a different divide, less about connection and more about whether the future was already scheduled. Staying in touch turned into logistics. Some threads endured on inertia—easy to resume because the next meeting was implied. Others survived only when someone chose to re-enter them, again and again, with no scheduled Google Calendar event to make it automatic [^1]. Along the way, ideas I’d carried about identity, success, and ambition slipped loose—not dramatically, but by becoming unnecessary.
 
 [^1]: I regularly talk to an older online tech friend from Australia now :)
 
@@ -165,4 +179,6 @@ I want to do things without guarding every edge. The upside isn't polish but the
 </div>
 
 
-What comes next is staying in this discomfort long enough for it to be useful—trying things without knowing where they lead, and letting the work, not the narrative, decide what lasts. I want to build a life that makes that kind of trial possible, with enough stability to persist and enough exposure to be changed by what I’m doing.
+I’d been in it so long I stopped noticing the water. In markets, a day can disappear into tiny shifts and still feel like work. With people, it was similar: staying where the temperature was familiar, where the next interaction was implied.
+
+Tokyo didn’t fix anything. It just gave me enough quiet to hear my own breathing again.
