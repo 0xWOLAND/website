@@ -11,7 +11,7 @@ On the flight over, the ocean looked like ink—flat from that height, heavy wit
 
 Months later, I was sitting in the Tokyo Metropolitan Library, finally writing. On the way, I passed a primary school. The gates were open. Children were playing baseball on the field. The air was thick enough to hold sound; it made their shouts feel close, even from the sidewalk. Their game had no clear beginning and no end, just like mine.
 
-The library breathed a disciplined quiet; inside, my breathing felt too loud. Outside it was summer—damp Uniqlo Airisms, sunscreen, hot asphalt. Even small distances felt intentional -- the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
+The library breathed a disciplined quiet; inside, my breathing felt too loud. Outside it was summer—damp Uniqlo Airisms, sunscreen, hot asphalt. Even small distances felt intentional—the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
 
 The room traded the effort of navigating the city for the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
 
@@ -28,7 +28,7 @@ The room traded the effort of navigating the city for the discipline of staying.
 
 When I told my friends I was going to Tokyo for the summer, they reacted as if I had already returned. They were excited for me, sometimes more than I was. I remember nodding and accepting their enthusiasm like a gift I don't know where to put. I understood it later. My body didn’t wait.
 
-Most people I know come to Japan the way they visit an exhibit or museum -- wide-eyed, temporary, forgiven. There is a kind of freedom in that. You can be ignorant and call it charm. You can misread everything and leave before it has consequences. 
+Most people I know come to Japan the way they visit an exhibit or museum—wide-eyed, temporary, forgiven. There is a kind of freedom in that. You can be ignorant and call it charm. You can misread everything and leave before it has consequences. 
 
 <div style="display: flex; justify-content: center;">
     <img src="/images/life/airbnb.png" alt="airbnb image" style="width: 50%; height: auto;" />
@@ -105,7 +105,7 @@ And that kept happening this summer—familiar outlines showing up in new places
 
 Andy is building a humanoid company in Japan from scratch. Not "In Japan" as a vibe but as in suppliers, visas, language, parts that don't arrive, company structure, culture, etc. 
 
-One afternoon, we were all in the meeting area discussing the number of degrees of freedom in the robot's foot. Masato-san suggested four -- start with a simple toy model and study it before enlarging it. Research-wise, it made a lot of sense. And my experience trying to train policies seemed to support it. 
+One afternoon, we were all in the meeting area discussing the number of degrees of freedom in the robot's foot. Masato-san suggested four—start with a simple toy model and study it before enlarging it. Research-wise, it made a lot of sense. And my experience trying to train policies seemed to support it. 
 
 Andy listened and kindly said "this is engineering management 101". 
 
