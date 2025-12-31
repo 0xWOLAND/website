@@ -7,13 +7,13 @@ tags: ["life", "thoughts"]
 
 # some ramblings
 
-On the flight over, the ocean looked like ink—flat from that height, heavy with what it was hiding. Airpods drowned out the sound of the flight crew and other passengers. My breathing was the only thing I could measure.
+On the flight over, the ocean looked like ink—flat from that height, heavy with what it refused to show. AirPods drowned out the cabin noise. My breathing was the only thing I could measure.
 
-Months later, I was sitting in the Tokyo Metropolitan Library, finally writing. On the way there, I passed a primary school. The gates were open. Children were playing baseball on the field. The air was thick enough to hold sound; it made their shouts feel close, even from the sidewalk. Their game had no clear beginning and no end, just like mine.
+Months later, I was sitting in the Tokyo Metropolitan Library, finally writing. On the way, I passed a primary school. The gates were open. Children were playing baseball on the field. The air was thick enough to hold sound; it made their shouts feel close, even from the sidewalk. Their game had no clear beginning and no end, just like mine.
 
-The library had a disciplined quiet. Outside, it was summer -- damp Uniqlo airisms, sunscreen, and hot asphalt. Nothing was accidental -- the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
+The library breathed a disciplined quiet; inside, my breathing felt too loud. Outside it was summer—damp Uniqlo Airisms, sunscreen, hot asphalt. Even small distances felt intentional -- the distance between seats, the timing of footsteps. Bags were placed beneath chairs and not touched again. People arrived, badged in, and remained.
 
-The room replaced the effort of navigating the city with the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
+The room traded the effort of navigating the city for the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
 
 <div style="display: flex; justify-content: center;">
     <img src="/images/life/writing.jpeg" alt="writing this irl" style="width: 50%; height: auto;" />
@@ -26,9 +26,7 @@ The room replaced the effort of navigating the city with the discipline of stayi
 
 # the promise
 
-When I told my friends I was going to Tokyo for the summer, they reacted as if I had already returned. They were excited for me, sometimes more than I was. I remember nodding and accepting their enthusiasm like a gift I don't know where to put. 
-
-By then I had learned an unfortunate habit: to feel things late. 
+When I told my friends I was going to Tokyo for the summer, they reacted as if I had already returned. They were excited for me, sometimes more than I was. I remember nodding and accepting their enthusiasm like a gift I don't know where to put. I understood it later. My body didn’t wait.
 
 Most people I know come to Japan the way they visit an exhibit or museum -- wide-eyed, temporary, forgiven. There is a kind of freedom in that. You can be ignorant and call it charm. You can misread everything and leave before it has consequences. 
 
@@ -42,13 +40,26 @@ Most people I know come to Japan the way they visit an exhibit or museum -- wide
     </i>
 </div>
 
-But I wasn't here for a week. I was there for months. I came alone, with almost no Japanese, and with the quiet certainty of a first breakup that arrived a month into the summer. The city did not greet me as a guest. It simply continued, pulled me under without drama, and I had to keep up. 
+I stopped at the mouth of a Kabukicho back alley near the Godzilla statue—so narrow it felt like the city had drawn its shoulder in. Signs stacked upward in layers, bars and ramen shops tucked behind every corner. Touts [^5] in gaudy chains drifted in and out like it was nothing. The air turned: urine, trash, stale smoke. Near Toyoko, kids hovered under LED light—gyaru makeup too bright for tired faces, cigarettes passed between small hands. I realized I’d been holding my breath.
 
-I remember stopping at the mouth of one of Shinjuku's back alleys -- so narrow it felt like the city was folding its shoulder inward. The signs stacked upward in layers, bars and ramen shops tucked behind every corner. [Touts](https://www.reddit.com/r/JapanTravelTips/comments/171g19m/i_know_to_avoid_touts_in_kabukicho_but_what_red/) in gaudy fake chains moved in and out like it was nothing. Inside, the electronic light thinned. I stood there with my dedicated hotspot iPhone 4 that my cousin lent me half-dead in my pocket. If I went in and didn't come out, it wouldn't be a tragedy here in a city of 15 million. It would be a missing person report in a language I could hardly speak, and then silence.
+<div style="display: flex; justify-content: center;">
+    <img src="/images/life/uhoh.png" alt="uhoh" style="width: 50%; height: auto;" />
+</div>
+
+<div align="center">
+    <i>
+        uh oh..
+    </i>
+</div>
+
+
+I wasn’t here the way people come on vacation—wide-eyed, temporary, forgiven. I lived here. Which meant going in: through doors that didn’t care if I could read the signs, down hallways where the air changed and my instincts lagged. My cousin’s hotspot iPhone 4 sat half-dead in my pocket like a failing lifeline. If I didn’t come back out, it would be a missing person report in a language I could hardly speak, and then silence.
+
+[^5]: There are some incredible stories on [this reddit page](https://www.reddit.com/r/JapanTravelTips/comments/171g19m/i_know_to_avoid_touts_in_kabukicho_but_what_red/).
 
 The first night I arrived, I couldn't find my Airbnb. I walked the block twice, misread the entrances, slipped into the wrong building. There was a FamilyMart on the corner and a narrow back alley that smelled like damp concrete. I messaged the host. Again. And again, until I found the door. 
 
-And in the small room I had rented in a city where I was functionally illiterate, I did the most GenZ thing possible: immediately checking the Wi-Fi. It flicked and failed. I stood hunched near the entrance, where the signal was barely alive, and called my concerned mother over WhatsApp. 
+And in the small room I had rented in a city where I was functionally illiterate, I did the most Gen Z thing possible: immediately checking the Wi-Fi. It flicked and failed. I stood hunched near the entrance, where the signal was barely alive, and called my concerned mother over WhatsApp. 
 
 And that was just the beginning. 
 
@@ -126,7 +137,7 @@ What bothered me was that the desire hadn't changed—only the reason underneath
 
 _Genchi genbutsu_ isn’t only about factories. It’s a rule against living through substitutes. I’m good at staying one step removed; if something stays debatable, I can keep it comfortable. The moments I remember from this summer weren’t like that. They had a kind of bluntness to them. Whatever I told myself afterward didn’t change what happened. 
 
-In San Francisco—at least in the crypto rooms I was in—a lot of things moved on vibes. I could feel myself tracking the same signals everyone else was tracking: which VCs were circling, who was tweeting, what the narrative sounded like on Hacker News. It felt like momentum, even before anything had really been materially tested. I don’t mean that cynically. That’s just what it feels like when attention moves faster than reality.
+In San Francisco—at least in the crypto rooms I was in—a lot of things moved on vibes. Even the jargon had water in it—liquidity pools, depth—words that made it sound safer than it was. I could feel myself tracking the same signals everyone else was tracking: which VCs were circling, who was tweeting, what the narrative sounded like on Hacker News. It felt like momentum, even before anything had really been materially tested.  That’s just what it feels like when attention moves faster than reality.
 
 Japan isn't just a new aesthetic, but I did learn a stricter definition of real. If I'm serious about creating things that matter, I have to go the place where the thing either functions or it doesn't. [^4]
 
@@ -156,9 +167,9 @@ Nothing shattered. Things only thinned—stretched until the effort of holding t
     <i> friends from the roppongi hacker house next to my airbnb </i>
 </div>
 
-Meanwhile, Tokyo supplied companionship at arm’s length. Proximity did the work that distance was undoing elsewhere -- buoyancy without intimacy. I started marking time by small things: the Takeshita side streets that stayed cool, which vending machines took my card, the same Taco Rico bags collecting by the door [^3].  
+Meanwhile, Tokyo supplied companionship at arm’s length. Proximity did the work that distance was undoing elsewhere—buoyancy without intimacy. I started marking time by small things: the Takeshita side streets that stayed cool, which vending machines took my card, the same Taco Rico bags collecting by the door [^3], the train up to Bunkyo to the Uzumaki house—peanut chicken and bok choy, old Ethereum friends talking sequencer design and coordination like it was casual, and me mostly just grateful to be at a table with someone across from me.
 
-[^3]: I'm surprised that PayPay still hasn't integrated crypto payments, but there is [some promising news](https://www.binance.com/en/square/post/30795034681738); I used to have to Venmo one of the members at the startup to pay for my lunches. 
+[^3]: I kept having to Venmo someone for lunch. 
 
 I stopped narrating updates to people who wouldn’t be present for the next chapter; without an audience nearby, the urge to sound coherent receded.
 
@@ -179,6 +190,6 @@ I want to do things without guarding every edge. The upside isn't polish but the
 </div>
 
 
-I’d been in it so long I stopped noticing the water. In markets, a day can disappear into tiny shifts and still feel like work. With people, it was similar: staying where the temperature was familiar, where the next interaction was implied.
+I’d been in it so long I stopped noticing the current. In markets, a day can disappear into tiny shifts and still feel like work. With people, it was similar: staying where the temperature was familiar, where the next interaction was implied.
 
-Tokyo didn’t fix anything. It just gave me enough quiet to hear my own breathing again.
+Tokyo didn’t fix anything. It just gave me enough quiet to hear my breathing again.
