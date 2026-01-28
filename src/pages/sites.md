@@ -12,3 +12,4 @@ layout: ../layouts/BaseLayout.astro
 - [Understanding is a Poor Substitute for Convexity (Antifragility)](https://fooledbyrandomness.com/ConvexityScience.pdf)
 - [Andras Kovacs](https://andraskovacs.github.io/)
 - [AgingBiotech](https://agingbiotech.info/)
+- [Simon Peyton Jones](https://simon.peytonjones.org/tags/#haskell)
