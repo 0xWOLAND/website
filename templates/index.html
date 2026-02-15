@@ -1,0 +1,10 @@
+<h1>&#127851;&#127963;&#65039; (bhar - gav)</h1>
+<p><a href="https://github.com/0xWOLAND">github</a> &middot; <a href="/sites/">sites i like</a></p>
+<hr>
+$for(posts)$
+<article>
+  <h2><a href="$url$">$title$</a></h2>
+  <p class="post-meta">$date$$if(tags)$ &middot; $tags$$endif$</p>
+  $if(description)$<p>$description$</p>$endif$
+</article>
+$endfor$

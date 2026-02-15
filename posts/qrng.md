@@ -2,7 +2,7 @@
 title: "Quantum Random Number Generator"
 description: "Uniformly sample `0..N` in a QC"
 date: 2025-10-19
-tags: ["quantum"]
+tags: quantum
 ---
 
 > First time trying anything quantum computing w/ my friend Shuhul from Caltech :)

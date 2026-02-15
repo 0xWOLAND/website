@@ -2,7 +2,7 @@
 title: "Escardó’s Exhaustive Search: Part 1"
 description: "Infinite sets that admit fast exhaustive search"
 date: 2025-07-25
-tags: ["math", "pltheory"]
+tags: math, pltheory
 ---
 
 # Introduction

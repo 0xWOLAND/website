@@ -2,7 +2,7 @@
 title: "in the pool (tokyo summer)"
 description: "the compilation of many long walks"
 date: 2025-08-08
-tags: ["life", "thoughts"]
+tags: life, thoughts
 ---
 
 # some ramblings

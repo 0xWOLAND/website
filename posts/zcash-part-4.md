@@ -2,7 +2,7 @@
 title: "Private Money: Part 4"
 description: "On Monero's FCMP++ Upgrade"
 date: 2025-09-28
-tags: ["crypto", "zk"]
+tags: crypto, zk
 ---
 
 **Series Index**  

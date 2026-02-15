@@ -2,7 +2,7 @@
 title: "Escardó’s Exhaustive Search: Part 2"
 description: "Syntactic Modulus Extraction"
 date: 2025-07-26
-tags: ["math", "pltheory"]
+tags: math, pltheory
 ---
 
 # pulling the rabbit out of the hat??
