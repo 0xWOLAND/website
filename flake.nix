@@ -6,14 +6,21 @@
   outputs = { self, nixpkgs }:
     let
       systems = [ "x86_64-linux" "aarch64-darwin" ];
+      forAllSystems = f:
+        nixpkgs.lib.genAttrs systems (system: f (import nixpkgs { inherit system; }));
     in {
-      devShells = builtins.listToAttrs (map (system: {
-        name = system;
-        value.default =
-          let pkgs = import nixpkgs { inherit system; };
-          in pkgs.mkShell {
-            packages = with pkgs; [ cabal-install ghc pkg-config zlib ];
-          };
-      }) systems);
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShell {
+          packages = with pkgs; [ cabal-install ghc pkg-config zlib ];
+        };
+      });
+
+      packages = forAllSystems (pkgs:
+        let
+          site = pkgs.haskellPackages.callCabal2nix "site" self { };
+        in {
+          inherit site;
+          default = site;
+        });
     };
 }

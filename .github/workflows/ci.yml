@@ -12,17 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v27
       - uses: DeterminateSystems/magic-nix-cache-action@v8
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cabal/store
-            ~/.cabal/packages
-            dist-newstyle
-          key: ${{ runner.os }}-cabal-${{ hashFiles('site.cabal', 'flake.nix', 'flake.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cabal-
-      - run: nix develop -c cabal update
-      - run: nix develop -c cabal build && nix develop -c cabal run site build
+      - run: nix build .#site
+      - run: ./result/bin/site build
       - uses: actions/upload-artifact@v4
         with:
           name: site
