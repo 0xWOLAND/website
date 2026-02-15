@@ -1,5 +1,5 @@
 {
-  description = "Minimal Hakyll dev shell";
+  description = "Hakyll dev shell";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
