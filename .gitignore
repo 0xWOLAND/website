@@ -1,6 +1,8 @@
+_site/
 _cache/
 dist-newstyle/
 *.hi
 *.o
 site
 .DS_Store
+.vercel
