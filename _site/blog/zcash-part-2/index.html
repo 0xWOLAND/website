@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Private Money: Part 2</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="../../css/default.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js" onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
+  <script>!function () { var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); document.documentElement.className = t }()</script>
+</head>
+
+<body>
+  <button class="theme-toggle" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">☼</span><span class="moon">☾</span></button>
+  <article>
+  <div class="article-header">
+    <h1>Private Money: Part 2</h1>
+    <p class="dateline">May 21, 2025 &nbsp;&middot;&nbsp; crypto, pcs</p>
+  </div>
+  <hr>
+  <p><strong>⚠️ Warning:</strong> Mathematics. This is a fairly technical post! I assume a solid understanding of high-school math and a willingness to bear with me :)</p>
+<p>This blog reviews the prerequisite mathematics for understanding the set-noninclusion accumulator in <strong>Project Tachyon</strong> — if you’re already familiar with basic abstract algebra, feel free to skip to the next post.</p>
+<h1 id="some-mathematics-prerequisites">Some Mathematics Prerequisites</h1>
+<h2 id="musical-motivation">Musical Motivation</h2>
+<p>In the 18th century, composer <strong>Johann Sebastian Bach</strong> wrote music that continues to be admired for its elegance and structure. Despite lacking formal mathematical training, Bach often composed with a precision that feels inherently mathematical. One striking example is his <em>Crab Canon</em> from <em>The Musical Offering</em>:</p>
+<div style="display: flex; justify-content: center;">
+  <iframe src="https://www.youtube.com/embed/xUHQ2ybTejU" frameborder="0" allowfullscreen style="width: 100%; aspect-ratio: 16/9; max-width: 560px;"></iframe>
+</div>
+<p><em>Bach’s Crab Canon from the Musical Offering is a fascinating example of mathematical music. When played forward and backward simultaneously, it creates a perfect palindrome — a musical Möbius strip where the end connects seamlessly to the beginning. This topological structure, where a one-sided surface is created by twisting and joining a strip, mirrors how the canon’s melody can be read in both directions while maintaining musical coherence.</em></p>
+<p>The connection between musical expression and hidden structure has fascinated people for a long time. One of the key ideas here is the <a href="https://en.wikipedia.org/wiki/Circle_of_fifths"><strong>Circle of Fifths</strong></a> — a diagram that lays out musical notes so that closely related keys sit next to each other in a loop. It’s a handy way to make sense of harmony, and its circular shape hints at something deeper going on beneath the sound: a kind of pattern that music follows, even when we’re not consciously aware of it.</p>
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.5em;">
+  <img src="https://upload.wikimedia.org/score/r/n/rn1zaakvsmp2icu895k7e1obrhuy0lw/rn1zaakv.png" alt="Circle of fifths clockwise within one octave" />
+
+  <audio controls>
+    <source src="https://upload.wikimedia.org/score/r/n/rn1zaakvsmp2icu895k7e1obrhuy0lw/rn1zaakv.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <p><em>Circle of fifths clockwise within one octave. Source: <a href="https://en.wikipedia.org/wiki/Circle_of_fifths">Wikipedia</a>.</em></p>
+</div>
+<p>Building on this, modern visualizations let us see musical motion as something geometric. In the animation below, a major seventh progression moves across the surface of an umbilic torus — a looping, twisted shape that shows how harmony can circle around while still shifting forward. Like Bach’s Canon, it turns music into more than just a line of notes — it becomes a kind of movement through space, shaped by patterns and rules we can start to recognize, even if we can’t name them yet.</p>
+<div style="display: flex; justify-content: center;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/The_circle_of_fifths_on_umbilic_torus_surface.gif/500px-The_circle_of_fifths_on_umbilic_torus_surface.gif" alt="Major 7th progression on umbilic torus surface" style="max-width: 100%; height: auto;" />
+</div>
+<p><em>This animation shows a major seventh progression traced on an umbilic torus surface — a higher-dimensional visualization of the circle of fifths. The smooth rotation through harmonic space represents tonal motion as continuous geometry, revealing deep symmetries between pitch, interval, and curvature.</em></p>
+<p>These patterns aren’t just beautiful — there’s clearly something deeper going on under the surface. To really make sense of it, we’ll need a new kind of language — one that helps us talk about how music moves, transforms, and loops back on itself. That’s where we’re headed next: group theory.</p>
+<h2 id="from-loops-to-logic">From Loops to Logic</h2>
+<p>A <strong>group</strong> is a set equipped with a rule for combining elements — an operation — that behaves predictably: there’s a way to combine any two elements (closure), the way elements are grouped doesn’t matter (associativity), there’s an identity element that does nothing (identity), and every element has an inverse that undoes it (inverses).</p>
+<p>A simple example of a group is a finite cyclic group <span class="math inline">\mathbb{Z} / n \mathbb{Z}</span>, the integers modulo <span class="math inline">n</span> which consists of the set</p>
+<p><span class="math display">
+    {0, 1, 2, \ldots, n - 1}
+</span></p>
+<p>with the action being addition modulo <span class="math inline">n</span>. For example, in <span class="math inline">\mathbb{Z} / 12 \mathbb{Z}</span>, <span class="math inline">12 \cong 0</span> so <span class="math inline">7 + 6 = 1 \mod 12</span>. Check out <a href="https://en.wikipedia.org/wiki/Group_(mathematics)#:~:text=Definition%20and%20illustration">Wikipedia</a> for the mathematical definition of a group.</p>
+<p>It turns out that cyclic groups are also very useful for cryptography. Suppose that you start with <span class="math inline">0</span> in <span class="math inline">\mathbb{Z} / 12 \mathbb{Z}</span> and keep adding 5. Then you get the sequence:</p>
+<p><span class="math display">
+    0, 5, 10, 3, 8, 1, \ldots
+</span></p>
+<p>Eventually, you reach every number in the set. Now, if I asked you to tell how many times you have to add 5 to get the number 8, would you be able to tell me?</p>
+<p>This is the <a href="https://en.wikipedia.org/wiki/Discrete_logarithm">Discrete Logarithm Problem</a>. Given a generator (like 5) and a result (like 8), the challenge is to figure out how many times the generator was applied. In this example, the answer is 4, since <span class="math inline">5 \times 4 = 20 \cong 8 \mod 12</span>.</p>
+<p>In cryptography, we often write cyclic groups using <strong>multiplicative notation</strong>, where repeated application of a generator <span class="math inline">g</span> is written as:</p>
+<p><span class="math display">
+g^0, \; g^1, \; g^2, \; \dots, \; g^{n - 1}
+</span></p>
+<p>This gives all elements of the group if <span class="math inline">g</span> is a generator.</p>
+<p>The <strong>discrete logarithm problem</strong> asks:
+Given <span class="math inline">g</span> and <span class="math inline">h = g^x</span>, find <span class="math inline">x</span>.</p>
+<p>For small numbers, this is easy to solve by trial. But in large cyclic groups (especially those built from primes with hundreds of digits) the problem becomes extremely hard. For small numbers, this is easy to solve by trial. But in large cyclic groups (like those used in Ethereum’s BLS signatures, where the modulus is a 381-bit prime) the problem becomes practically impossible to reverse, and that’s exactly what makes it secure against <a href="https://www.cs.umd.edu/~amchilds/teaching/w08/l02.pdf">classical computers</a>.</p>
+<h1 id="pedersen-vector-commitment-scheme">Pedersen Vector Commitment Scheme</h1>
+<p>Finally, we have the language to talk about tools that rely on group structure to ensure both <strong>hiding</strong> and <strong>binding</strong>: the two essential properties of a cryptographic commitment. One of the simplest and most elegant examples is the <strong>Pedersen commitment</strong>.</p>
+<h2 id="hiding-and-binding">Hiding and Binding</h2>
+<p>Before going further, it’s worth pausing to explain what we mean by <em>hiding</em> and <em>binding</em>.</p>
+<ul>
+<li><p><strong>Hiding</strong> means the commitment doesn’t reveal any information about the underlying message. Even if someone sees the commitment, they can’t figure out what value was committed — because it’s masked using randomness.</p></li>
+<li><p><strong>Binding</strong> means that once you’ve committed to a value, you can’t later change your mind. That is, you can’t open the same commitment to a different value. This ensures the commitment is fixed and can’t be altered after the fact.</p></li>
+</ul>
+<p>In short: hiding protects privacy; binding ensures integrity.</p>
+<h2 id="the-pedersen-commitment">The Pedersen Commitment</h2>
+<p>Let <span class="math inline">G</span> be a cyclic group of prime order <span class="math inline">q</span>, with generators <span class="math inline">g</span> and <span class="math inline">h</span> such that no one knows the discrete logarithm between them. To commit to a value <span class="math inline">m \in \mathbb{Z} / q \mathbb{Z}</span>, choose a random blinding factor <span class="math inline">r \in \mathbb{Z} / q \mathbb{Z}</span> and compute:</p>
+<p><span class="math display">
+\text{Com}(m, r) = g^m h^r
+</span></p>
+<p>This is a commitment to <span class="math inline">m</span> that is:</p>
+<ul>
+<li><strong>Perfectly hiding</strong>: because <span class="math inline">r</span> is chosen at random, the output reveals nothing about <span class="math inline">m</span></li>
+<li><strong>Computationally binding</strong>: under the discrete log assumption, it’s infeasible to find two different pairs <span class="math inline">(m, r)</span> and <span class="math inline">(m', r')</span> that yield the same commitment</li>
+</ul>
+<p>Additionally, Pedersen commitments are <strong>homomorphic</strong>:</p>
+<p><span class="math display">
+\text{Com}(m_1, r_1) \cdot \text{Com}(m_2, r_2) = \text{Com}(m_1 + m_2, r_1 + r_2)
+</span></p>
+<p>This means commitments can be added without opening them, a property useful in many protocols.</p>
+<p>Now here’s how we implement this in Rust:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="kw">fn</span> commit(m<span class="op">:</span> Scalar<span class="op">,</span> r<span class="op">:</span> Scalar<span class="op">,</span> g<span class="op">:</span> GroupAffine<span class="op">,</span> h<span class="op">:</span> GroupAffine) <span class="op">-&gt;</span> GroupAffine <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    (g <span class="op">*</span> m <span class="op">+</span> h <span class="op">*</span> r)<span class="op">.</span>into_affine()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="from-commitments-to-vector-commitments">From Commitments to Vector Commitments</h2>
+<p>To commit to a whole vector <span class="math inline">\mathbf{m} = (m_1, m_2, \dots, m_n)</span>, we extend the idea by using <span class="math inline">n</span> independent generators <span class="math inline">g_1, g_2, \dots, g_n \in G</span>, and a single blinding base <span class="math inline">h</span>. The commitment is:</p>
+<p><span class="math display">
+\text{Com}(\mathbf{m}, r) = g_1^{m_1} \cdot g_2^{m_2} \cdots g_n^{m_n} \cdot h^r
+</span></p>
+<p>The vector commitment version in Rust takes an array of generators:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="kw">fn</span> open(v<span class="op">:</span> <span class="op">&amp;</span>[Scalar]<span class="op">,</span> r<span class="op">:</span> Scalar<span class="op">,</span> j<span class="op">:</span> <span class="dt">usize</span>) <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>(Scalar<span class="op">,</span> Scalar<span class="op">,</span> GroupAffine)<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> j <span class="op">&gt;=</span> v<span class="op">.</span>len() <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="cn">Err</span>(<span class="pp">anyhow!</span>(<span class="st">&quot;Index out of bounds&quot;</span>))<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> blind <span class="op">=</span> POINTS[<span class="dv">0</span>] <span class="op">*</span> r<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> witness <span class="op">=</span> POINTS[<span class="dv">1</span><span class="op">..</span>]<span class="op">.</span>iter()<span class="op">.</span>enumerate()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>filter(<span class="op">|</span>(i<span class="op">,</span> _)<span class="op">|</span> <span class="op">*</span>i <span class="op">!=</span> j)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>map(<span class="op">|</span>(i<span class="op">,</span> p)<span class="op">|</span> <span class="op">*</span>p <span class="op">*</span> v[i])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="pp">sum::</span><span class="op">&lt;</span>GroupProjective<span class="op">&gt;</span>() <span class="op">+</span> blind<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>((v[j]<span class="op">,</span> r<span class="op">,</span> witness<span class="op">.</span>into_affine()))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This compactly binds the entire vector <span class="math inline">\mathbf{m}</span> into a single group element. It maintains the same properties:</p>
+<ul>
+<li><strong>Hiding</strong>, because the random <span class="math inline">r</span> masks the entire vector</li>
+<li><strong>Binding</strong>, assuming the generators <span class="math inline">g_1, \dots, g_n</span> are independent and the discrete log relationships between them are unknown</li>
+</ul>
+<p>And here’s how to verify the commitment:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="kw">fn</span> check(c<span class="op">:</span> GroupAffine<span class="op">,</span> v_j<span class="op">:</span> Scalar<span class="op">,</span> witness<span class="op">:</span> GroupAffine<span class="op">,</span> h_j<span class="op">:</span> GroupAffine) <span class="op">-&gt;</span> <span class="dt">bool</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">==</span> witness <span class="op">+</span> h_j <span class="op">*</span> v_j</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="algebraic-properties">Algebraic Properties</h2>
+<p>What makes Pedersen (vector) commitments especially powerful is their algebraic structure:</p>
+<ul>
+<li><p><strong>Linearity</strong>: Commitments respect linear combinations:</p>
+<p><span class="math display">
+\text{Com}(\mathbf{m}, r) \cdot \text{Com}(\mathbf{m}', r') = \text{Com}(\mathbf{m} + \mathbf{m}', r + r')
+</span></p>
+<p>where vector addition is component-wise.</p></li>
+<li><p><strong>Scalability</strong>: You can aggregate commitments across multiple vectors:</p>
+<p><span class="math display">
+\prod_{i=1}^k \text{Com}(\mathbf{m}^{(i)}, r_i) = \text{Com}\left(\sum_{i=1}^k \mathbf{m}^{(i)}, \sum_{i=1}^k r_i\right)
+</span></p></li>
+<li><p><strong>Inner-product compatibility</strong>: Because exponentiation distributes over sums, Pedersen commitments can be used inside inner-product arguments (like in <a href="https://crypto.stanford.edu/bulletproofs/">Bulletproofs</a>), where both prover and verifier can manipulate commitments algebraically without knowing the underlying messages.</p></li>
+<li><p><strong>Non-interactive opening proofs</strong>: Given <span class="math inline">\mathbf{m}</span> and <span class="math inline">r</span>, it’s trivial to open the commitment and prove correctness. Zero-knowledge variants can be layered on top if needed. We will see this in the next blog.</p></li>
+</ul>
+<p>These algebraic properties make Pedersen commitments a favorite building block in privacy-preserving protocols, SNARK-friendly constructions, and succinct proofs of integrity over large datasets. We will see how we can build Sean Bowe’s <a href="https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x">set-noninclusion accumulator</a> from this in the next blog post.</p>
+  <div class="article-footer">
+    <a href="../../">&larr; back to index</a>
+  </div>
+</article>
+
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Private Money: Part 3</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="../../css/default.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js" onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
+  <script>!function () { var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); document.documentElement.className = t }()</script>
+</head>
+
+<body>
+  <button class="theme-toggle" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">☼</span><span class="moon">☾</span></button>
+  <article>
+  <div class="article-header">
+    <h1>Private Money: Part 3</h1>
+    <p class="dateline">June  4, 2025 &nbsp;&middot;&nbsp; crypto, pcs</p>
+  </div>
+  <hr>
+  <h1 id="background">Background</h1>
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="../../images/zcash/double_spending.png" alt="Double Spending" style="width: 50%; height: auto;" />
+  </div>
+</div>
+<p><strong>Double-spending</strong> is when someone tries to use the same funds more than once. It’s a fundamental problem in finance that appears in various guises. In traditional banking, this looks like <strong>check kiting</strong>—manipulating the float time between accounts to cover overdrafts. A notorious example is <a href="https://apnews.com/article/bank-fraud-classic-cars-keybank-elkhart-d0c9a4a2a66fb88a832a613a8560c49c">Najeeb Khan’s $180M fraud</a>, where he exploited bank timing windows to fund a lavish lifestyle at the expense of clients.</p>
+<p>In crypto, Ethereum Classic suffered <a href="https://www.coinbase.com/blog/coinbases-perspective-on-the-recent-ethereum-classic-etc-double-spend">multiple 51% attacks in 2020</a> where attackers rewrote transaction history and double-spent over $9M. This showed that public blockchains without secure consensus can be vulnerable too.</p>
+<p>Zcash presents a more complex challenge: its shielded transactions reveal nothing about sender, receiver, or value. To prevent double-spending while preserving privacy, Zcash enforces two cryptographic constraints:
+1. <strong>Private inclusion proof</strong>: The note<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> must be in the note-commitment Merkle tree.
+2. <strong>Public non-inclusion proof</strong>: The note’s <strong>nullifier</strong> must not be in the nullifier set.</p>
+<h2 id="why-zcash-uses-a-public-non-inclusion-check">Why Zcash uses a public non-inclusion check</h2>
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="../../images/zcash/trees.png" alt="Image of Note-Commitment Tree and Noninclusion Set" style="width: 50%; height: auto;" />
+  </div>
+</div>
+<p>When a new shielded note is created, only its <strong>commitment</strong> is revealed. This is appended to the global note-commitment Merkle tree, while the note’s actual value and recipient stay private. Because the tree is append-only and doesn’t track spending, a second tag—the <strong>nullifier</strong>—ensures each note is spent at most once.</p>
+<p>A <strong>nullifier</strong> is a deterministic, unlinkable fingerprint of a note. It’s computed using a <a href="https://crypto.stanford.edu/pbc/notes/crypto/prf.html">pseudorandom function</a> (PRF) keyed by the note’s secret. Only the owner can derive the nullifier, and each note has exactly one<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<blockquote>
+<p><em>“A transaction is not valid if it would have added a nullifier to the nullifier set that already exists in the set.”</em></p>
+</blockquote>
+<p>The nullifier is publicly revealed and checked against the nullifier set, which is updated each block along with the Merkle tree. This allows the network to reject double-spends while learning nothing about the note itself.</p>
+<h2 id="private-membership-proof">Private membership proof</h2>
+<p>Zcash uses <a href="https://z.cash/learn/what-are-zk-snarks/">zk-SNARKs</a> to enforce both constraints—commitment inclusion and nullifier consistency—without revealing which note is spent. Each proof is ~1–2 kB, verifiable in milliseconds, and works even for light clients<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<h3 id="the-private-link-created-inside-the-zk-snark">1. The private link created inside the zk-SNARK</h3>
+<p><strong>Merkle inclusion</strong>:<br />
+The prover supplies the note commitment <span class="math inline">cm</span><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and a Merkle authentication path <span class="math inline">\pi</span> as private witness data. The circuit enforces:
+<span class="math display">
+\text{MerkleRoot}(cm, \pi) = \rho_t
+</span>
+where <span class="math inline">\rho_t</span> is the <strong>anchor</strong>, a public input representing the Merkle root at block height <span class="math inline">t</span> <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. This confirms that <span class="math inline">cm</span> appears somewhere in the historical note-commitment tree.</p>
+<p><strong>Nullifier computation</strong>:<br />
+In the same circuit, the prover recomputes the nullifier using:
+<span class="math display">
+nf = \text{PRF}_{nk}(\rho_t, \psi, cm)
+</span>
+where <span class="math inline">(nk, \psi)</span> are secrets derived from the note. The output nullifier <span class="math inline">nf</span> is made public and bound to the same anchor and commitment.</p>
+<p>This internal linkage ensures that the SNARK proves consistency between the revealed nullifier and the private note it was derived from—without revealing anything about the note itself.</p>
+<h3 id="how-the-on-chain-check-works">2. How the on-chain check works</h3>
+<p>Each transaction includes the anchor <span class="math inline">\rho_t</span> and the nullifier <span class="math inline">nf</span> in the public input of the proof. Once the SNARK verifies, every full node checks:
+- That the nullifier <span class="math inline">nf</span> is <strong>not already in</strong> the nullifier set <span class="math inline">N(t)</span>.
+- If the check passes, the block updates:
+<span class="math display">
+  N(t+1) = N(t) \cup \{nf\}
+  </span></p>
+<p>This ensures that every nullifier appears at most once—enforcing one-time spendability.</p>
+<h3 id="why-the-two-links-suffice">3. Why the two links suffice</h3>
+<ul>
+<li><strong>Existence</strong>: The Merkle equation certifies that a real commitment <span class="math inline">cm</span> already sits in the tree whose root is <span class="math inline">\rho_t</span>.</li>
+<li><strong>Uniqueness</strong>: The PRF binds a single nullifier <span class="math inline">nf</span> to that <span class="math inline">cm</span>, and consensus allows each <span class="math inline">nf</span> to appear only once.</li>
+</ul>
+<p>Hence, any valid transaction must:
+- Reference some existing note (via inclusion of <span class="math inline">cm</span>),
+- And cannot reuse that note (since its <span class="math inline">nf</span> would already be in <span class="math inline">N</span>).</p>
+<p>The inclusion proof and the non-inclusion check are <strong>mathematically fixed</strong> through the shared variables <span class="math inline">(cm, \rho_t, nf)</span>—inside the SNARK and on-chain.</p>
+<h1 id="limitations-of-merkle-trees">Limitations of Merkle Trees</h1>
+<p>Incremental Merkle trees<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> are the classic way Zcash records shielded notes<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. They have a fixed depth <span class="math inline">d</span>, so the ledger can accept at most <span class="math inline">2^d</span> commitments before a migration is needed. Every new note becomes a fresh leaf, and the tree’s collision-resistant hashing lets a prover later show inclusion with a <span class="math inline">d</span>-hash path. That path is constant-size and efficient, but the tree’s <em>state grows forever</em><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
+<h3 id="sharding-helps-but-doesnt-solve-the-problem">Sharding helps, but doesn’t solve the problem</h3>
+<p>A natural next step is to <strong>shard</strong> the Merkle tree. Instead of one monolith, the ledger maintains many sub-trees (e.g., <span class="math inline">2^{32}</span>-leaf trees). When a shard fills, a new one is opened, and a small <strong>root-of-roots tree</strong> tracks the current shard roots. A note’s inclusion path now includes:
+- A short <em>intra-shard</em> Merkle path
+- One additional hash to reach the root-of-roots</p>
+<p>This design keeps proof sizes small and <strong>reduces wallet update overhead</strong>: clients only need to track changes in shards that contain their notes <a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
+<p>But even this is a <strong>temporary fix</strong>. The root-of-roots is itself incremental and will eventually fill. Historical paths must still be updated as long as the shard is active. State pruning remains difficult because <strong>every note ever minted must remain accessible</strong>. As a result, ledger size and wallet sync bandwidth <strong>grow linearly with protocol lifetime</strong>.</p>
+<h3 id="why-a-set-non-inclusion-accumulator-changes-everything">Why a set non-inclusion accumulator changes everything</h3>
+<p>A <strong>set non-inclusion accumulator</strong> offers a simpler approach to tracking spent notes.</p>
+<p>While incremental Merkle trees work perfectly well for inclusion proofs, they cannot efficiently support non-inclusion proofs. The accumulator solves this by folding all notes into a <strong>constant-size accumulator value</strong> <span class="math inline">A_t</span> that can handle non-inclusion proofs (and can be easily extended to support inclusion proofs as well). Every insertion is a <strong>succinct polynomial-commitment update</strong>, and old accumulator states can be discarded—because an IVC (incremental verifiable computation) chain certifies correctness across updates.</p>
+<p>The key advantage is simplicity: while Merkle trees require separate handling for commitments and nullifiers, the accumulator provides a single cryptographic primitive that handles non-inclusion proofs. This means we can use the same system for the nullifier set, and extend it to handle note commitments if needed.</p>
+<p>The magic lies in the accumulator’s recursive structure: each update witnesses that a <em>vector</em> of notes was inserted without including a particular element <span class="math inline">x</span>. The non-membership claim is upheld step-by-step, proving that each polynomial inserted lacked <span class="math inline">x</span> as a root—meaning <span class="math inline">x</span> was not present. This transforms the problem into one of recursive algebra, not storage.</p>
+<p>At the end, proving <strong>non-inclusion</strong> (“this nullifier was never inserted up to <span class="math inline">A_t</span>”) requires only checking that a single polynomial (the one folded into the accumulator) <strong>does</strong> have <span class="math inline">x</span> as a root.</p>
+<ul>
+<li>The accumulator’s size <strong>never grows</strong>, no matter how many notes are inserted</li>
+<li>There’s <strong>no depth cap</strong> or leaf index to exhaust</li>
+<li>Each IVC step is just a few hashes and group ops—efficient even onchain</li>
+<li>You don’t need to track historical state prior to the last <span class="math inline">k</span> epochs—as long as all proofs spanning that range have been generated, the earlier accumulator data can be safely discarded</li>
+</ul>
+<p>In short: <strong>shielded anonymity can grow indefinitely</strong>, with no migrations or tree maintenance. This is the foundation for <strong>Project Tachyon’s accumulator design</strong>—a simpler system that handles non-inclusion proofs efficiently.</p>
+<hr />
+<h1 id="implementation">Implementation</h1>
+<p>The accumulator starts in a trivial state <span class="math inline">A_0 = \langle(1,0,0,\ldots), G\rangle</span> and is updated every time we insert a <strong>vector of field elements</strong>
+<span class="math inline">\mathbf a_i = (a_{i,1},\dots,a_{i,k}) \subset \mathbb F</span>.
+After many updates we want to show, for <em>every</em> step in a chosen range <span class="math inline">[j,\,m)</span>, that the inserted vector <strong>never contained</strong> some element <span class="math inline">v</span>.
+Instead of storing all past vectors, we fold them into a <strong>single curve-point accumulator</strong> whose size never grows.</p>
+<p>The magic is that while we track more and more nullifiers internally—building a bigger polynomial each time—we only store a <strong>single point</strong> on-chain. This point acts as a cryptographic summary of all nullifiers we’ve seen, like a Merkle root but without the tree. This means the blockchain state stays tiny, even as we process millions of transactions.</p>
+<h3 id="insertion-folding-one-vector-of-roots">1. Insertion: folding one vector of roots</h3>
+<p>For the current step we first build its <em>vanishing polynomial</em></p>
+<p><span class="math display">
+a_i(X)=\prod_{r\in\mathbf a_i}(X-r),
+</span></p>
+<p>then make a Pedersen commitment <span class="math inline">P_i</span> to the coefficient vector.
+One Fiat–Shamir challenge <span class="math inline">h=H(A_i,P_i)</span> lets us hop to the next state</p>
+<p><span class="math display">
+A_{i+1}=[h]\,A_i + P_i .
+</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="kw">fn</span> insert(roots<span class="op">:</span> <span class="op">&amp;</span>[Fr]<span class="op">,</span> a_prev<span class="op">:</span> G1Affine<span class="op">,</span> r<span class="op">:</span> Fr) <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>State<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> poly   <span class="op">=</span> poly_from_roots(roots)<span class="op">;</span>           <span class="co">//  a_i(X)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> p_i    <span class="op">=</span> commit(<span class="op">&amp;</span>poly<span class="op">.</span>coeffs<span class="op">,</span> r)<span class="op">?;</span>         <span class="co">//  P_i</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> h      <span class="op">=</span> hash_points_to_fr(<span class="op">&amp;</span>a_prev<span class="op">,</span> <span class="op">&amp;</span>p_i)<span class="op">;</span> <span class="co">//  H(A_i,P_i)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> next   <span class="op">=</span> a_prev <span class="op">*</span> h <span class="op">+</span> p_i<span class="op">;</span>                 <span class="co">//  A_{i+1}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(State <span class="op">{</span> Accumulator<span class="op">:</span> next<span class="op">.</span>into_affine()<span class="op">,</span> Commitment<span class="op">:</span> p_i <span class="op">}</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><em>Key point:</em> no matter how many vectors we add, <code>Accumulator</code> stays a <em>single</em> point.</p>
+<h3 id="proving-that-a-fresh-value-v-was-not-among-todays-roots">2. Proving that a fresh value <span class="math inline">v</span> was <strong>not</strong> among today’s roots</h3>
+<p>The verifier will accept only if the polynomial we committed <strong>doesn’t vanish</strong> at <span class="math inline">v</span>.</p>
+<ol type="1">
+<li><p>Evaluate once: <span class="math inline">\alpha = a_i(v)</span>.
+If <span class="math inline">\alpha=0</span> the proof must abort (v was a root).</p></li>
+<li><p>Shift the commitment so the <strong>shifted polynomial <em>does</em> vanish at <span class="math inline">v</span></strong>:
+<span class="math inline">P'_i = P_i - [\alpha]G_0</span></p></li>
+<li><p>Use a second challenge <span class="math inline">h' = H(S_i, P'_i)</span> to hop the non-membership accumulator.</p></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="kw">fn</span> check_non_membership(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        roots<span class="op">:</span> <span class="op">&amp;</span>[Fr]<span class="op">,</span> v<span class="op">:</span> Fr<span class="op">,</span> r<span class="op">:</span> Fr<span class="op">,</span> s_prev<span class="op">:</span> G1Affine) <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>State<span class="op">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> poly   <span class="op">=</span> poly_from_roots(roots)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> alpha  <span class="op">=</span> evaluate_poly(<span class="op">&amp;</span>poly<span class="op">.</span>coeffs<span class="op">,</span> v)<span class="op">;</span>     <span class="co">// α = a_i(v)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="pp">assert!</span>(<span class="op">!</span>alpha<span class="op">.</span>is_zero())<span class="op">;</span>                       <span class="co">// must be non-root</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> p_i    <span class="op">=</span> commit(<span class="op">&amp;</span>poly<span class="op">.</span>coeffs<span class="op">,</span> r)<span class="op">?;</span>           <span class="co">// P_i</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> p_ip   <span class="op">=</span> p_i <span class="op">-</span> POINTS[<span class="dv">0</span>] <span class="op">*</span> alpha<span class="op">;</span>            <span class="co">// P'_i</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> h_p    <span class="op">=</span> hash_points_to_fr(<span class="op">&amp;</span>s_prev<span class="op">,</span> <span class="op">&amp;</span>p_ip)<span class="op">;</span>  <span class="co">// h′ = H(S_i,P′_i)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> next   <span class="op">=</span> s_prev <span class="op">*</span> h_p <span class="op">+</span> p_ip<span class="op">;</span>                <span class="co">// S_{i+1}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(State <span class="op">{</span> Accumulator<span class="op">:</span> next<span class="op">.</span>into_affine()<span class="op">,</span> Commitment<span class="op">:</span> p_i <span class="op">}</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Because <span class="math inline">a_i(v)\neq0</span>, the <em>shifted</em> commitment now hides a polynomial whose <strong>only</strong> root at <span class="math inline">v</span> is the one we artificially created—exactly the witness we need for non-membership.</p>
+<h3 id="non-membership-across-a-range-with-ivc">3. Non-membership across a <strong>range</strong> with IVC</h3>
+<p>We can create a recursive (IVC) proof with base case is <span class="math inline">(A_j,S_j)</span> and repeat the above step for every <span class="math inline">i \ge j</span> to make a ranged claim.</p>
+<ul>
+<li>In the circuit we start from snapshot <span class="math inline">(A_j,S_j)</span>.</li>
+<li>At each iteration we witness <span class="math inline">(P_i, \alpha_i)</span> and apply the <code>check_non_membership</code> hop.</li>
+<li>The accumulator moves from <span class="math inline">(A_i,S_i)</span> to <span class="math inline">(A_{i+1},S_{i+1})</span>.</li>
+<li>Only the <strong>current</strong> state crosses the IVC boundary; earlier data are discarded.</li>
+</ul>
+<p>After <span class="math inline">m-j</span> hops the verifier sees <span class="math inline">(A_m,S_m)</span>.
+If <code>S_m</code> opens <em>to zero at <span class="math inline">v</span></em>, then—by induction—every intermediate polynomial was proven to evaluate <em>non-zero</em> at <span class="math inline">v</span>. Hence <span class="math inline">v</span> never appeared in any root vector <span class="math inline">\mathbf a_j</span>.</p>
+<h3 id="why-this-matters-for-zcash-style-nullifier-checks">4. Why this matters for Zcash-style nullifier checks</h3>
+<ul>
+<li><strong>O(1) state:</strong> <code>Accumulator</code> is one point <span class="math inline">\rightarrow</span> no Merkle depth cap.</li>
+<li><strong>Forget history:</strong> once the IVC proof exists, we can delete every old vector.</li>
+<li><strong>Cheap per block:</strong> each hop is a couple of hashes and group operations</li>
+<li><strong>Scalable non-membership:</strong> perfect for showing a nullifier <em>never</em> appeared, without keeping the nullifier set on-chain.</li>
+</ul>
+<p>In practice, replacing Zcash’s append-only Merkle trees with this accumulator would remove anchor leakage and tree maintenance, while still proving that a nullifier is unique.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>A vector-commitment accumulator gives Zcash a simpler approach to tracking spent notes: <strong>constant-size state</strong> that efficiently handles non-inclusion proofs (and can be extended to support inclusion proofs). This eliminates depth caps and tree migrations, while still providing the same security properties as Merkle trees.</p>
+<p>Real-world deployment still has open questions—metadata privacy, lightweight witness updates, etc. Check out my implementations of this accumulator below.</p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 24%" />
+<col style="width: 69%" />
+</colgroup>
+<thead>
+<tr>
+<th>Prototype</th>
+<th>Idea</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCS-only</td>
+<td>accumulator + polynomial commitment</td>
+<td><a href="https://github.com/0xWOLAND/set-noninclusion">https://github.com/0xWOLAND/set-noninclusion</a></td>
+</tr>
+<tr>
+<td>Folded proofs</td>
+<td>same accumulator, block-by-block recursion with the zkVM SP1</td>
+<td><a href="https://github.com/0xWOLAND/sp1-noninclusion">https://github.com/0xWOLAND/sp1-noninclusion</a> built with <a href="https://www.succinct.xyz/">SP1</a></td>
+</tr>
+</tbody>
+</table>
+<p>For the full design sketch, see <a href="https://hackmd.io/@dJO3Nbl4RTirkR2uDM6eOA/BJOnrTEj1x">Sean Bowe’s HackMD</a>.</p>
+<hr />
+<h1 id="appendix">Appendix</h1>
+<p>The vector-commitment accumulator guarantees <strong>existence</strong> (the value really was inserted) and <strong>uniqueness</strong> (no two different vectors can open to the same commitment at the same index) for two independent reasons:</p>
+<h4 id="existence-in-the-ivc-non-membership-chain">Existence in the IVC non-membership chain</h4>
+<p>For non-inclusion, each IVC step asserts <span class="math inline">p_t(z)\neq0</span>. Because the polynomial <span class="math inline">p_t</span> encodes <em>exactly</em> the vector inserted at step <span class="math inline">t</span>, the statement “<span class="math inline">z</span> was not in <span class="math inline">{\bf v}_t</span>” is true <strong>iff</strong> the evaluation is non-zero. The final recursive proof therefore certifies that <em>for every step in the range</em>, <span class="math inline">z</span> was not a coordinate of any inserted vector. That is an <em>existential</em> statement about the entire history, achieved with only <span class="math inline">O(1)</span> verifier work.</p>
+<h4 id="uniqueness-of-a-nullifier-style-opening">Uniqueness of a nullifier-style opening</h4>
+<p>If we swap the vector commitment for one that derives a nullifier‐like output (e.g. include the index <span class="math inline">j</span> and value <span class="math inline">v_j</span> in a PRF), the uniqueness follows the same logic: the PRF output is a function of a <strong>single</strong> valid opening, and the binding of the commitment ensures no second, distinct opening can produce the same output without violating discrete-log or collision-resistance.</p>
+<p>In short, the algebraic binding of the commitment bases <strong>anchors existence</strong>, while their linear independence <strong>enforces uniqueness</strong>—properties that survive each IVC update and give the accumulator the same double-spend resistance Merkle nullifiers provide, but with constant-size state and proofs.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>A note <span class="math inline">n</span> is a cryptographic representation of a value <span class="math inline">v</span> that can be spent by the holder of the corresponding shielded spending key<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://zcash.github.io/orchard/design/nullifiers.html?highlight=nullifier#nullifiers">In Orchard</a>, the nullifier is computed as a PRF fo the note’s two randomizers <span class="math inline">\rho, \phi</span>, the owner’s nullifier-deriving key <span class="math inline">nk</span>, and the commitment <span class="math inline">cm</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>A <a href="https://ethereum.org/en/developers/docs/nodes-and-clients/light-clients/">light client</a> verifies state transitions using succinct proofs instead of downloading the full chain. This allows secure operation on low-resource devices.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Because <span class="math inline">cm</span> is a <a href="https://zcash.github.io/halo2/design/gadgets/sinsemilla.html"><strong>binding Sinsemilla commitment</strong></a>, two different openings <span class="math inline">(\text{note},r)</span> and <span class="math inline">(\text{note}',r')</span> cannot map to the same curve point without either (i) finding a collision in the hash-to-curve function or (ii) solving a discrete-log problem—both assumed infeasible. If you tweak <em>any</em> field of the note or choose a new blinding scalar <span class="math inline">r'</span>, you inevitably get a <em>different</em> point and hence a different <span class="math inline">cm</span>. Since the Merkle‐path inside the zk-SNARK ties the spend to the exact <span class="math inline">cm</span> that already sits in the tree, you can’t “swap in” an alternative commitment; you would first have to mint that new <span class="math inline">cm</span> in a separate transaction. And because the nullifier is a PRF that explicitly includes <span class="math inline">cm</span>, changing the commitment would also change the nullifier, so the on-chain double-spend check still holds.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Each block in Zcash has a note-commitment tree of height. The genesis block is height 0, and each subsequent block increments this height by 1.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>An incremental Merkle tree is a binary tree that supports efficient, append-only updates: each new element is added as the next available leaf, and only the hashes along its path to the root are recomputed. This allows the Merkle root to evolve over time without rebuilding the whole tree, enabling short inclusion proofs that stay constant in size.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Zcash uses incremental Merkle trees to maintain a commitment tree of all shielded notes. As each note is created, its commitment is appended to the next empty leaf. Internal nodes are updated on-the-fly, and the Merkle root evolves incrementally. Inclusion proofs are short (one hash per level), and the current root is used as a public anchor in each transaction. This enables privacy-preserving spending proofs without revealing which note is spent.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>While the tree state grows, wallet witness updates can be made efficient: a trusted third party can provide just <span class="math inline">O(\log n)</span> advice that lets clients update their witnesses through <span class="math inline">n</span> insertions without downloading every new leaf. This is exactly how <a href="https://github.com/Electric-Coin-Company/zashi">Zashi</a> currently handles witness updates by having a server provide compact update hints that let wallets stay in sync with minimal bandwidth.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Sharding solves UX problems around note detection and spendability. See <a href="https://forum.zcashcommunity.com/t/improving-ux-with-detection-keys/46372/14">this forum post</a> for details on the tradeoffs and design.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+  <div class="article-footer">
+    <a href="../../">&larr; back to index</a>
+  </div>
+</article>
+
+</body>
+
+</html>

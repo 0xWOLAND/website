@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Escardó’s Exhaustive Search: Part 2</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="../../css/default.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js" onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
+  <script>!function () { var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); document.documentElement.className = t }()</script>
+</head>
+
+<body>
+  <button class="theme-toggle" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">☼</span><span class="moon">☾</span></button>
+  <article>
+  <div class="article-header">
+    <h1>Escardó’s Exhaustive Search: Part 2</h1>
+    <p class="dateline">July 26, 2025 &nbsp;&middot;&nbsp; math, pltheory</p>
+  </div>
+  <hr>
+  <h1 id="pulling-the-rabbit-out-of-the-hat">pulling the rabbit out of the hat??</h1>
+<p>At the end of the <a href="https://bhargav.wtf/blog/escardo-part-1/">previous blog</a>, I mentioned that the topological properties of the Cantor space make it searchable via a constructive algorithm. Surprisingly, its not too much of a lift but still feels kinda magical. Not only are we deciding a total predicate without any <em>a priori</em> information other than <strong>continuity and compactness</strong>. Nothing else is known ahead of time: which bit indices will be queried, the number of bits that are required, or any details about the frontier itself. All of this information is <strong>extracted at execution time</strong>.</p>
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="../../images/escardo/rabbit.png" alt="Cylinder Set" style="width: 50%; height: auto;" />
+  </div>
+</div>
+<p><em>In a world of AI generated images, enjoy my hand-drawn rendition of a rabbit in a hat<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. I know it is shit. Sorry.</em></p>
+<h1 id="haskell-wizardry">haskell wizardry</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sme ::</span> <span class="dt">Pred</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> [<span class="dt">Prefix</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sme p <span class="ot">=</span> go IM.empty <span class="kw">where</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  go asg <span class="ot">=</span> <span class="kw">case</span> evalP p asg <span class="kw">of</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Right</span> <span class="dt">True</span> <span class="ot">-&gt;</span> <span class="fu">pure</span> [asg]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Right</span> <span class="dt">False</span> <span class="ot">-&gt;</span> <span class="fu">pure</span> []</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Left</span> i <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      f0 <span class="ot">&lt;-</span> go (IM.insert i <span class="dt">False</span> asg)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      f1 <span class="ot">&lt;-</span> go (IM.insert i <span class="dt">True</span> asg)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pure</span> (f0 <span class="op">++</span> f1)</span></code></pre></div>
+<p>This performs a determinsitic DFS of the decision tree induced by the predicate <span class="math inline">p: (\mathbb{B}^\mathbb{N} \rightarrow \mathbb{B}) \rightarrow \mathbb{B}</span> via a partial oracle that answers onl ythe bits present int eh current prefix <span class="math inline">\sigma</span> and raises a <code>Need</code> exception when <span class="math inline">p</span> demands an unknown bit index <span class="math inline">i</span> (this is all covered in the previous blog, nothing new here).</p>
+<p>In this case, at node <span class="math inline">\sigma</span> we now have three cases:
+1. <code>evalP</code> returns <code>True</code> = <span class="math inline">p</span> is already a constant <span class="math inline">1</span> on <span class="math inline">[\sigma]</span> cylinder set so we can record <span class="math inline">\sigma</span> and return
+2. <code>evalP</code> returns False, so <span class="math inline">[\sigma] \subseteq U^c</span> so the entire branch can be pruned
+3. It raises <code>Need i</code> so we branch to <span class="math inline">\sigma \cup \{i \mapsto 0 \}</span> and <span class="math inline">\sigma \cup \{i  \mapsto 1 \}</span>.</p>
+<p>The result of this procedure is <span class="math inline">\cal{F} = \text{SME}(p)</span>, which represents the set of minimal true prefixes (an antichain<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> fo finite <span class="math inline">\sigma</span> with <span class="math inline">p \equiv 1</span> on <span class="math inline">[\sigma]</span>). Topologically, the preimage <span class="math inline">U = p^{-1}(1)</span> (which represents the set of satsifying assignments) can be expressed as the following disjoint union of cylinders</p>
+<p><span class="math display">
+    U = \bigcup_{\sigma \in \cal{F}} [\sigma]
+</span></p>
+<div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+  <div style="display: flex; justify-content: center;">
+    <img src="../../images/escardo/space.png" alt="Geometric Intuition" style="width: 50%; height: auto;" />
+  </div>
+</div>
+<p><em>Imagine each prefix <span class="math inline">\sigma</span> as carving out a subcube (cylinder set) of all points that agree with <span class="math inline">\sigma</span>. Then taking the union fills up the region where <span class="math inline">U = p^{-1} (1)</span>. By compactness, there is always a finite subcover but our algorithm refines this so that they are also disjoint.</em></p>
+<h1 id="examples">examples</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- fib-eventually (7 cylinders)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>\x <span class="ot">-&gt;</span> <span class="fu">any</span> (\f <span class="ot">-&gt;</span> f <span class="op">&lt;</span> <span class="dv">30</span> <span class="op">&amp;&amp;</span> x f) (<span class="fu">takeWhile</span> (<span class="op">&lt;</span> <span class="dv">30</span>) fibonacci)</span></code></pre></div>
+<p>This checks: “Does the infinite binary sequence x have <code>True</code> at any Fibonacci
+position &lt; 30?”</p>
+<p>The 7 cylinders represent the minimal decision tree:
+- If <code>x[1] = True</code> = predicate is <code>True</code> (fib 1)
+- Else if <code>x[2] = True</code> = predicate is <code>True</code> (fib 2)
+- Else if <code>x[3] = True</code> = predicate is <code>True</code> (fib 3)
+… and so on for positions 5, 8, 13, 21</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- prime-eventually (8 cylinders)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>\x <span class="ot">-&gt;</span> <span class="fu">any</span> (\p <span class="ot">-&gt;</span> p <span class="op">&lt;</span> <span class="dv">20</span> <span class="op">&amp;&amp;</span> x p) (<span class="fu">takeWhile</span> (<span class="op">&lt;</span> <span class="dv">20</span>) primes)</span></code></pre></div>
+<p>This computes primes on-demand from <code>primes = filter isPrime [2..]</code> (infinite list), then checks if x is <code>True</code> at any prime position <code>&lt; 20</code>. The 8 cylinders correspond to checking positions 2, 3, 5, 7, 11, 13, 17, 19 in
+sequence.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- collatz-reaches-1 (942 cylinders!)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>\x <span class="ot">-&gt;</span> <span class="kw">let</span> collatz n <span class="ot">=</span> <span class="kw">if</span> <span class="fu">even</span> n <span class="kw">then</span> n <span class="ot">`div`</span> <span class="dv">2</span> <span class="kw">else</span> <span class="dv">3</span><span class="op">*</span>n<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        orbit n <span class="ot">=</span> <span class="fu">takeWhile</span> (<span class="op">/=</span> <span class="dv">1</span>) (<span class="fu">iterate</span> collatz n)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="fu">length</span> (orbit (<span class="fu">sum</span> [i <span class="op">|</span> i <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">9</span>], x i] <span class="op">+</span> <span class="dv">1</span>)) <span class="op">&lt;</span> <span class="dv">50</span></span></code></pre></div>
+<p>Again expanding this gives us:
+1. Takes first 10 bits of x, sums the indices where <code>x[i] = True</code>, adds 1
+2. Computes the Collatz orbit of that number (<span class="math inline">3n+1</span> conjecture)
+3. Checks if the orbit reaches 1 in &lt; 50 steps</p>
+<p>Certain predicates over <strong>infinite sequences can be decided by examining only finite prefixes</strong>, and algorithms like <code>sme</code> can discover these finite characterizations. I wonder if there is something interesting in representing this as finite automata. In the next blog, we’ll go into some implications of introducing Randomness.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>I came across <a href="https://readingfeynman.org/tag/schrodinger-equation/">this blog</a> on Schrodinger’s equation when trying to come up with the intro, it seems pretty interesting.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Each finite prefix <span class="math inline">\sigma: F \rightarrow \mathbb{B}</span> (where <span class="math inline">F</span> is the local <a href="https://en.wikipedia.org/wiki/Modulus_of_continuity">modulus of continuity</a>[^3]) defines a cylinder set <span class="math inline">[\sigma] = \{x \in \mathbb{B}^\mathbb{N} | x|_F = \sigma\}</span>. If a new finite prefix <span class="math inline">\tau</span> extends <span class="math inline">\sigma</span>, then <span class="math inline">[\tau] \subseteq [\sigma]</span>. A small exercise is to prove that there si no way for two distinct prefixes two be returned. Consequently, <span class="math inline">\{ \sigma \}</span> defiens an antichain under this extension order. Algorithmically, this is enforced by <strong>minimality and early stopping</strong>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+  <div class="article-footer">
+    <a href="../../">&larr; back to index</a>
+  </div>
+</article>
+
+</body>
+
+</html>
