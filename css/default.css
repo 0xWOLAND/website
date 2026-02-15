@@ -1,26 +1,70 @@
+:root {
+  color-scheme: light;
+  --bg: #fff;
+  --fg: #151515;
+  --muted: #666;
+  --line: #ddd;
+  --focus: #0b57d0;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --bg: #111;
+  --fg: #eee;
+  --muted: #aaa;
+  --line: #333;
+  --focus: #8ab4f8;
+}
+
+* { box-sizing: border-box; }
+
 body {
   max-width: 42rem;
   margin: 0 auto;
   padding: 2rem 1rem 3rem;
-  line-height: 1.6;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
 }
 
+main > :first-child { margin-top: 0; }
+p, ul, ol, pre, blockquote { margin: 0 0 1rem; }
 img { max-width: 100%; height: auto; }
-pre { overflow-x: auto; }
+pre { overflow-x: auto; padding: .75rem; border: 1px solid var(--line); border-radius: .35rem; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 1rem 0; }
 
-a { text-underline-offset: 2px; }
+a { color: inherit; text-underline-offset: 2px; }
+a:focus-visible,
+button:focus-visible,
+.skip-link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: .2rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--bg);
+  color: var(--fg);
+  padding: .5rem .75rem;
+  border: 1px solid var(--line);
+}
+.skip-link:focus { left: .75rem; top: .75rem; }
 
 .masthead, .article-header { text-align: center; }
-.masthead hr { margin: .5rem 0; }
+.masthead hr { margin: .45rem 0; }
 .masthead hr.thin { margin-top: 0; }
-.masthead-nav, .dateline { font-size: .9rem; color: #666; }
+.masthead-nav, .dateline { color: var(--muted); font-size: .9rem; }
+.masthead-nav { display: inline-flex; gap: .5rem; align-items: center; flex-wrap: wrap; justify-content: center; }
 
 .post-list { list-style: none; margin: 0; padding: 0; }
-.post-list li { display: flex; gap: 1rem; align-items: baseline; margin: .35rem 0; }
+.post-list li { display: grid; grid-template-columns: auto 1fr; gap: .75rem; margin: .4rem 0; align-items: baseline; }
 .post-date {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: .8rem;
-  color: #666;
+  color: var(--muted);
   white-space: nowrap;
 }
 
@@ -32,13 +76,14 @@ a { text-underline-offset: 2px; }
   right: .75rem;
   border: 0;
   background: transparent;
+  color: var(--muted);
   cursor: pointer;
-  opacity: .5;
+  opacity: .7;
 }
 .theme-toggle:hover { opacity: 1; }
 :root.dark .theme-toggle .moon, :root:not(.dark) .theme-toggle .sun { display: none; }
 
 @media (max-width: 600px) {
-  .post-list li { display: block; }
-  .post-date { display: block; }
+  body { padding-top: 3rem; }
+  .post-list li { grid-template-columns: 1fr; gap: .15rem; }
 }

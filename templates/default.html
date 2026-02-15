@@ -11,12 +11,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"
     onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
-  <script>!function () { var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); document.documentElement.className = t }()</script>
+  <script>!function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.className=t}()</script>
 </head>
 
 <body>
-  <button class="theme-toggle" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">&#9788;</span><span class="moon">&#9790;</span></button>
-  $body$
+  <a class="skip-link" href="#content">Skip to content</a>
+  <button class="theme-toggle" type="button" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">&#9788;</span><span class="moon">&#9790;</span></button>
+  <main id="content">
+    $body$
+  </main>
 </body>
 
 </html>

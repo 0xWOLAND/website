@@ -7,91 +7,90 @@ import System.FilePath (takeBaseName)
 import Text.Pandoc.Highlighting (pygments, styleToCss)
 import Text.Pandoc.Options
 
---------------------------------------------------------------------------------
-
 main :: IO ()
 main = hakyll $ do
-    match ("images/**" .||. "favicon.svg") $ do
-        route   idRoute
-        compile copyFileCompiler
+  match assetPattern $ route idRoute >> compile copyFileCompiler
+  match "css/*" $ route idRoute >> compile compressCssCompiler
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+  create ["css/syntax.css"] $ do
+    route idRoute
+    compile $ makeItem syntaxHighlightCss
 
-    create ["css/syntax.css"] $ do
-        route idRoute
-        compile $ makeItem (styleToCss pygments)
+  match postsPattern $ do
+    route postRoute
+    compile $
+      compilePost
+        >>= loadAndApplyTemplate "templates/post.html" postContext
+        >>= loadAndApplyTemplate defaultTemplate postContext
+        >>= relativizeUrls
 
-    match "posts/*" $ do
-        route   blogRoute
-        compile $ postCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
-            >>= relativizeUrls
+  match "sites.md" $ do
+    route $ constRoute "sites/index.html"
+    compile $
+      pandocCompiler
+        >>= loadAndApplyTemplate defaultTemplate defaultContext
+        >>= relativizeUrls
 
-    match "sites.md" $ do
-        route   $ constRoute "sites/index.html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
+  create ["index.html"] $ do
+    route idRoute
+    compile $ do
+      posts <- recentFirst =<< loadAll postsPattern
+      let ctx = indexContext posts
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/index.html" ctx
+        >>= loadAndApplyTemplate defaultTemplate ctx
+        >>= relativizeUrls
 
-    create ["index.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let ctx =
-                    mconcat
-                        [ listField "posts" postCtx (pure posts)
-                        , constField "title" "\127851\127963\65039"
-                        , defaultContext
-                        ]
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/index.html"   ctx
-                >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= relativizeUrls
+  match "templates/*" $ compile templateBodyCompiler
 
-    match "templates/*" $ compile templateBodyCompiler
+assetPattern :: Pattern
+assetPattern = "images/**" .||. "favicon.svg"
 
---------------------------------------------------------------------------------
--- | Post metadata: both a display date and a compact ISO date for the index.
+postsPattern :: Pattern
+postsPattern = "posts/*"
 
-postCtx :: Context String
-postCtx =
-    mconcat
-        [ dateField "date" "%B %e, %Y"
-        , dateField "isodate" "%Y-%m-%d"
-        , defaultContext
-        ]
+defaultTemplate :: Identifier
+defaultTemplate = "templates/default.html"
 
---------------------------------------------------------------------------------
--- | Pandoc compiler with raw HTML passthrough and KaTeX math rendering.
+syntaxHighlightCss :: String
+syntaxHighlightCss = styleToCss pygments
 
-postCompiler :: Compiler (Item String)
-postCompiler = pandocCompilerWith readerOpts writerOpts
+indexContext :: [Item String] -> Context String
+indexContext posts =
+  mconcat
+    [ listField "posts" postContext (pure posts)
+    , constField "title" "\127851\127963\65039"
+    , defaultContext
+    ]
+
+postContext :: Context String
+postContext =
+  mconcat
+    [ dateField "date" "%B %e, %Y"
+    , dateField "isodate" "%Y-%m-%d"
+    , defaultContext
+    ]
+
+compilePost :: Compiler (Item String)
+compilePost = pandocCompilerWith readerOptions writerOptions
   where
-    readerOpts =
-        defaultHakyllReaderOptions
-            { readerExtensions =
-                foldr disableExtension baseReaderExtensions disabledExtensions
-            }
-    baseReaderExtensions = readerExtensions defaultHakyllReaderOptions
-    disabledExtensions =
-        [ Ext_native_divs
-        , Ext_native_spans
-        , Ext_markdown_in_html_blocks
-        ]
-    writerOpts = defaultHakyllWriterOptions
-        { writerHTMLMathMethod = KaTeX "" }
+    readerOptions =
+      defaultHakyllReaderOptions
+        { readerExtensions =
+            foldr disableExtension
+              (readerExtensions defaultHakyllReaderOptions)
+              disabledReaderExtensions
+        }
+    disabledReaderExtensions =
+      [ Ext_native_divs
+      , Ext_native_spans
+      , Ext_markdown_in_html_blocks
+      ]
+    writerOptions = defaultHakyllWriterOptions {writerHTMLMathMethod = KaTeX ""}
 
---------------------------------------------------------------------------------
--- | Route @YYYY-MM-DD-slug.md@ to @blog\/slug\/index.html@, preserving
---   clean URLs while keeping posts sorted by filename on disk.
-
-blogRoute :: Routes
-blogRoute = customRoute $
-    format . stripDatePrefix . takeBaseName . toFilePath
+postRoute :: Routes
+postRoute = customRoute $ toPostPath . takeBaseName . toFilePath
   where
-    stripDatePrefix (_:_:_:_:'-':_:_:'-':_:_:'-':slug) = slug
+    toPostPath slug = "blog/" <> stripDatePrefix slug <> "/index.html"
+    stripDatePrefix (_:_:_:_:'-':_:_:'-':_:_:'-':rest) = rest
     stripDatePrefix slug = slug
-    format slug    = "blog/" <> slug <> "/index.html"
