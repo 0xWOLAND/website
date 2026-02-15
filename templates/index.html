@@ -1,10 +1,14 @@
-<h1>&#127851;&#127963;&#65039; (bhar - gav)</h1>
-<p><a href="https://github.com/0xWOLAND">github</a> &middot; <a href="/sites/">sites i like</a></p>
-<hr>
+<div class="masthead">
+  <h1>bhar &middot; gav</h1>
+  <hr>
+  <hr class="thin">
+  <p class="masthead-nav"><a href="https://github.com/0xWOLAND">github</a> &nbsp;&middot;&nbsp; <a href="/sites/">sites i like</a></p>
+</div>
+<ul class="post-list">
 $for(posts)$
-<article>
-  <h2><a href="$url$">$title$</a></h2>
-  <p class="post-meta">$date$$if(tags)$ &middot; $tags$$endif$</p>
-  $if(description)$<p>$description$</p>$endif$
-</article>
+  <li>
+    <span class="post-date">$isodate$</span>
+    <a href="$url$">$title$</a>
+  </li>
 $endfor$
+</ul>

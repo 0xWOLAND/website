@@ -1,9 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+module Main (main) where
+
 import Hakyll
-import System.FilePath            (takeBaseName)
-import Text.Pandoc.Highlighting   (breezeDark, pygments, styleToCss)
+import System.FilePath (takeBaseName)
+import Text.Pandoc.Highlighting (pygments, styleToCss)
 import Text.Pandoc.Options
+
+--------------------------------------------------------------------------------
 
 main :: IO ()
 main = hakyll $ do
@@ -17,7 +21,7 @@ main = hakyll $ do
 
     create ["css/syntax.css"] $ do
         route idRoute
-        compile . makeItem $ syntaxCss
+        compile $ makeItem (styleToCss pygments)
 
     match "posts/*" $ do
         route   blogRoute
@@ -36,54 +40,58 @@ main = hakyll $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
-            let indexCtx = listField "posts" postCtx (pure posts)
-                        <> constField "title" "🍫🏛️"
-                        <> defaultContext
+            let ctx =
+                    mconcat
+                        [ listField "posts" postCtx (pure posts)
+                        , constField "title" "\127851\127963\65039"
+                        , defaultContext
+                        ]
             makeItem ""
-                >>= loadAndApplyTemplate "templates/index.html"   indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
+                >>= loadAndApplyTemplate "templates/index.html"   ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= relativizeUrls
 
     match "templates/*" $ compile templateBodyCompiler
 
+--------------------------------------------------------------------------------
+-- | Post metadata: both a display date and a compact ISO date for the index.
 
 postCtx :: Context String
-postCtx = dateField "date" "%B %e, %Y" <> defaultContext
+postCtx =
+    mconcat
+        [ dateField "date" "%B %e, %Y"
+        , dateField "isodate" "%Y-%m-%d"
+        , defaultContext
+        ]
+
+--------------------------------------------------------------------------------
+-- | Pandoc compiler with raw HTML passthrough and KaTeX math rendering.
 
 postCompiler :: Compiler (Item String)
 postCompiler = pandocCompilerWith readerOpts writerOpts
-
-readerOpts :: ReaderOptions
-readerOpts = defaultHakyllReaderOptions
-    { readerExtensions = foldr disableExtension
-        (readerExtensions defaultHakyllReaderOptions)
+  where
+    readerOpts =
+        defaultHakyllReaderOptions
+            { readerExtensions =
+                foldr disableExtension baseReaderExtensions disabledExtensions
+            }
+    baseReaderExtensions = readerExtensions defaultHakyllReaderOptions
+    disabledExtensions =
         [ Ext_native_divs
         , Ext_native_spans
         , Ext_markdown_in_html_blocks
         ]
-    }
-
-writerOpts :: WriterOptions
-writerOpts = defaultHakyllWriterOptions
-    { writerHTMLMathMethod = KaTeX "" }
-
-
-blogRoute :: Routes
-blogRoute = customRoute $ \ident ->
-    "blog/" ++ takeBaseName (toFilePath ident) ++ "/index.html"
+    writerOpts = defaultHakyllWriterOptions
+        { writerHTMLMathMethod = KaTeX "" }
 
 --------------------------------------------------------------------------------
--- Syntax highlighting
+-- | Route @YYYY-MM-DD-slug.md@ to @blog\/slug\/index.html@, preserving
+--   clean URLs while keeping posts sorted by filename on disk.
 
-syntaxCss :: String
-syntaxCss = lightCss ++ "\n" ++ darkCss
+blogRoute :: Routes
+blogRoute = customRoute $
+    format . stripDatePrefix . takeBaseName . toFilePath
   where
-    lightCss = styleToCss pygments
-    darkCss  = unlines
-        [ ":root.dark " ++ rule
-        | rule <- lines (styleToCss breezeDark)
-        , "code span" `isPrefixOf` rule
-        ]
-
-isPrefixOf :: String -> String -> Bool
-isPrefixOf prefix str = take (length prefix) str == prefix
+    stripDatePrefix (_:_:_:_:'-':_:_:'-':_:_:'-':slug) = slug
+    stripDatePrefix slug = slug
+    format slug    = "blog/" <> slug <> "/index.html"

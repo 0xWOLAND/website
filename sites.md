@@ -2,7 +2,7 @@
 title: Sites I Like
 ---
 
-# sites i like
+# Interesting Sites
 
 [← back home](/)
 
@@ -11,3 +11,4 @@ title: Sites I Like
 - [Andras Kovacs](https://andraskovacs.github.io/)
 - [AgingBiotech](https://agingbiotech.info/)
 - [Simon Peyton Jones](https://simon.peytonjones.org/tags/#haskell)
+- [Dan Luu](https://danluu.com/)

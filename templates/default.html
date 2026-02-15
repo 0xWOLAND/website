@@ -15,8 +15,7 @@
 </head>
 
 <body>
-  <button class="theme-toggle"
-    onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)">&#9790;/&#9728;</button>
+  <button class="theme-toggle" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">&#9788;</span><span class="moon">&#9790;</span></button>
   $body$
 </body>
 
