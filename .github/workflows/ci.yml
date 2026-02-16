@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: cachix/install-nix-action@v31
       - run: nix build .#site --accept-flake-config
       - run: ./result/bin/site build
       - uses: actions/upload-pages-artifact@v3
