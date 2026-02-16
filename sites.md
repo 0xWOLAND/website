@@ -1,10 +1,8 @@
 ---
 title: Sites I Like
-description: Links to sites I enjoy.
-layout: ../layouts/BaseLayout.astro
 ---
 
-# sites i like
+# Interesting Sites
 
 [← back home](/)
 
@@ -13,3 +11,4 @@ layout: ../layouts/BaseLayout.astro
 - [Andras Kovacs](https://andraskovacs.github.io/)
 - [AgingBiotech](https://agingbiotech.info/)
 - [Simon Peyton Jones](https://simon.peytonjones.org/tags/#haskell)
+- [Dan Luu](https://danluu.com/)

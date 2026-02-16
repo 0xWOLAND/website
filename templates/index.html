@@ -1,0 +1,19 @@
+<div class="masthead">
+  <h1>bhar &middot; gav</h1>
+  <hr>
+  <hr class="thin">
+  <nav class="masthead-nav" aria-label="Primary">
+    <a href="https://github.com/0xWOLAND" rel="me noopener noreferrer">github</a>
+    <span aria-hidden="true">&middot;</span>
+    <a href="/sites/">sites i like</a>
+  </nav>
+</div>
+
+<ul class="post-list">
+$for(posts)$
+  <li>
+    <span class="post-date">$isodate$</span>
+    <a href="$url$">$title$</a>
+  </li>
+$endfor$
+</ul>

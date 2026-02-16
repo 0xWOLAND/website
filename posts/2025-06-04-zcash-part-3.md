@@ -2,7 +2,7 @@
 title: "Private Money: Part 3"
 description: "Investigating Project Tachyon: Set Non-Inclusion Accumulator"
 date: 2025-06-04
-tags: ["crypto", "pcs"]
+tags: crypto, pcs
 ---
 
 # Background
