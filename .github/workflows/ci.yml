@@ -19,12 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: haskell-actions/setup@v2
-        with:
-          ghc-version: '9.4.8'
-          cabal-version: '3.10'
-      - run: cabal build
-      - run: cabal run site build
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - run: nix build .#site --accept-flake-config
+      - run: ./result/bin/site build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
