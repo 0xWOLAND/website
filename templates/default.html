@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -12,22 +11,14 @@
   <link rel="stylesheet" href="/css/default.css">
   <link rel="stylesheet" href="/css/syntax-light.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"
-    onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js" onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function setRatioBucket(img) {
         if (!img.naturalWidth || !img.naturalHeight) return;
-        var ratio = img.naturalWidth / img.naturalHeight;
-        var bucket = 'square';
-        if (ratio >= 1.9) bucket = 'wide';
-        else if (ratio >= 1.2) bucket = 'landscape';
-        else if (ratio >= 0.9) bucket = 'square';
-        else if (ratio >= 0.65) bucket = 'portrait';
-        else bucket = 'tall';
-        img.setAttribute('data-ratio', bucket);
+        var r = img.naturalWidth / img.naturalHeight;
+        img.setAttribute('data-ratio', r >= 1.9 ? 'wide' : r >= 1.2 ? 'landscape' : r >= 0.9 ? 'square' : r >= 0.65 ? 'portrait' : 'tall');
       }
-
       document.querySelectorAll('main img').forEach(function (img) {
         if (img.complete) setRatioBucket(img);
         else img.addEventListener('load', function () { setRatioBucket(img); }, { once: true });
@@ -35,12 +26,8 @@
     });
   </script>
 </head>
-
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
-  <main id="content">
-    $body$
-  </main>
+  <main id="content">$body$</main>
 </body>
-
 </html>
