@@ -6,17 +6,38 @@
   <meta name="viewport" content="width=device-width">
   <title>$title$</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Libre+Franklin:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/default.css">
-  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/syntax-light.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"
     onload="document.querySelectorAll('.math.inline').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false})});document.querySelectorAll('.math.display').forEach(function(e){katex.render(e.textContent,e,{throwOnError:false,displayMode:true})})"></script>
-  <script>!function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.className=t}()</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function setRatioBucket(img) {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        var ratio = img.naturalWidth / img.naturalHeight;
+        var bucket = 'square';
+        if (ratio >= 1.9) bucket = 'wide';
+        else if (ratio >= 1.2) bucket = 'landscape';
+        else if (ratio >= 0.9) bucket = 'square';
+        else if (ratio >= 0.65) bucket = 'portrait';
+        else bucket = 'tall';
+        img.setAttribute('data-ratio', bucket);
+      }
+
+      document.querySelectorAll('main img').forEach(function (img) {
+        if (img.complete) setRatioBucket(img);
+        else img.addEventListener('load', function () { setRatioBucket(img); }, { once: true });
+      });
+    });
+  </script>
 </head>
 
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
-  <button class="theme-toggle" type="button" onclick="var n=document.documentElement.className==='dark'?'light':'dark';document.documentElement.className=n;localStorage.setItem('theme',n)" aria-label="Toggle theme"><span class="sun">&#9788;</span><span class="moon">&#9790;</span></button>
   <main id="content">
     $body$
   </main>

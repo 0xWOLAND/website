@@ -15,14 +15,8 @@ The library breathed a disciplined quiet; inside, my breathing felt too loud. Ou
 
 The room traded the effort of navigating the city for the discipline of staying. The quiet did not offer relief so much as structure. It set a pace and expected it to be kept. 
 
-<div style="display: flex; justify-content: center;">
-    <img src="/images/life/writing.jpeg" alt="writing this irl" style="width: 50%; height: auto;" />
-</div>
-
-
-<div align="center">
-    <i>here i am writing this. i'm not sure how i feel about it.</i>
-</div>
+![writing this irl](/images/life/writing.jpeg)
+*here i am writing this. i'm not sure how i feel about it.*
 
 # the promise
 
@@ -30,27 +24,13 @@ When I told my friends I was going to Tokyo for the summer, they reacted as if I
 
 Most people I know come to Japan the way they visit an exhibit or museum—wide-eyed, temporary, forgiven. There is a kind of freedom in that. You can be ignorant and call it charm. You can misread everything and leave before it has consequences. 
 
-<div style="display: flex; justify-content: center;">
-    <img src="/images/life/airbnb.png" alt="airbnb image" style="width: 50%; height: auto;" />
-</div>
-
-<div align="center">
-    <i>
-        i was worried i was going to get another visit from the keisatsu
-    </i>
-</div>
+![airbnb image](/images/life/airbnb.png)
+*i was worried i was going to get another visit from the keisatsu*
 
 I stopped at the mouth of a Kabukicho back alley near the Godzilla statue—so narrow it felt like the city had drawn its shoulder in. Signs stacked upward in layers, bars and ramen shops tucked behind every corner. Touts [^5] in gaudy chains drifted in and out like it was nothing. The air turned: urine, trash, stale smoke. Near Toyoko, kids hovered under LED light—gyaru makeup too bright for tired faces, cigarettes passed between small hands. I realized I’d been holding my breath.
 
-<div style="display: flex; justify-content: center;">
-    <img src="/images/life/uhoh.png" alt="uhoh" style="width: 50%; height: auto;" />
-</div>
-
-<div align="center">
-    <i>
-        uh oh..
-    </i>
-</div>
+![uhoh](/images/life/uhoh.png)
+*uh oh..*
 
 
 I wasn’t here the way people come on vacation—wide-eyed, temporary, forgiven. I lived here. Which meant going in: through doors that didn’t care if I could read the signs, down hallways where the air changed and my instincts lagged. My cousin’s hotspot iPhone 4 sat half-dead in my pocket like a failing lifeline. If I didn’t come back out, it would be a missing person report in a language I could hardly speak, and then silence.
@@ -66,13 +46,8 @@ And that was just the beginning.
 Not the internship. Not the sightseeing. Not the friendships I would later make. This was the beginning: the comforts I usually carried—language, familiarity, the ability to disappear—were gone. 
 
 
-<div style="display: flex; justify-content: center;">
-    <img src="/images/life/room.JPG" alt="my room" style="width: 50%; height: auto;" />
-</div>
-
-<div align="center">
-    <i>i still can't believe i brought a crushed belvita all the way from austin. it was multiple years old and unfortunately was my first meal in tokyo. </i>
-</div>
+![my room](/images/life/room.JPG)
+*i still can't believe i brought a crushed belvita all the way from austin. it was multiple years old and unfortunately was my first meal in tokyo.*
 
 It was better than last summer's place in San Francisco's financial district by a lot. But it still wasn't much.
 
@@ -83,13 +58,7 @@ A yellow air conditioner that never stopped working. Slippers waiting at the doo
     <img src="/images/life/austin_banksy.jpeg" alt="austin banksy" style="width: 50%; height: auto;" />
     <img src="/images/life/tokyo_banksy.jpeg" alt="tokyo banksy" style="width: 50%; height: auto;" />
 </div>
-
-
-<div align="center">
-    <i>
-        the same girl i'd seen on a wall in austin, near the bridge sun-faded, half-ignored, part of the outside world. here she was framed and clean—indoors, made tame. 
-    </i>
-</div>
+*the same girl i'd seen on a wall in austin, near the bridge sun-faded, half-ignored, part of the outside world. here she was framed and clean—indoors, made tame.*
 
 And that kept happening this summer—familiar outlines showing up in new places. It wasn’t fate. It was just something repeating, and I kept noticing it.
 
@@ -99,9 +68,7 @@ And that kept happening this summer—familiar outlines showing up in new places
     <iframe src="https://www.google.com/maps/embed?pb=!4v1757318713911!6m8!1m7!1sPYYs1dZV0egPAFlKf7_4gw!2m2!1d30.26283461921503!2d-97.74466928744275!3f128.99323098704417!4f-15.50496302294205!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 
-<div align="center">
-    <i>wow. it's gone now.</i>
-</div>
+*wow. it's gone now.*
 
 Andy is building a humanoid company in Japan from scratch. Not "In Japan" as a vibe but as in suppliers, visas, language, parts that don't arrive, company structure, culture, etc. 
 
@@ -120,13 +87,8 @@ I liked the phrase _genchi genbutsu_ because it sounds stricter than how I usual
 
 One of the members who currently works on computer vision told me about his earlier years in manufacturing. He described handling molten metal in the Toyota assembly lines, managing timing and temperature. He didn’t present it as a lesson, but to me it made _genchi genbutsu_ click: learning under conditions where errors show up immediately. Stuff like that changed what I take seriously. It shrinks the range of things you can pretend are fine.
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="/images/life/gotokuji.png" alt="tokyo night" style="width: 50%; height: auto;" />
-</div>
-
- <div align="center">
-    <i>one of the temples i visited during the summer, famous for its cat statues but there were certain views that couldn't be forgotten like this.</i>
-</div>
+![tokyo night](/images/life/gotokuji.png)
+*one of the temples i visited during the summer, famous for its cat statues but there were certain views that couldn't be forgotten like this.*
 
 
 I didn’t realize it right away. It showed up on the walk home, passing the same vending machines I'd started using like mile markers. 
@@ -147,25 +109,15 @@ Japan isn't just a new aesthetic, but I did learn a stricter definition of real.
 # liminal spaces
 
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="/images/life/walking.jpeg" alt="walking back" style="width: 50%; height: auto;" />
-</div>
-
- <div align="center">
-    <i>it just rained, walking back from the imperial gardens</i>
-</div>
+![walking back](/images/life/walking.jpeg)
+*it just rained, walking back from the imperial gardens*
 
 This summer has felt liminal in an odd way: not between cities but between forms of belonging. 
 
 Nothing shattered. Things only thinned—stretched until the effort of holding them became audible. I talked to people I love less often, not because they mattered less, but because each call now required a small negotiation with time zones and fatigue.
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="/images/life/friends.png" alt="friends" style="width: 50%; height: auto;" />
-</div>
-
- <div align="center">
-    <i> friends from the roppongi hacker house next to my airbnb </i>
-</div>
+![friends](/images/life/friends.png)
+*friends from the roppongi hacker house next to my airbnb*
 
 Meanwhile, Tokyo supplied companionship at arm’s length. Proximity did the work that distance was undoing elsewhere—buoyancy without intimacy. I started marking time by small things: the Takeshita side streets that stayed cool, which vending machines took my card, the same Taco Rico bags collecting by the door [^3], the train up to Bunkyo to the Uzumaki house—peanut chicken and bok choy, old Ethereum friends talking sequencer design and coordination like it was casual, and me mostly just grateful to be at a table with someone across from me.
 
@@ -181,13 +133,8 @@ In time I noticed a different divide, less about connection and more about wheth
 I want to do things without guarding every edge. The upside isn't polish but the kind of [asymmetry](https://fooledbyrandomness.com/ConvexityScience.pdf) that Nassim Taleb writes about, where volatility teaches instead of eroding. This summer loosened the gravity of an identity that I've worked within for a significant part of my life. Now what remains feels lighter, but also more deliberate. 
 
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="/images/life/background.jpg" alt="background" style="width: 50%; height: auto;" />
-</div>
-
- <div align="center">
-    <i> a sketch from my notes app that i keep as my phone background. the left captures the instability of the present; the right is my reminder to zoom out.</i>
-</div>
+![background](/images/life/background.jpg)
+*a sketch from my notes app that i keep as my phone background. the left captures the instability of the present; the right is my reminder to zoom out.*
 
 
 I’d been in it so long I stopped noticing the current. In markets, a day can disappear into tiny shifts and still feel like work. With people, it was similar: staying where the temperature was familiar, where the next interaction was implied.

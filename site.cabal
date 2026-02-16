@@ -4,6 +4,6 @@ version: 0.1
 
 executable site
   main-is:          site.hs
-  build-depends:    base, hakyll, pandoc, filepath
+  build-depends:    base, hakyll, pandoc, filepath, skylighting
   ghc-options:      -threaded
   default-language: Haskell2010

@@ -2,9 +2,11 @@
 
 module Main (main) where
 
+import Control.Monad ((>=>))
 import Hakyll
+import Skylighting.Format.HTML (styleToCss)
+import Skylighting.Styles (pygments)
 import System.FilePath (takeBaseName)
-import Text.Pandoc.Highlighting (pygments, styleToCss)
 import Text.Pandoc.Options
 
 main :: IO ()
@@ -12,34 +14,24 @@ main = hakyll $ do
   match assetPattern $ route idRoute >> compile copyFileCompiler
   match "css/*" $ route idRoute >> compile compressCssCompiler
 
-  create ["css/syntax.css"] $ do
+  create ["css/syntax-light.css"] $ do
     route idRoute
-    compile $ makeItem syntaxHighlightCss
+    compile $ makeItem (styleToCss pygments)
 
   match postsPattern $ do
     route postRoute
-    compile $
-      compilePost
-        >>= loadAndApplyTemplate "templates/post.html" postContext
-        >>= loadAndApplyTemplate defaultTemplate postContext
-        >>= relativizeUrls
+    compile $ compilePost >>= applyPostTemplates
 
   match "sites.md" $ do
     route $ constRoute "sites/index.html"
-    compile $
-      pandocCompiler
-        >>= loadAndApplyTemplate defaultTemplate defaultContext
-        >>= relativizeUrls
+    compile $ pandocCompiler >>= applyDefaultTemplate defaultContext
 
   create ["index.html"] $ do
     route idRoute
     compile $ do
       posts <- recentFirst =<< loadAll postsPattern
       let ctx = indexContext posts
-      makeItem ""
-        >>= loadAndApplyTemplate "templates/index.html" ctx
-        >>= loadAndApplyTemplate defaultTemplate ctx
-        >>= relativizeUrls
+      makeItem "" >>= loadAndApplyTemplate "templates/index.html" ctx >>= applyDefaultTemplate ctx
 
   match "templates/*" $ compile templateBodyCompiler
 
@@ -52,8 +44,13 @@ postsPattern = "posts/*"
 defaultTemplate :: Identifier
 defaultTemplate = "templates/default.html"
 
-syntaxHighlightCss :: String
-syntaxHighlightCss = styleToCss pygments
+applyDefaultTemplate :: Context String -> Item String -> Compiler (Item String)
+applyDefaultTemplate ctx = loadAndApplyTemplate defaultTemplate ctx >=> relativizeUrls
+
+applyPostTemplates :: Item String -> Compiler (Item String)
+applyPostTemplates =
+  loadAndApplyTemplate "templates/post.html" postContext
+    >=> applyDefaultTemplate postContext
 
 indexContext :: [Item String] -> Context String
 indexContext posts =
@@ -85,6 +82,7 @@ compilePost = pandocCompilerWith readerOptions writerOptions
       [ Ext_native_divs
       , Ext_native_spans
       , Ext_markdown_in_html_blocks
+      , Ext_implicit_figures
       ]
     writerOptions = defaultHakyllWriterOptions {writerHTMLMathMethod = KaTeX ""}
 
