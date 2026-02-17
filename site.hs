@@ -2,7 +2,8 @@
 
 module Main (main) where
 
-import Control.Monad ((>=>))
+import Data.Char (isDigit)
+import Data.List (isPrefixOf)
 import Hakyll
 import Skylighting.Format.HTML (styleToCss)
 import Skylighting.Styles (pygments)
@@ -11,7 +12,7 @@ import Text.Pandoc.Options
 
 main :: IO ()
 main = hakyll $ do
-  match assetPattern $ route idRoute >> compile copyFileCompiler
+  match assetPattern staticFile
   match "css/*" $ route idRoute >> compile compressCssCompiler
 
   create ["css/syntax-light.css"] $ do
@@ -20,7 +21,7 @@ main = hakyll $ do
 
   match postsPattern $ do
     route postRoute
-    compile $ compilePost >>= applyPostTemplates
+    compile $ compilePost >>= saveSnapshot "content" >>= applyPostTemplates
 
   match "sites.md" $ do
     route $ constRoute "sites/index.html"
@@ -33,7 +34,22 @@ main = hakyll $ do
       let ctx = indexContext posts
       makeItem "" >>= loadAndApplyTemplate "templates/index.html" ctx >>= applyDefaultTemplate ctx
 
+  create ["rss.xml"] $ do
+    route idRoute
+    compile $ do
+      posts <- recentPostSnapshots
+      renderRss feedConfiguration feedContext posts
+
+  create ["atom.xml"] $ do
+    route idRoute
+    compile $ do
+      posts <- recentPostSnapshots
+      renderAtom feedConfiguration feedContext posts
+
   match "templates/*" $ compile templateBodyCompiler
+
+staticFile :: Rules ()
+staticFile = route idRoute >> compile copyFileCompiler
 
 assetPattern :: Pattern
 assetPattern = "images/**" .||. "favicon.svg"
@@ -41,32 +57,42 @@ assetPattern = "images/**" .||. "favicon.svg"
 postsPattern :: Pattern
 postsPattern = "posts/*"
 
-defaultTemplate :: Identifier
-defaultTemplate = "templates/default.html"
-
 applyDefaultTemplate :: Context String -> Item String -> Compiler (Item String)
-applyDefaultTemplate ctx = loadAndApplyTemplate defaultTemplate ctx >=> relativizeUrls
+applyDefaultTemplate ctx item =
+  loadAndApplyTemplate "templates/default.html" ctx item >>= relativizeUrls
 
 applyPostTemplates :: Item String -> Compiler (Item String)
-applyPostTemplates =
-  loadAndApplyTemplate "templates/post.html" postContext
-    >=> applyDefaultTemplate postContext
+applyPostTemplates item =
+  loadAndApplyTemplate "templates/post.html" postContext item
+    >>= applyDefaultTemplate postContext
 
 indexContext :: [Item String] -> Context String
 indexContext posts =
-  mconcat
-    [ listField "posts" postContext (pure posts)
-    , constField "title" "\127851\127963\65039"
-    , defaultContext
-    ]
+  listField "posts" postContext (pure posts)
+    <> constField "title" "\127851\127963\65039"
+    <> defaultContext
 
 postContext :: Context String
 postContext =
-  mconcat
-    [ dateField "date" "%B %e, %Y"
-    , dateField "isodate" "%Y-%m-%d"
-    , defaultContext
-    ]
+  dateField "date" "%B %e, %Y"
+    <> dateField "isodate" "%Y-%m-%d"
+    <> defaultContext
+
+feedContext :: Context String
+feedContext = postContext <> bodyField "description"
+
+recentPostSnapshots :: Compiler [Item String]
+recentPostSnapshots = take 10 <$> (recentFirst =<< loadAllSnapshots postsPattern "content")
+
+feedConfiguration :: FeedConfiguration
+feedConfiguration =
+  FeedConfiguration
+    { feedTitle = "bhar · gav"
+    , feedDescription = "Posts from bhargav.wtf"
+    , feedAuthorName = "Bhargav"
+    , feedAuthorEmail = ""
+    , feedRoot = "https://bhargav.wtf"
+    }
 
 compilePost :: Compiler (Item String)
 compilePost = pandocCompilerWith readerOptions writerOptions
@@ -89,6 +115,21 @@ compilePost = pandocCompilerWith readerOptions writerOptions
 postRoute :: Routes
 postRoute = customRoute $ toPostPath . takeBaseName . toFilePath
   where
-    toPostPath slug = "blog/" <> stripDatePrefix slug <> "/index.html"
-    stripDatePrefix (_:_:_:_:'-':_:_:'-':_:_:'-':rest) = rest
-    stripDatePrefix slug = slug
+    toPostPath slug = "blog/" <> simplifySlug (stripDatePrefix slug) <> "/index.html"
+    stripDatePrefix slug
+      | length slug > 10
+          && slug !! 4 == '-'
+          && slug !! 7 == '-'
+          && slug !! 10 == '-' =
+          drop 11 slug
+      | otherwise = slug
+    simplifySlug slug = case breakOn "-part-" slug of
+      Just (base, n) | not (null n) && all isDigit n -> base <> "-" <> n
+      _ -> slug
+      where
+        breakOn needle s
+          | needle `isPrefixOf` s = Just ("", drop (length needle) s)
+          | null s = Nothing
+          | otherwise = do
+              (prefix, rest) <- breakOn needle (tail s)
+              pure (head s : prefix, rest)

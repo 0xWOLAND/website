@@ -7,7 +7,7 @@ tags: math, pltheory
 
 # pulling the rabbit out of the hat??
 
-At the end of the [previous blog](https://bhargav.wtf/blog/escardo-part-1/), I mentioned that the topological properties of the Cantor space make it searchable via a constructive algorithm. Surprisingly, its not too much of a lift but still feels kinda magical. Not only are we deciding a total predicate without any _a priori_ information other than __continuity and compactness__. Nothing else is known ahead of time: which bit indices will be queried, the number of bits that are required, or any details about the frontier itself. All of this information is __extracted at execution time__. 
+At the end of the [previous blog](https://bhargav.wtf/blog/escardo-1/), I mentioned that the topological properties of the Cantor space make it searchable via a constructive algorithm. Surprisingly, its not too much of a lift but still feels kinda magical. Not only are we deciding a total predicate without any _a priori_ information other than __continuity and compactness__. Nothing else is known ahead of time: which bit indices will be queried, the number of bits that are required, or any details about the frontier itself. All of this information is __extracted at execution time__. 
 
 ![Cylinder Set](/images/escardo/rabbit.png)
 *In a world of AI generated images, enjoy my hand-drawn rendition of a rabbit in a hat[^1]. I know it is shit. Sorry.*
