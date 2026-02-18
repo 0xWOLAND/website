@@ -79,7 +79,7 @@ postContext =
     <> defaultContext
 
 feedContext :: Context String
-feedContext = postContext <> bodyField "description"
+feedContext = field "description" (pure . itemBody) <> postContext
 
 recentPostSnapshots :: Compiler [Item String]
 recentPostSnapshots = take 10 <$> (recentFirst =<< loadAllSnapshots postsPattern "content")
