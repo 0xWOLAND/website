@@ -58,8 +58,7 @@ postsPattern :: Pattern
 postsPattern = "posts/*"
 
 applyDefaultTemplate :: Context String -> Item String -> Compiler (Item String)
-applyDefaultTemplate ctx item =
-  loadAndApplyTemplate "templates/default.html" ctx item >>= relativizeUrls
+applyDefaultTemplate = loadAndApplyTemplate "templates/default.html"
 
 applyPostTemplates :: Item String -> Compiler (Item String)
 applyPostTemplates item =
@@ -74,7 +73,8 @@ indexContext posts =
 
 postContext :: Context String
 postContext =
-  dateField "date" "%B %e, %Y"
+  field "permalink" (pure . postPermalink . itemIdentifier)
+    <> dateField "date" "%B %e, %Y"
     <> dateField "isodate" "%Y-%m-%d"
     <> defaultContext
 
@@ -113,23 +113,31 @@ compilePost = pandocCompilerWith readerOptions writerOptions
     writerOptions = defaultHakyllWriterOptions {writerHTMLMathMethod = KaTeX ""}
 
 postRoute :: Routes
-postRoute = customRoute $ toPostPath . takeBaseName . toFilePath
+postRoute = customRoute $ \ident -> "blog/" <> postSlug ident <> "/index.html"
+
+postPermalink :: Identifier -> String
+postPermalink ident = "/blog/" <> postSlug ident <> "/"
+
+postSlug :: Identifier -> String
+postSlug = simplifySlug . stripDatePrefix . takeBaseName . toFilePath
+
+stripDatePrefix :: String -> String
+stripDatePrefix slug
+  | length slug > 10
+      && slug !! 4 == '-'
+      && slug !! 7 == '-'
+      && slug !! 10 == '-' =
+      drop 11 slug
+  | otherwise = slug
+
+simplifySlug :: String -> String
+simplifySlug slug = case breakOn "-part-" slug of
+  Just (base, n) | not (null n) && all isDigit n -> base <> "-" <> n
+  _ -> slug
   where
-    toPostPath slug = "blog/" <> simplifySlug (stripDatePrefix slug) <> "/index.html"
-    stripDatePrefix slug
-      | length slug > 10
-          && slug !! 4 == '-'
-          && slug !! 7 == '-'
-          && slug !! 10 == '-' =
-          drop 11 slug
-      | otherwise = slug
-    simplifySlug slug = case breakOn "-part-" slug of
-      Just (base, n) | not (null n) && all isDigit n -> base <> "-" <> n
-      _ -> slug
-      where
-        breakOn needle s
-          | needle `isPrefixOf` s = Just ("", drop (length needle) s)
-          | null s = Nothing
-          | otherwise = do
-              (prefix, rest) <- breakOn needle (tail s)
-              pure (head s : prefix, rest)
+    breakOn needle s
+      | needle `isPrefixOf` s = Just ("", drop (length needle) s)
+      | null s = Nothing
+      | otherwise = do
+          (prefix, rest) <- breakOn needle (tail s)
+          pure (head s : prefix, rest)
