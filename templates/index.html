@@ -1,7 +1,5 @@
 <div class="masthead">
   <h1>bhar &middot; gav</h1>
-  <hr>
-  <hr class="thin">
   <nav class="masthead-nav" aria-label="Primary">
     <a href="https://github.com/0xWOLAND" rel="me noopener noreferrer">github</a>
     <span aria-hidden="true">&middot;</span>
@@ -9,11 +7,11 @@
   </nav>
 </div>
 
-<ul class="post-list">
+<div class="post-list">
 $for(posts)$
-  <li>
-    <span class="post-date">$isodate$</span>
-    <a href="$permalink$">$title$</a>
-  </li>
+  <a class="post-entry" href="$permalink$">
+    <span class="post-title">$title$</span>
+    <span class="post-meta">$date$$if(tags)$ &mdash; $tags$$endif$</span>
+  </a>
 $endfor$
-</ul>
+</div>

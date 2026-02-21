@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width">
   <title>$title$</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Libre+Franklin:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))</script>
   <link rel="stylesheet" href="/css/default.css">
   <link rel="stylesheet" href="/css/syntax-light.css">
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
@@ -29,7 +28,97 @@
   </script>
 </head>
 <body>
+  <canvas id="ising" aria-hidden="true"></canvas>
   <a class="skip-link" href="#content">Skip to content</a>
-  <main id="content">$body$</main>
+  <main id="content">
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    $body$
+  </main>
+  <script>
+  (function () {
+    var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+    document.querySelector('.theme-toggle').addEventListener('click', function () {
+      t = t === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+    });
+  })();
+
+  (function () {
+    var c = document.getElementById('ising');
+    var ctx = c.getContext('2d');
+    var cell = 6;
+    var cols, rows, grid;
+    var beta = 1 / 2.35;
+    var stepsPerFrame = 800;
+
+    function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+
+    function init() {
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+      cols = Math.ceil(c.width / cell);
+      rows = Math.ceil(c.height / cell);
+      grid = new Int8Array(cols * rows);
+      for (var i = 0; i < grid.length; i++) grid[i] = Math.random() < 0.5 ? 1 : -1;
+      for (var w = 0; w < 60000; w++) step();
+    }
+
+    function step() {
+      var x = (Math.random() * cols) | 0;
+      var y = (Math.random() * rows) | 0;
+      var i = y * cols + x;
+      var s = grid[i];
+      var nb =
+        grid[((y - 1 + rows) % rows) * cols + x] +
+        grid[((y + 1) % rows) * cols + x] +
+        grid[y * cols + (x - 1 + cols) % cols] +
+        grid[y * cols + (x + 1) % cols];
+      var dE = 2 * s * nb;
+      if (dE <= 0 || Math.random() < Math.exp(-beta * dE)) grid[i] = -s;
+    }
+
+    function draw() {
+      var dark = isDark();
+      var hi = dark ? 30 : 245;
+      var lo = dark ? 20 : 235;
+      var img = ctx.createImageData(c.width, c.height);
+      var d = img.data;
+      for (var y = 0; y < rows; y++) {
+        for (var x = 0; x < cols; x++) {
+          var v = grid[y * cols + x] === 1 ? hi : lo;
+          var px0 = x * cell;
+          var py0 = y * cell;
+          for (var dy = 0; dy < cell && py0 + dy < c.height; dy++) {
+            for (var dx = 0; dx < cell && px0 + dx < c.width; dx++) {
+              var off = ((py0 + dy) * c.width + px0 + dx) * 4;
+              d[off] = v; d[off + 1] = v; d[off + 2] = v; d[off + 3] = 255;
+            }
+          }
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+    }
+
+    function frame() {
+      for (var i = 0; i < stepsPerFrame; i++) step();
+      draw();
+      requestAnimationFrame(frame);
+    }
+
+    init();
+    frame();
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(init, 200);
+    });
+  })();
+  </script>
 </body>
 </html>
