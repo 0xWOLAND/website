@@ -52,7 +52,7 @@ staticFile :: Rules ()
 staticFile = route idRoute >> compile copyFileCompiler
 
 assetPattern :: Pattern
-assetPattern = "images/**" .||. "favicon.svg"
+assetPattern = "images/**" .||. "favicon.svg" .||. "js/**"
 
 postsPattern :: Pattern
 postsPattern = "posts/*"

@@ -22,6 +22,10 @@ And also a bunch of other side bets. There's a clip (that I can't find) of Palme
 
 And not for no reason at all. As software engineering itself becomes increasingly commoditized, I suspect that the talent of engineers will bifurcate. There certainly will not be a [general permanent underclass](https://harpersmagazine.substack.com/p/childs-play) of [Roko's Basilisk cultists](https://en.wikipedia.org/wiki/Roko%27s_basilisk) (no need to dwell on this too much). But software engineering itself continues to be a [desirable field](https://www.reddit.com/r/cscareerquestions/comments/1ptcyyu/is_software_development_still_high_growth/) and at one point was doubling every four years, and for those who aren't able to keep apace with (1) the most recent developments in AI tooling and (2) understand the fundamentals of computer _science_, it will be quite difficult. Even in my personal experience, the number of "forward deployed engineers" (small teams of incredibly talented programmers) are now able to build the same large-scale systems as entire teams before. Thus, it is incredibly valuable to be an extremely skilled programmer now more than every before. 
 
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<div id="career-plot" style="width:100%;height:450px;"></div>
+<script src="/js/careers.js"></script>
+
 # Ecosystem of Antifragility
 
 I'm after things that feel like they are _deeply fun_. Problems that are hard enough to be thrilling but with sufficient structure to be tractable given the circumstances and my particular strenthts. It really ought to be less a gamble than an inevitability[^1]. 
